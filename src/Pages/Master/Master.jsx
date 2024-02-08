@@ -5,11 +5,8 @@ import { ProgressBarComponent } from "@syncfusion/ej2-react-progressbar";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { ProgressBar } from "react-bootstrap";
 import "../../css/Master/master.css";
-import { registerLicense } from "@syncfusion/ej2-base";
-import Party from "./Party";
-registerLicense(
-  "Ngo9BigBOggjHTQxAR8/V1NAaF1cXmhLYVtpR2Nbe05yfldBal1YVAciSV9jS3pTdEViWX1cd3VcR2VcVA=="
-);
+
+
 
 export default function Master() {
   const { auth, setAuth } = useAuth();
@@ -28,21 +25,7 @@ export default function Master() {
         <>
           Master
           <button onClick={handleC}>C</button>
-          <ProgressBarComponent
-            id="linear"
-            type="Linear"
-            height="60"
-            value={40}
-            trackThickness={10}
-            progressThickness={10}
-            trackColor="#CDCDCD"
-            progressColor="#000"
-            animation={{
-              enable: true,
-              duration: 2000,
-              delay: 0,
-            }}
-          />
+         
           <progress value={0.75} />
           <ProgressBar
             now={60}
