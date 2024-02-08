@@ -8,7 +8,7 @@ import "../../css/Master/master.css";
 import { registerLicense } from "@syncfusion/ej2-base";
 import Party from "./Party";
 registerLicense(
-  "Ngo9BigBOggjHTQxAR8/V1NAaF1cXmhLYVtpR2Nbe05yfldBal1YVAciSV9jS3pTdEViWX1cd3VcR2VcVA=="
+  "Ngo9BigBOggjHTQxAR8/V1NAaF1cXmhIfEx1RHxQdld5ZFRHallYTnNWUj0eQnxTdEFjW39WcHJQRmNaUEx/WQ=="
 );
 
 export default function Master() {
