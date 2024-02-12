@@ -24,18 +24,7 @@ export default function Master() {
       return (
         <>
           Master
-          <button onClick={handleC}>C</button>
-         
-          <progress value={0.75} />
-          <ProgressBar
-            now={60}
-            label={`${60}%`}
-            variant="rits-aw"
-            animated
-            style={{
-              height: "10px",
-            }}
-          />
+          
           {comp}
         </>
       );

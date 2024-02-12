@@ -13,6 +13,7 @@ import Master from "./Pages/Master/Master";
 import Dashboard from "./Pages/Dashboard";
 import MasterIndex from "./Pages/Master/Master-Index";
 import LoginForm from "./Pages/Login";
+import UserFormParty,{action as userAction} from "./AllForms/UserFormParty";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,12 @@ const router = createBrowserRouter([
             element: <Party />,
           },
           {
+            path: "party/new",
+            element: <UserFormParty/>,
+            action:userAction
+            
+          },
+          {
             path: "party/:partyId/Edit",
             element: <PartyEdit />,
             loader: editLoader,
@@ -51,6 +58,11 @@ const router = createBrowserRouter([
             element: <Unit />,
             loader: viewLoader,
           },
+          // {
+          //   path: "allforms",
+          //   element: <UserFormParty/>,
+          //   loader: viewLoader,
+          // },
         ],
       },
     ],
