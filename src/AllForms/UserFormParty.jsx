@@ -29,7 +29,6 @@ export default function UserFormParty() {
               name="companyname"
               placeholder="Company Name"
               style={{ width: "800px" }}
-              required
             />
           </div>
           <div className="six wide column ui large icon input">
@@ -38,7 +37,6 @@ export default function UserFormParty() {
               name="email"
               placeholder="Email"
               style={{ width: "800px" }}
-              required
             />
           </div>
           <div className="four wide column ui large icon input">
@@ -47,7 +45,6 @@ export default function UserFormParty() {
               name="bank"
               placeholder="Bank"
               style={{ width: "800px" }}
-              required
             />
           </div>
           <div className="four wide column ui large icon input">
@@ -56,7 +53,6 @@ export default function UserFormParty() {
               name="contactperson"
               placeholder="Contact Person"
               style={{ width: "800px" }}
-              required
             />
           </div>
           <div className="four wide column ui large icon input">
@@ -65,7 +61,6 @@ export default function UserFormParty() {
               name="landline"
               placeholder="Land Line"
               style={{ width: "800px" }}
-              required
             />
           </div>
           <div className="four wide column ui large icon input">
