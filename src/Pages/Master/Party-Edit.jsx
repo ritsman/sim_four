@@ -1,8 +1,16 @@
-import { useLoaderData, Form, redirect } from "react-router-dom";
-import { Input, Table, Button, Grid, GridRow } from "semantic-ui-react";
+import { useLoaderData, Form, redirect, useNavigate } from "react-router-dom";
+import {
+  Input,
+  Table,
+  Button,
+  Grid,
+  GridRow,
+  Confirm,
+} from "semantic-ui-react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import { useState } from "react";
 
 export async function loader({ params }) {
   console.log(params);
@@ -48,13 +56,28 @@ export async function action({ request, params }) {
 }
 
 export default function PartyEdit() {
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleCancel = () => {
+    setOpen(false);
+    navigate("/party", { replace: true });
+  };
+  const handleConfirm = () => {
+    setOpen(false);
+    navigate("/dashboard", { replace: true });
+  };
   const contact = useLoaderData();
-  console.log(`contact::`);
-  console.log(contact);
+  console.log(`this id to edit contact::`);
+  console.log(contact.id);
 
   return (
     <>
       <h2>Party-Edit</h2>
+      <Button onClick={handleOpen}>Show</Button>
+      <Confirm open={open} onCancel={handleCancel} onConfirm={handleConfirm} />
     </>
   );
 }

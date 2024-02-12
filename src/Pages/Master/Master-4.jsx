@@ -27,6 +27,32 @@ export default function Master() {
       return (
         <>
           Master
+          <button onClick={handleC}>C</button>
+          <ProgressBarComponent
+            id="linear"
+            type="Linear"
+            height="60"
+            value={40}
+            trackThickness={10}
+            progressThickness={10}
+            trackColor="#CDCDCD"
+            progressColor="#000"
+            animation={{
+              enable: true,
+              duration: 2000,
+              delay: 0,
+            }}
+          />
+          <progress value={0.75} />
+          <ProgressBar
+            now={60}
+            label={`${60}%`}
+            variant="rits-aw"
+            animated
+            style={{
+              height: "10px",
+            }}
+          />
           {comp}
         </>
       );
