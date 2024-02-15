@@ -61,7 +61,7 @@ export default function Itemform() {
 
                         <TableBody>
                             <TableRow>
-                                <TableCell ><Input placeholder='Item Name' name='item_name' className='form__input' /></TableCell>
+                                <TableCell ><Input placeholder='Item Name2' name='item_name' className='form__input' /></TableCell>
                                 <TableCell>
                                     <div className='select_field'>
                                         <Select placeholder='Item Select' options={dropData} />
