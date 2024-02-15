@@ -13,6 +13,10 @@ import Master from "./Pages/Master/Master";
 import Dashboard from "./Pages/Dashboard";
 import MasterIndex from "./Pages/Master/Master-Index";
 import LoginForm from "./Pages/Login";
+// import Unitpara from "./Allforms/Unitpara";
+import Unitpara from "./Allforms/master/unit/Unitpara";
+import Itemform from "./Allforms/master/item/Itemform";
+import LocationForm from "./Allforms/master/location/LocationForm";
 
 const router = createBrowserRouter([
   {
@@ -51,10 +55,28 @@ const router = createBrowserRouter([
             element: <Unit />,
             loader: viewLoader,
           },
+         
         ],
       },
     ],
   },
+  // {
+  //   path:"unitpara",
+  //   element:<Unitpara/>,
+  // },
+  {
+    path:"unitpara",
+    element:<Unitpara />
+  },
+  {
+    path:"itemform",
+    element:<Itemform />
+  },
+  {
+    path: "/locationform",
+    element: <LocationForm />,
+  },
+
   {
     path: "/login",
     element: <LoginForm />,
