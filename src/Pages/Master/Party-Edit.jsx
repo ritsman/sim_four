@@ -1,4 +1,10 @@
 import { useLoaderData, Form, redirect, useNavigate } from "react-router-dom";
+/* import the AutoComplete dependency styles */
+
+import "../../../node_modules/@syncfusion/ej2-base/styles/material.css";
+import "../../../node_modules/@syncfusion/ej2-react-inputs/styles/material.css";
+import "../../../node_modules/@syncfusion/ej2-react-dropdowns/styles/material.css";
+
 import {
   Input,
   Table,
@@ -6,7 +12,20 @@ import {
   Grid,
   GridRow,
   Confirm,
+  TableRow,
+  TableHeaderCell,
+  TableHeader,
+  TableFooter,
+  TableCell,
+  TableBody,
+  MenuItem,
+  Icon,
+  Label,
+  Menu,
 } from "semantic-ui-react";
+
+import { AutoCompleteComponent } from "@syncfusion/ej2-react-dropdowns";
+
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
@@ -72,10 +91,55 @@ export default function PartyEdit() {
   const contact = useLoaderData();
   console.log(`this id to edit contact::`);
   console.log(contact.id);
+  const sportsData = [
+    "Badminton",
+    "Basketball",
+    "Cricket",
+    "Football",
+    "Golf",
+    "Hockey",
+    "Snooker",
+    "Tennis",
+  ];
 
   return (
     <>
       <h2>Party-Edit</h2>
+      <Table celled className="externalTable">
+        <TableHeader>
+          <TableRow>
+            <TableHeaderCell>Header</TableHeaderCell>
+            <TableHeaderCell>Header</TableHeaderCell>
+            <TableHeaderCell>Header</TableHeaderCell>
+          </TableRow>
+        </TableHeader>
+
+        <TableBody>
+          <TableRow>
+            <TableCell>
+              <Label ribbon>First</Label>
+            </TableCell>
+            <TableCell>Cell</TableCell>
+            <TableCell>Cell</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>Cell</TableCell>
+            <TableCell>Cell</TableCell>
+            <TableCell>Cell</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>Cell</TableCell>
+            <TableCell>Cell</TableCell>
+            <TableCell>Cell</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+      )
+      <AutoCompleteComponent
+        id="atcelement"
+        dataSource={sportsData}
+        placeholder="Find a game"
+      />
       <Button onClick={handleOpen}>Show</Button>
       <Confirm open={open} onCancel={handleCancel} onConfirm={handleConfirm} />
     </>
