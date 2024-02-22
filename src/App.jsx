@@ -17,6 +17,7 @@ import LoginForm from "./Pages/Login";
 import Unitpara from "./Allforms/master/unit/Unitpara";
 import Itemform from "./Allforms/master/item/Itemform";
 import LocationForm from "./Allforms/master/location/LocationForm";
+import Partyform from "./Allforms/master/party/Partyform";
 
 const router = createBrowserRouter([
   {
@@ -75,6 +76,10 @@ const router = createBrowserRouter([
   {
     path: "/locationform",
     element: <LocationForm />,
+  },
+  {
+    path: "/partyform",
+    element: <Partyform />,
   },
 
   {
