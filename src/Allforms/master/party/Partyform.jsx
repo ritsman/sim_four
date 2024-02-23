@@ -1,8 +1,6 @@
 import React from 'react'
 import { Form } from 'react-router-dom'
-// import React, { useState } from "react";
-// import './itemform.css'
-import '../common.css'
+import '../commoncss/common.css'
 
 import {
     TableRow,
