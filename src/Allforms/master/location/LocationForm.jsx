@@ -1,6 +1,7 @@
 import React from 'react'
 import { Form } from "react-router-dom";
-import '../unit/Unitpara.css'
+// import '../unit/Unitpara.css'
+import '../../master/master-common.css'
 import {
     TableRow,
     TableHeaderCell,
@@ -23,20 +24,20 @@ import {
 
 
 export default function LocationForm() {
-    const plus = {
-        color:'black !important' ,
-        width:'30px',
-        height:'30px',
-        borderRadius:'50%',
-        display:'flex',
-        justifyContent:'center',
-        alignItems:'center'
-       };
+    // const plus = {
+    //     color:'black !important' ,
+    //     width:'30px',
+    //     height:'30px',
+    //     borderRadius:'50%',
+    //     display:'flex',
+    //     justifyContent:'center',
+    //     alignItems:'center'
+    //    };
     
-       const plus_button= {
-        background:'transparent',
-        padding:'0',
-       };
+    //    const plus_button= {
+    //     background:'transparent',
+    //     padding:'0',
+    //    };
     //    const close = {
     //     width:'30px',
     //     height:'30px',
@@ -45,27 +46,25 @@ export default function LocationForm() {
     //     justifyContent:'center',
     //     alignItems:'center',
     //    };
-       const tableStyle = {
-        border: 'none !important',
-       };
-       const icons_cell={
-        width:'50px',
-       };
-       const input_width={
-        width:'100%',
-       };
+    //    const tableStyle = {
+    //     border: 'none !important',
+    //    };
+    //    const icons_cell={
+    //     width:'50px',
+    //    };
+    //    const input_width={
+    //     width:'100%',
+    //    };
   return (
     <div className='center_box'>
         <Form method="post" className=''>
             <div className='table-responsive'>
-           {/* <div className=''> */}
            <h6 className='main_head'>Edit Item</h6>
-           {/* </div> */}
 
-                <Table celled striped style={tableStyle} className='table-responsive'>
+                <Table celled striped className='table-responsive tableStyle'>
                     <TableHeader>
-                        <TableRow style={tableStyle}>
-                            <TableHeaderCell style={icons_cell} ><Button style={plus_button}><Icon className='plus' name="plus" onClick={()=>{}}/></Button></TableHeaderCell>
+                        <TableRow className='tableStyle'>
+                            <TableHeaderCell className='icons_cell' ><Button className='plus_button' ><Icon className='plus' name="plus" onClick={()=>{}}/></Button></TableHeaderCell>
                             <TableHeaderCell>Location Name</TableHeaderCell>
                             <TableHeaderCell >Description</TableHeaderCell>
                         </TableRow>
@@ -73,8 +72,8 @@ export default function LocationForm() {
                     <TableBody>
                         {/* {data.map((ele) => */}
                             <TableRow > 
-                                <TableCell style={icons_cell}><Button style={plus_button}> <Icon className='close_btn' name="close" onClick={()=>{}}/></Button></TableCell>
-                                <TableCell  ><Input placeholder='Unit Name*' name='unit_name' style={input_width} /></TableCell>
+                                <TableCell className='icons_cell'><Button className='plus_button' > <Icon className='close_btn' name="close" onClick={()=>{}}/></Button></TableCell>
+                                <TableCell  ><Input placeholder='Unit Name*' name='unit_name' className='input_width' /></TableCell>
                                 <TableCell  > 
                                 <div className='p_10'>
                                 <TextArea placeholder='Descripton*' style={{ minHeight: 80 }} />

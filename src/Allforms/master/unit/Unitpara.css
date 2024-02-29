@@ -51,6 +51,28 @@ textarea:focus-visible {
 .p_10{
     padding: 10px;
 }
+.plus_button {
+    background:transparent !important;
+    padding:0 !important;
+   }
+
+.tableStyle {
+    border: none !important;
+   }
+
+   .icons_cell{
+    width:50px;
+   }
+
+   .input_width{
+    width:100%;
+   }
+
+
+
+
+
+
 /* .ui.striped.table tr,
 .ui.striped.table td{
     border: none;
