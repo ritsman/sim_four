@@ -24,6 +24,7 @@ import Calender from "./Allforms/master/calender/Calender";
 // import Eventhandle from "./Allforms/master/evencalender/Eventhandle";
 // import Event from "./Allforms/master/evencalender/Event";
 import Eventhandle from "./Allforms/master/evencalender/Eventhandle";
+import Tabform from "./Allforms/master/tab/Tabform";
 
 
 const router = createBrowserRouter([
@@ -77,7 +78,7 @@ const router = createBrowserRouter([
     element:<Unitpara />
   },
   {
-    path:"itemform",
+    path:"/itemform",
     element:<Itemform />
   },
   {
@@ -99,6 +100,10 @@ const router = createBrowserRouter([
   {
     path: "/eventhandle",
     element: <Eventhandle />,
+  },
+  {
+    path: "/tabform",
+    element: <Tabform />,
   },
 
 

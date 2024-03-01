@@ -1,7 +1,10 @@
 import React from 'react'
 import { Form, useSearchParams } from 'react-router-dom'
 // import React, { useState } from "react";
-import './itemform.css'
+//import './itemform.css';
+//import '../commoncss/common.css'
+import '../../master/master-common.css'
+
 import {
     TableRow,
     TableHeaderCell,

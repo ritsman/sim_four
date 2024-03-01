@@ -1,6 +1,7 @@
 import React from 'react'
 import { Form } from 'react-router-dom'
-import '../commoncss/common.css'
+// import '../commoncss/common.css'
+import '../../master/master-common.css'
 
 import {
     TableRow,
