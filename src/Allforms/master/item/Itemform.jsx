@@ -1,10 +1,13 @@
 import React from 'react'
-import { Form, useSearchParams } from 'react-router-dom'
+import { Form } from 'react-router-dom'
+import  { useEffect } from 'react';
+import {  useLoaderData,  useNavigation, useSubmit } from 'react-router-dom';
 // import React, { useState } from "react";
 //import './itemform.css';
 //import '../commoncss/common.css'
-import '../../master/master-common.css'
-
+// import '../../master/master-common.css'
+// import '../../master/master-common.css'
+import './itemformSecond.css'
 import {
     TableRow,
     TableHeaderCell,
@@ -50,7 +53,7 @@ const dropData = [
 ]
 
 export default function Itemform() {
-    const [searchParams, setSearchParams] = useSearchParams()
+    // const [searchParams, setSearchParams] = useSearchParams()
     const [errors, setErrors] = useState({})
 
     const handleSubmit = (e) => {
@@ -115,22 +118,63 @@ export default function Itemform() {
         return Object.keys(newErrors).length === 0;
     };
 
+
+    const { contacts: initialContacts = [], q } = useLoaderData() || {};
+   
+    const navigation = useNavigation();
+     const submitt = useSubmit();
+    if (!initialContacts) {
+        return <div>Loading...</div>;
+      } 
+    const searching =
+      navigation.location &&
+      new URLSearchParams(navigation.location.search).has("q");
+    useEffect(() => {
+      document.getElementById("q").value = q;
+    }, [q]);
+    const handleSubmitt = (e) => {
+      e.preventDefault();
+      const formDataa = new FormData(e.target);
+      const searchQuery = formDataa.get("q");
+     
+      submitt({ q: searchQuery });
+    };
+    const Contacts = [
+      { id: 1, name: "John Doe" },
+      { id: 2, name: "Jane Smith" },
+      { id: 3, name: "Alice Johnson" },
+      { id: 4, name: "Bob Brown" },
+      { id: 5, name: "Emily Davis" }
+    ];
+
+
+
+
+
+
     return (
         <>
-            <div className='searchField'>
-                <Form method="post" >            
-                    <Table celled striped>
-                        <TableBody>
-                            <TableRow>
-                                <TableCell ><Input placeholder='search' name='search_field' className='search_f' onChange={(e) => setSearchParams({q:e.target.value})} /></TableCell>
-                            </TableRow>
-                        </TableBody>
-                    </Table>
-                    <div className='text-left'>
-                        <Button primary className='mr_10'>Search</Button>                    
-                    </div>
-                </Form>
-            </div>
+
+<div id="sidebar">
+        {/* <h1>React Router Contacts</h1> */}
+        <div className='newSearch'>
+          {/* Search form */}
+          <Form id="search-form" role="search" onSubmit={handleSubmitt}>
+            <input
+              id="q"
+              className={searching ? "loading" : ""}
+              placeholder="Search contacts"
+              name="q"
+            />
+            {/* Display spinner while searching */}
+            {searching && <div id="search-spinner" aria-hidden />}
+            <button type="submit">Search</button>
+          </Form>
+        </div>
+      
+      </div>
+
+          
             <div className='item_form'>
                 <Form method="post" onSubmit={handleSubmit}>
 

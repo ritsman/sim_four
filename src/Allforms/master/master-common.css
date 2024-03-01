@@ -151,6 +151,7 @@ textarea:focus-visible {
 }
 .p_10{
     padding: 10px;
+    /* background-color: red; */
 }
 .plus_button {
     background:transparent !important;
@@ -171,9 +172,30 @@ textarea:focus-visible {
    .icons_cell{
     width:50px;
    };
+/* item_form search field css */
+/* .searchField{
+    width: 60px ;
+    padding-left: 1047px;
+    display: flex;
+    text-align: center;
+    margin-top: 12px; */
+   
 
-
-
+.search_area{
+    width: 60px ;
+    padding-left: 1047px;
+    display: flex;
+    text-align: center;
+    margin-top: 12px;
+    background-color: black;
+}
+.newSearch{
+   
+    padding-left: 1047px;
+    display: flex;
+    text-align: center;
+    margin-top: 30px;
+}
 
 
 
