@@ -28,4 +28,10 @@
     padding-left:10px ;
 }
 /* Animations  */
-
+.searchField{
+    width: 60px;
+    padding-left: 1047px;
+    display: flex;
+    text-align: center;
+    margin-top: 12px;
+}

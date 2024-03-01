@@ -1,5 +1,6 @@
 import React from 'react'
-import { Form } from "react-router-dom";
+import { Form,  } from "react-router-dom";
+import { useState } from 'react'
 import '../unit/Unitpara.css'
 import {
     TableRow,
@@ -23,6 +24,27 @@ import {
 
 
 export default function LocationForm() {
+    // const [searchParams, setSearchParams] = useSearchParams()
+    const [errors, setErrors] = useState({})
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);      
+        const updates = Object.fromEntries(formData);
+        console.log('Form Data:', updates);
+        if (validateForm(updates)) {       
+        }
+    };
+    const validateForm = (data) => {
+        const newErrors = {}; 
+        if (!data.unit_name) {
+            newErrors.unit_name = "Item Name is required";
+        } 
+        if (!data.description) {
+            newErrors.description = "Item Name is required";
+        } 
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
     const plus = {
         color:'black !important' ,
         width:'30px',
@@ -56,7 +78,7 @@ export default function LocationForm() {
        };
   return (
     <div className='center_box'>
-        <Form method="post" className=''>
+        <Form method="post" onSubmit={handleSubmit} className=''>
             <div className='table-responsive'>
            {/* <div className=''> */}
            <h6 className='main_head'>Edit Item</h6>
@@ -74,10 +96,10 @@ export default function LocationForm() {
                         {/* {data.map((ele) => */}
                             <TableRow > 
                                 <TableCell style={icons_cell}><Button style={plus_button}> <Icon className='close_btn' name="close" onClick={()=>{}}/></Button></TableCell>
-                                <TableCell  ><Input placeholder='Unit Name*' name='unit_name' style={input_width} /></TableCell>
+                                <TableCell  ><Input error={errors.unit_name} placeholder='Unit Name*' name='unit_name' style={input_width} /></TableCell>
                                 <TableCell  > 
                                 <div className='p_10'>
-                                <TextArea placeholder='Descripton*' style={{ minHeight: 80 }} />
+                                <TextArea error={errors.description} name='description' placeholder='Description*' style={{ minHeight: 80 }} />
                                 </div>
                                 </TableCell>
                             </TableRow>
