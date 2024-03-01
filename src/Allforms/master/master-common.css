@@ -1,4 +1,4 @@
-/******* itemform *******/
+/******* itemform *22******/
 .item_form{
     max-width: 1000px;
     width: 100%;
@@ -185,3 +185,12 @@ textarea:focus-visible {
     border: none;
 } */
 
+.searchField{
+    width: 160px;
+    padding-left: 1047px;
+    display: flex;
+    text-align: center;
+    margin-top: 12px;
+    background-color: yellow;
+    padding-top: 300px;
+}
