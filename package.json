@@ -13,6 +13,7 @@
     "@syncfusion/ej2-react-dropdowns": "^24.2.5",
     "@syncfusion/ej2-react-inputs": "^24.2.5",
     "@syncfusion/ej2-react-progressbar": "^24.2.3",
+    "@syncfusion/ej2-react-schedule": "^24.2.4",
     "axios": "^1.6.3",
     "bootstrap": "^5.3.2",
     "lodash": "^4.17.21",
