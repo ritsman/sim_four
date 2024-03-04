@@ -1,8 +1,6 @@
 import React from 'react'
 import { Form } from 'react-router-dom'
-// import React, { useState } from "react";
-//import './itemform.css';
-//import '../commoncss/common.css'
+import { useState } from 'react'
 import '../../master/master-common.css'
 
 import {
@@ -12,11 +10,12 @@ import {
     TableCell,
     TableBody,
     Icon,
-    Input,
+    Input, 
     Table,
     Button,
     Select,
 } from 'semantic-ui-react'
+import { addClass } from '@syncfusion/ej2-base'
 
 // const [error, setError] = useState({});
 
@@ -49,22 +48,68 @@ const dropData = [
 ]
 
 export default function Itemform() {
+    // const [inputValue, setInputValue] = useState('');
+    // const [suggestions, setSuggestions] = useState([]);
+  
+    // const handleInputChange = (e) => {
+    //   const value = e.target.value;
+    //   setInputValue(value);
+  
+    //   const staticSuggestions = ['Apple', 'Banana', 'Cherry', 'Date', 'Grapes','Mango','papaya'];
+    //   const filteredSuggestions = staticSuggestions.filter(suggestion =>
+    //     suggestion.toLowerCase().includes(value.toLowerCase())
+    //   );
+  
+    //   setSuggestions(filteredSuggestions);
+
+    //   if(Input.value == 0){
+    //     setSuggestions("false")
+    //   }
+    // };
+
+
+    const [inputValue, setInputValue] = useState('');
+
+  // Sample list of items
+  const itemList =  ['Apple', 'Banana', 'Cherry', 'Date', 'Grapes','Mango','papaya'];
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setInputValue(value);
+  };
+
+
 
     return (
+        
         <>
             <div className='item_form'>
-                <Form method="post">
+                <Form method="post" className='position-relative'>
                     <h6 className='pl_10'>Edit Item</h6>
                     <Table celled striped>
-                        {/* <TableHeader>
-                            <TableRow>
-                                <TableHeaderCell >Git Repository</TableHeaderCell>
-                            </TableRow>
-                        </TableHeader> */}
-
                         <TableBody>
                             <TableRow>
-                                <TableCell ><Input placeholder='Item Name2' name='item_name' className='form__input' /></TableCell>
+                                {/* <TableCell ><Input placeholder='Item Name2' value={inputValue}  onChange={handleInputChange} name='item_name' className='form__input suggestion_box' />
+                                <div className='right_box'>
+                                    {suggestions.map((suggestion, index) => (
+                                    <div key={index}>{suggestion}</div>
+                                    ))}
+                                </div>
+                                </TableCell> */}
+                                <TableCell>
+                                <Input placeholder='Item Name2' value={inputValue}  onChange={handleChange} name='item_name' className='form__input suggestion_box' />
+                                {inputValue.length > 0 && (
+                                <div className='right_box'>
+                                <ul>
+                                    {itemList
+                                    .filter((item) => item.toLowerCase().includes(inputValue.toLowerCase()))
+                                    .map((item, index) => (
+                                        <li key={index}>{item}</li>
+                                    ))}
+                                </ul>
+                                </div>
+                            )}     
+                                </TableCell>
                                 <TableCell>
                                     <div className='select_field'>
                                         <Select placeholder='Item Select' options={dropData} />

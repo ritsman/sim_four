@@ -27,6 +27,16 @@
 }
 .pl_10{
     padding-left:10px ;
+    /* background: green; */
+}
+.right_box {
+    position: absolute;
+    right: -69px;
+    margin-top: -52px;
+}
+
+.right_box ul{
+    list-style: none;
 }
 
 
@@ -172,7 +182,10 @@ textarea:focus-visible {
     width:50px;
    };
 
-
+ /******* size for  *******/
+ .ui.label{
+    background: transparent !important;
+ }
 
 
 
