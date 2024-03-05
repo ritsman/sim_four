@@ -68,14 +68,14 @@ export default function Itemform() {
     // };
 
 
-    const [inputValue, setInputValue] = useState('');
+    const [inputValuetype, setInputValuetype] = useState('');
 
   // Sample list of items
   const itemList =  ['Apple', 'Banana', 'Cherry', 'Date', 'Grapes','Mango','papaya'];
 
   const handleChange = (e) => {
     const value = e.target.value;
-    setInputValue(value);
+    setInputValuetype(value);
   };
 
 
@@ -97,12 +97,12 @@ export default function Itemform() {
                                 </div>
                                 </TableCell> */}
                                 <TableCell>
-                                <Input placeholder='Item Name2' value={inputValue}  onChange={handleChange} name='item_name' className='form__input suggestion_box' />
-                                {inputValue.length > 0 && (
+                                <Input placeholder='Item Name2' value={inputValuetype}  onChange={handleChange} name='item_name' className='form__input suggestion_box' />
+                                {inputValuetype.length > 0 && (
                                 <div className='right_box'>
                                 <ul>
                                     {itemList
-                                    .filter((item) => item.toLowerCase().includes(inputValue.toLowerCase()))
+                                    .filter((item) => item.toLowerCase().includes(inputValuetype.toLowerCase()))
                                     .map((item, index) => (
                                         <li key={index}>{item}</li>
                                     ))}
