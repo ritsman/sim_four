@@ -1,12 +1,9 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { Form } from 'react-router-dom'
-import  { useEffect } from 'react';
+import { useState } from 'react';
 import {  useLoaderData,  useNavigation, useSubmit } from 'react-router-dom';
-// import React, { useState } from "react";
-//import './itemform.css';
-//import '../commoncss/common.css'
-// import '../../master/master-common.css'
-// import '../../master/master-common.css'
+import Validation from '../../master/Validation';
+import '../../master/master-common.css'
 import './itemformSecond.css'
 import {
     TableRow,
@@ -20,123 +17,57 @@ import {
     Button,
     Select,
 } from 'semantic-ui-react'
-import { useState } from 'react'
-
-// const [error, setError] = useState({});
-
-// const validateForm = () => {
-//     let isValid = true;
-//     const newErrors = {};
-
-//     if (newPatient.name === "") {
-//         newErrors.name = "Name is required";
-//         isValid = false;
-//     }
-
-//     if (newPatient.age === "") {
-//         newErrors.age = "Age is required";
-//         isValid = false;
-//     }
-//     if (newPatient.gender === "") {
-//         newErrors.gender = "gender is required";
-//         isValid = false;
-//     }
-
-//     setError(newErrors);
-//     return isValid;
-// };
-
 const dropData = [
     { key: 'one', value: 'one', text: 'One' },
     { key: 'two', value: 'two', text: 'Two' },
     { key: 'three', value: 'three', text: 'Three' }
 ]
-
 export default function Itemform() {
-    // const [searchParams, setSearchParams] = useSearchParams()
-    const [errors, setErrors] = useState({})
+  const [formData, setFormData] = useState({});
+  const [errors, setErrors] = useState({});
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);      
         const updates = Object.fromEntries(formData);
+       
         console.log('Form Data:', updates);
-        if (validateForm(updates)) {       
+
+        // Store the form data in the component state
+        setFormData(updates);
+
+        // Perform validation
+        const validationErrors = Validation(updates);
+        setErrors(validationErrors);
         }
-    };
-    const validateForm = (data) => {
-        const newErrors = {}; 
-        if (!data.item_name) {
-            newErrors.item_name = "Item Name is required";
-        } 
-        if (!data.item_type) {
-            newErrors.item_type = "Item Name is required";
-        }          
-        if (!data.item_color) {
-            newErrors.item_color = "Item Name is required";
-        }          
-        if (!data.item_specification) {
-            newErrors.item_specification = "Item Name is required";
-        }          
-        if (!data.item_moq) {
-            newErrors.item_moq = "Item Name is required";
-        }          
-        if (!data.buffer_unit) {
-            newErrors.buffer_unit = "Item Name is required";
-        }          
-        if (!data.purchase_unit) {
-            newErrors.purchase_unit = "Item Name is required";
-        }          
-        if (!data.issue_unit) {
-            newErrors.issue_unit = "Item Name is required";
-        }          
-        if (!data.unit_calc) {
-            newErrors.unit_calc = "Item Name is required";
-        }          
-        if (!data.item_rate) {
-            newErrors.item_rate = "Item Name is required";
-        }          
-        if (!data.item_gst) {
-            newErrors.item_gst = "Item Name is required";
-        }          
-        if (!data.hsn_code) {
-            newErrors.hsn_code = "Item Name is required";
-        }          
-        if (!data.opening_stock) {
-            newErrors.opening_stock = "Item Name is required";
-        }          
-        if (!data.item_msc1) {
-            newErrors.item_msc1 = "Item Name is required";
-        }          
-        if (!data.item_msc2) {
-            newErrors.item_msc2 = "Item Name is required";
-        }     
-        if (!data.item_sel1) {
-            newErrors.item_sel1 = "Please select an item";
-        }     
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
-
-
     const { contacts: initialContacts = [], q } = useLoaderData() || {};
-   
     const navigation = useNavigation();
      const submitt = useSubmit();
+     const handleInputChange = (e) => {
+      const { name, value } = e.target;
+      setFormData({
+          ...formData,
+          [name]: value
+      });
+  };
     if (!initialContacts) {
         return <div>Loading...</div>;
       } 
     const searching =
       navigation.location &&
       new URLSearchParams(navigation.location.search).has("q");
-    useEffect(() => {
-      document.getElementById("q").value = q;
-    }, [q]);
+      useEffect(() => {
+        const inputElement = document.getElementById("q");
+        if (q) {
+          inputElement.value = q;
+        } else {
+          inputElement.value = ""; // Clear the input field if q is not present
+        }
+      }, [q]);
     const handleSubmitt = (e) => {
       e.preventDefault();
       const formDataa = new FormData(e.target);
       const searchQuery = formDataa.get("q");
-     
       submitt({ q: searchQuery });
     };
     const Contacts = [
@@ -146,15 +77,8 @@ export default function Itemform() {
       { id: 4, name: "Bob Brown" },
       { id: 5, name: "Emily Davis" }
     ];
-
-
-
-
-
-
     return (
         <>
-
 <div id="sidebar">
         {/* <h1>React Router Contacts</h1> */}
         <div className='newSearch'>
@@ -163,55 +87,57 @@ export default function Itemform() {
             <input
               id="q"
               className={searching ? "loading" : ""}
-              placeholder="Search contacts"
+              placeholder="Search "
               name="q"
             />
             {/* Display spinner while searching */}
             {searching && <div id="search-spinner" aria-hidden />}
             <button type="submit">Search</button>
           </Form>
-        </div>
-      
-      </div>
-
-          
+        </div>  
+      </div>   
             <div className='item_form'>
                 <Form method="post" onSubmit={handleSubmit}>
-
                     <h6 className='pl_10'>Edit Item</h6>
                     <Table celled striped>
                         <TableBody>
                             <TableRow>
-                                <TableCell ><Input error={errors.item_name}  placeholder='Item Name' name='item_name' className='form__input'   /></TableCell>
-                                <TableCell>
-                                    <div className='select_field'>
-                                        <Select error={errors.item_sel1} placeholder='Item Select' name='item_sel1' options={dropData} />
-                                    </div>
-                                </TableCell>
-                                <TableCell><Input error={errors.item_type} name='item_type' placeholder='Item Type*'   /></TableCell>
+                                <TableCell ><Input   placeholder='Item Name' name='item_name' className='form__input'  error={errors.item_name} />
+                       </TableCell>
+                       <TableCell>
+    <div className={`select_field ${errors.item_select ? 'error' : ''}`}>
+        <select name='item_select' value={formData.item_select} onChange={handleInputChange} className={errors.item_select ? 'error' : ''}>
+            <option value="">Item Select</option>
+            {dropData.map((option) => (
+                <option key={option.key} value={option.value}>{option.text}</option>
+            ))}
+        </select>
+    </div>
+</TableCell>
+                                <TableCell><Input name='item_type' placeholder='Item Type*' error={errors.item_type}  /></TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell ><Input error={errors.item_color} name='item_color' placeholder='Item Color*'  /></TableCell>
-                                <TableCell><Input error={errors.item_specification} name='item_specification' placeholder='Specification'   /></TableCell>
-                                <TableCell><Input error={errors.item_moq} name='item_moq' placeholder='MOQ*'   /></TableCell>
+                                <TableCell ><Input  name='item_color' placeholder='Item Color*' error={errors.item_color} /></TableCell>
+                                <TableCell><Input  name='item_specification' placeholder='Specification' error={errors.item_specification}  /></TableCell>
+                                <TableCell><Input  name='item_moq' placeholder='MOQ*'  error={errors.item_moq} /></TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell ><Input error={errors.buffer_unit} name='buffer_unit' placeholder='Buffer Unit*'   /></TableCell>
-                                <TableCell><Input error={errors.purchase_unit} name='purchase_unit' placeholder='Purchase Unit*'   /></TableCell>
-                                <TableCell><Input error={errors.issue_unit} name='issue_unit' placeholder='Issue Unit*'   /></TableCell>
+                                <TableCell ><Input  name='buffer_unit' placeholder='Buffer Unit*' error={errors.buffer_unit}  /></TableCell>
+                                <TableCell><Input  name='purchase_unit' placeholder='Purchase Unit*'  error={errors.purchase_unit} /></TableCell>
+                                <TableCell><Input name='issue_unit' placeholder='Issue Unit*'  error={errors.issue_unit} /></TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell ><Input error={errors.unit_calc} name='unit_calc' placeholder='1 Purchase unit =? Issue Unit*'   /></TableCell>
-                                <TableCell><Input error={errors.item_rate} name='item_rate' placeholder='Rate*'   /></TableCell>
-                                <TableCell><Input error={errors.item_gst} name='item_gst' placeholder='GST*'   /></TableCell>
+                                <TableCell ><Input  name='unit_calc' placeholder='1 Purchase unit =? Issue Unit*'  error={errors.unit_calc} /></TableCell>
+                                <TableCell><Input  name='item_rate' placeholder='Rate*'  error={errors.item_rate} /></TableCell>
+                                <TableCell><Input  name='gst' placeholder='GST*'  error={errors.gst} /></TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell ><Input error={errors.hsn_code} name='hsn_code' placeholder='HSN Code*'   /></TableCell>
-                                <TableCell><Input error={errors.opening_stock} name='opening_stock' placeholder='Opening Stock*'   /></TableCell>
-                                <TableCell><Input error={errors.item_msc1} name='item_msc1' placeholder='Msc1*'   /></TableCell>
+                                <TableCell ><Input  name='hsn_code' placeholder='HSN Code*' error={errors.hsn_code}  /></TableCell>
+                                <TableCell><Input  name='opening_stock' placeholder='Opening Stock*' error={errors.opening_stock}  /></TableCell>
+                                <TableCell><Input  name='item_msc1' placeholder='Msc1*'  error={errors.item_msc1} /></TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell ><Input error={errors.item_msc2} name='item_msc2' placeholder='Msc2*'   /></TableCell>
+                                <TableCell ><Input name='item_msc2' placeholder='Msc2*' error={errors.item_msc2}  /></TableCell>
                             </TableRow>
                         </TableBody>
                     </Table>

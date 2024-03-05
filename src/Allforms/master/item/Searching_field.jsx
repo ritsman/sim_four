@@ -14,9 +14,14 @@ const Searching_field = () => {
     const searching =
       navigation.location &&
       new URLSearchParams(navigation.location.search).has("q");
-    useEffect(() => {
-      document.getElementById("q").value = q;
-    }, [q]);
+      useEffect(() => {
+        const inputElement = document.getElementById("q");
+        if (q) {
+          inputElement.value = q;
+        } else {
+          inputElement.value = ""; // Clear the input field if q is not present
+        }
+      }, [q]);
     const handleSubmitt = (e) => {
       e.preventDefault();
       const formDataa = new FormData(e.target);

@@ -26,6 +26,7 @@ import Calender from "./Allforms/master/calender/Calender";
 import Eventhandle from "./Allforms/master/evencalender/Eventhandle";
 import Tabform from "./Allforms/master/tab/Tabform";
 import Searching_field from "./Allforms/master/item/Searching_field";
+import Sizeform from "./Allforms/master/sizeForm/Sizeform";
 
 
 const router = createBrowserRouter([
@@ -111,6 +112,10 @@ const router = createBrowserRouter([
   {
     path: "/tabform",
     element: <Tabform />,
+  },
+  {
+    path:"/sizeform",
+    element:<Sizeform />
   },
 
 

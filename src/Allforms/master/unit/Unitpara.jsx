@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Form } from "react-router-dom";
 import '../../master/master-common.css'
 import {
@@ -17,60 +17,28 @@ import {
     Button,
     IconGroup,
 } from 'semantic-ui-react'
-// const data = [
-//     {
-//         main: 'KILOGRAM',
-//         symb: "KGS"
-//     },  
-// ];
+import Validation from '../../master/Validation';
 
-// add row 
-
-// const [tableRows, setTableRows] = useState(["TableRow"]);
-// const [counter, setCounter] = useState(1);
-
-// function addRow() {
-//     setCounter(counter + 1);
-//     setTableRows([...tableRows, `TableRow ${counter + 1}`]);
-// }
-
-
-
-
-
-// const Unitpara = () => (
     export default function Unitpara(){
-    //    const plus = {
-    //     color:'black !important' ,
-    //     width:'30px',
-    //     height:'30px',
-    //     borderRadius:'50%',
-    //     display:'flex',
-    //     justifyContent:'center',
-    //     alignItems:'center'
-    //    };
-
-    //    const plus_button= {
-    //     background:'transparent',
-    //     padding:'0',
-    //    };
-      
-    //    const tableStyle = {
-    //     border: 'none !important',
-    //    };
-    //    const icons_cell={
-    //     width:'50px',
-    //    };
-
-    //    const input_width={
-    //     width:'100%',
-    //    };
-
-  
+        const [formData, setFormData] = useState({});
+        const [errors, setErrors] = useState({});
+        const handleSubmit = (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const updates = Object.fromEntries(formData);
+            console.log('Form Data:', updates);
+    
+            // Store the form data in the component state
+            setFormData(updates);
+    
+            // Perform validation
+            const validationErrors = Validation(updates);
+            setErrors(validationErrors);
+        };
         return(
     <>
         <div className='center_box'>
-        <Form method="post" className=''>
+        <Form method="post" className='' onSubmit={handleSubmit}>
             <div className='table-responsive'>
            <h6 className='main_head'>Edit Item</h6>
                 <Table celled striped className='table-responsive tableStyle'>
@@ -85,8 +53,8 @@ import {
                         {/* {data.map((ele) => */}
                             <TableRow > 
                                 <TableCell className='icons_cell'><Button className='plus_button'> <Icon className='close_btn' name="close" onClick={()=>{}}/></Button></TableCell>
-                                <TableCell  ><Input placeholder='Unit Name*' name='unit_name' className='input_width'  /></TableCell>
-                                <TableCell  colSpan='3'><Input placeholder='Short Name*' name='unit_shortname' className='input_width'/></TableCell>
+                                <TableCell  ><Input placeholder='Unit Name*' name='unit_name' className='input_width' error={errors.unit_name} /></TableCell>
+                                <TableCell  colSpan='3'><Input placeholder='Short Name*' name='unit_shortname' className='input_width' error={errors.unit_shortname}/></TableCell>
                             </TableRow>
                             
                         {/* )} */}
