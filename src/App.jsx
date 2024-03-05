@@ -27,6 +27,7 @@ import Eventhandle from "./Allforms/master/evencalender/Eventhandle";
 import Tabform from "./Allforms/master/tab/Tabform";
 import Suggestion from "./Allforms/master/suggestionbox/Suggestion";
 import Sizeform from "./Allforms/master/size/Sizeform";
+// import Unitpara from "./Pages/Master/Unitpara";
 
 
 const router = createBrowserRouter([
@@ -66,6 +67,7 @@ const router = createBrowserRouter([
             element: <Unit />,
             loader: viewLoader,
           },
+        
          
         ],
       },
@@ -115,6 +117,9 @@ const router = createBrowserRouter([
     path : "/sizeform",
     element: <Sizeform />,
   },
+ 
+  
+
 
 
   {
