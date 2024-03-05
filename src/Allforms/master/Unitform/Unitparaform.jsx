@@ -50,13 +50,26 @@ export default function Unitparaform() {
     setModalOpen(false);
   };
   const [inputValue, setInputValue] = useState("");
+
+  // List 
+  const [inputValuetype, setInputValuetype] = useState('');
+  // Sample list of items
+  const itemList =  ['Apple', 'Banana', 'Cherry', 'Date', 'Grapes','Mango','papaya'];
+
+
   // Function to handle input change
   const handleInputChange = (e, data) => {
     console.log(`e:`);
     // console.log(e);
     console.log(`data:`);
     console.log(data);
-    setModalOpen(true);
+    // setModalOpen(true);
+
+
+    // List 
+    const value = e.target.value;
+    setInputValuetype(value);
+
   };
   const plus = {
     // background:'blue',
@@ -115,7 +128,7 @@ export default function Unitparaform() {
   return (
     <>
       <div className="center_box">
-        <Form method="post" className="">
+        <Form method="post" className='position-relative'>
           <div className="table-responsive">
             <h6 className="main_head">Edit Item</h6>
 
@@ -138,7 +151,7 @@ export default function Unitparaform() {
                   </TableHeaderCell>
                   <TableHeaderCell>Unit Name</TableHeaderCell>
                   <TableHeaderCell>Short Name</TableHeaderCell>
-                  <ModalComponent modalOpen={modalOpen} />
+                  {/* <ModalComponent modalOpen={modalOpen} /> */}
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -160,8 +173,24 @@ export default function Unitparaform() {
                           name="unit_name"
                           style={input_width}
                           defaultValue={row.id}
+                          value={inputValuetype}
                           onChange={(e, data) => handleInputChange(e, data)}
                         />
+
+                            {inputValuetype.length > 0 && (
+                                <div className='right_box'>
+                                <ul>
+                                    {itemList
+                                    .filter((item) => item.toLowerCase().includes(inputValuetype.toLowerCase()))
+                                    .map((item, index) => (
+                                        <li key={index}>{item}</li>
+                                    ))}
+                                </ul>
+                                </div>
+                            )}   
+
+
+
                       </TableCell>
                       <TableCell colSpan="3">
                         <Input
