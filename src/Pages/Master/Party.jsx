@@ -75,7 +75,7 @@ export default function Party() {
   const addNew = async () => {
     const id2 = await new_contact();
     console.log(`id2:${id2}`);
-    //return navigate(`${id2}/Edit`);
+
     return navigate(`${id2}/Edit`);
     //return null;
   };
