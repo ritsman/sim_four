@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, useActionData } from "react-router-dom";
+import { Form } from "react-router-dom";
 import "./Unitpara.css";
 import {
   TableRow,
@@ -18,33 +18,24 @@ import {
   IconGroup,
   Modal,
 } from "semantic-ui-react";
-//validation function
-const validation = (formData) => {
-  const errors = {};
 
-  // Example validation rules
-  // You can modify these rules based on your requirements
-  Object.keys(formData).forEach((key) => {
-    if (!formData[key]) {
-      errors[key] = `${key} is required`;
-    }
-  });
-  console.log(errors);
-  return errors;
+// Custom Modal Content Component
+const CustomModalContent = ({ value }) => {
+  return (
+    <div>
+      <h1>Modal Content</h1>
+      <p>Received value: {value}</p>
+    </div>
+  );
 };
-
-export async function action({ request, params }) {
-  console.log(`req::::`);
-  const formdata = await request.formData();
-  const updates = Object.fromEntries(formdata);
-
-  console.log(updates);
-  const errors = validation(updates);
-  if (Object.keys(errors).length) {
-    return errors;
-  } else {
-    return 0;
-  }
+function ModalComponent({ modalOpen }) {
+  return (
+    <Modal
+      open={modalOpen}
+      // value={inputValue}
+      // onClose={closeModal}
+    />
+  );
 }
 
 export default function Unitpara() {
@@ -58,25 +49,13 @@ export default function Unitpara() {
     setModalOpen(false);
   };
   const [inputValue, setInputValue] = useState("");
-
-// List 
-const [inputValuetype, setInputValuetype] = useState('');
-// Sample list of items
-const itemList =  ['Example1', 'Example2', 'Example3', 'Example4', 'Example5','Example6','Example7'];
-
   // Function to handle input change
   const handleInputChange = (e, data) => {
     console.log(`e:`);
     // console.log(e);
     console.log(`data:`);
     console.log(data);
-    // setModalOpen(true);
-
-     // List 
-     const value = e.target.value;
-     setInputValuetype(value);
-
-
+    setModalOpen(true);
   };
   const plus = {
     // background:'blue',
@@ -104,12 +83,41 @@ const itemList =  ['Example1', 'Example2', 'Example3', 'Example4', 'Example5','E
   const input_width = {
     width: "100%",
   };
+  const [row_id, setRow_id] = useState(1);
+
+  const [rows, setRows] = useState([{ id: 0 }]);
+  const handleAddRow = (e) => {
+    console.log("add clicked");
+    setRow_id(row_id + 1);
+    console.log(`row_id:${row_id}`);
+    setRows([...rows, { id: rows.length }]);
+    console.log(rows);
+    e.preventDefault();
+  };
+
+  const handleDelRow = (e, ind) => {
+    console.log("cross clicked");
+    console.log(ind);
+
+    const updated_rows = [...rows];
+    console.log(rows);
+    console.log(rows.length);
+    console.log(updated_rows);
+
+    updated_rows.splice(ind, 1);
+    console.log(rows);
+    console.log(updated_rows);
+    setRows(updated_rows);
+    e.preventDefault();
+  };
 
   return (
     <>
       <div className="center_box">
-        <Form method="post" className='position-relative'>
+        <Form method="post" className="">
           <div className="table-responsive">
+            <h6 className="main_head">Edit Item</h6>
+
             <Table
               celled
               striped
@@ -118,8 +126,18 @@ const itemList =  ['Example1', 'Example2', 'Example3', 'Example4', 'Example5','E
             >
               <TableHeader>
                 <TableRow style={tableStyle}>
+                  <TableHeaderCell style={icons_cell}>
+                    <Button style={plus_button}>
+                      <Icon
+                        className="plus"
+                        name="plus"
+                        onClick={(e) => handleAddRow(e)}
+                      />
+                    </Button>
+                  </TableHeaderCell>
                   <TableHeaderCell>Unit Name</TableHeaderCell>
                   <TableHeaderCell>Short Name</TableHeaderCell>
+                  <ModalComponent modalOpen={modalOpen} />
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -143,17 +161,6 @@ const itemList =  ['Example1', 'Example2', 'Example3', 'Example4', 'Example5','E
                           defaultValue={row.id}
                           onChange={(e, data) => handleInputChange(e, data)}
                         />
-                            {inputValuetype.length > 0 && (
-                                <div className='right_box'>
-                                <ul>
-                                    {itemList
-                                    .filter((item) => item.toLowerCase().includes(inputValuetype.toLowerCase()))
-                                    .map((item, index) => (
-                                        <li key={index}>{item}</li>
-                                    ))}
-                                </ul>
-                                </div>
-                            )}  
                       </TableCell>
                       <TableCell colSpan="3">
                         <Input
@@ -177,6 +184,7 @@ const itemList =  ['Example1', 'Example2', 'Example3', 'Example4', 'Example5','E
           </div>
         </Form>
       </div>
+
       <Modal />
     </>
   );
