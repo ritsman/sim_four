@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
-import { Form } from 'react-router-dom'
+import React from 'react'
+import { Form,  useActionData, } from 'react-router-dom'
 // import '../commoncss/common.css'
 import '../../master/master-common.css'
-import Validation from '../../master/Validation';
+import Validation from '../Validation'
 
 import {
     TableRow,
@@ -23,102 +23,107 @@ const dropData = [
     { key: 'Buyer', value: 'Buyer', text: 'Buyer' }
 ]
 
+export async function action({request,param}) {
+    // console.log(request)
+
+    const formdata=await request.formData();
+    const updates = Object.fromEntries(formdata);
+    console.log('Form Data:', updates);
+    const validationErrors = Validation(updates);
+    return validationErrors;
+}
+
 export default function Partyform() {
-    const [formData, setFormData] = useState({});
-    const [errors, setErrors] = useState({});
+    // const [formData, setFormData] = useState({});
+    // const [errors, setErrors] = useState({});
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value
-        });
-    };
+    // const handleInputChange = (e) => {
+    //     const { name, value } = e.target;
+    //     setFormData({
+    //         ...formData,
+    //         [name]: value
+    //     });
+    // };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        const updates = Object.fromEntries(formData);
-        console.log('Form Data:', updates);
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     const formData = new FormData(e.target);
+    //     const updates = Object.fromEntries(formData);
+    //     console.log('Form Data:', updates);
 
-        // Store the form data in the component state
-        setFormData(updates);
+    //     // Store the form data in the component state
+    //     setFormData(updates);
 
-        // Perform validation
-        const validationErrors = Validation(updates);
-        setErrors(validationErrors);
+    //     // Perform validation
+    //     const validationErrors = Validation(updates);
+    //     setErrors(validationErrors);
         // Validate the form data
 
-    }
+    
 
-
+        const validationData = useActionData(); 
     return (
         <>
             <div className='item_form'>
-                <Form method="post" onSubmit={handleSubmit} >
+                <Form method="post"  >
                     <h6 className='pl_10'>Edit Item</h6>
                     <Table celled striped>
                         <TableBody>
                             <TableRow>
-                                <TableCell ><Input placeholder='Company Name*' name='comp_name' className='form__input' error={errors.comp_name} />
+                                <TableCell ><Input placeholder='Company Name*' name='comp_name' className='form__input'  error={validationData?.comp_name} />
 
                                 </TableCell>
 
-                                <TableCell><Input name='email' placeholder='Email*' error={errors.email} /> </TableCell>
+                                <TableCell><Input name='email' placeholder='Email*'  error={validationData?.email} /> </TableCell>
 
-                                <TableCell ><Input name='bank' placeholder='Bank*' error={errors.bank} />
+                                <TableCell ><Input name='bank' placeholder='Bank*'  error={validationData?.bank} />
 
                                 </TableCell>
 
                             </TableRow>
                             <TableRow>
 
-                                <TableCell><Input name='contact_person' placeholder='Contact Person*' error={errors.contact_person} />
+                                <TableCell><Input name='contact_person' placeholder='Contact Person*'  error={validationData?.contact_person} />
                                 </TableCell>
-                                <TableCell><Input name='landline' placeholder='Landline*' error={errors.landline} />
+                                <TableCell><Input name='landline' placeholder='Landline*'  error={validationData?.landline} />
                                 </TableCell>
-                                <TableCell ><Input name='account' placeholder='Account*' error={errors.account} />
-                                </TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell ><Input name='address' placeholder='Address*' error={errors.address} />
-                                </TableCell>
-                                <TableCell><Input name='mobile' placeholder='Mobile*' error={errors.mobile} />
-                                </TableCell>
-                                <TableCell><Input name='ifsc' placeholder='IFSC*' error={errors.ifsc} />
+                                <TableCell ><Input name='account' placeholder='Account*'  error={validationData?.account} />
                                 </TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell ><Input name='city' placeholder='city*' error={errors.city} />
+                                <TableCell ><Input name='address' placeholder='Address*'  error={validationData?.address} />
                                 </TableCell>
-                                <TableCell><Input name='gst' placeholder='GST*' error={errors.gst} />
+                                <TableCell><Input name='mobile' placeholder='Mobile*'  error={validationData?.mobile} />
                                 </TableCell>
-                                <TableCell><Input name='opening_balance' placeholder='Opening Balance*' error={errors.opening_balance} />
+                                <TableCell><Input name='ifsc' placeholder='IFSC*'  error={validationData?.ifsc} />
                                 </TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell ><Input name='state' placeholder='State*' error={errors.state} />
+                                <TableCell ><Input name='city' placeholder='city*'  error={validationData?.city} />
+                                </TableCell>
+                                <TableCell><Input name='gst' placeholder='GST*'  error={validationData?.gst} />
+                                </TableCell>
+                                <TableCell><Input name='opening_balance' placeholder='Opening Balance*'  error={validationData?.opening_balance} />
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell ><Input name='state' placeholder='State*'  error={validationData?.state} />
 
                                 </TableCell>
-                                <TableCell><Input name='pan' placeholder='PAN*' error={errors.pan} />
+                                <TableCell><Input name='pan' placeholder='PAN*' error={validationData?.pan} />
                                 </TableCell>
-                                <TableCell><Input name='pin' placeholder='Pin*' error={errors.pin} />
-                                </TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell><Input name='pin' placeholder='Pin*' error={errors.pin} />
+                                <TableCell><Input name='pin' placeholder='Pin*'  error={validationData?.pin} />
                                 </TableCell>
                             </TableRow>
                             <TableRow>
-                                {/* <TableCell>
-                                    <div className='select_field'>
-                                        <Select name='item_select' placeholder='Item Select' options={dropData}  error={errors.item_select} />
-                                       
-                                    </div>
-                                </TableCell> */}
+                                <TableCell><Input name='pin' placeholder='Pin*'  error={validationData?.pin} />
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                               
                                 <TableCell>
-                                    <div className={`select_field ${errors.item_select ? 'error' : ''}`}>
-                                        <select name='item_select' value={formData.item_select} onChange={handleInputChange} className={errors.item_select ? 'error' : ''}>
+                                    <div className={`select_field ${validationData?.item_select ? 'error' : ''} `}>
+                                        <select name='item_select'   className="selecting">
                                             <option value="">Item Select</option>
                                             {dropData.map((option) => (
                                                 <option key={option.key} value={option.value}>{option.text}</option>

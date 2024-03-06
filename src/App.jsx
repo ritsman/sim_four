@@ -14,11 +14,11 @@ import Dashboard from "./Pages/Dashboard";
 import MasterIndex from "./Pages/Master/Master-Index";
 import LoginForm from "./Pages/Login";
 // import Unitpara from "./Allforms/Unitpara";
-import Unitpara from "./Allforms/master/unit/Unitpara";
-import Itemform from "./Allforms/master/item/Itemform";
-import LocationForm from "./Allforms/master/location/LocationForm";
-import Partyform from "./Allforms/master/party/Partyform";
-import Styleform from "./Allforms/master/styleform/Styleform";
+import Unitpara, {action as unitAction} from "./Allforms/master/unit/Unitpara";
+import Itemform, {action as itemAction} from "./Allforms/master/item/Itemform";
+import LocationForm, {action as locationAction} from "./Allforms/master/location/LocationForm";
+import Partyform, {action as partyAction} from "./Allforms/master/party/Partyform";
+import Styleform, {action as styleAction} from "./Allforms/master/styleform/Styleform";
 import Calender from "./Allforms/master/calender/Calender";
 // import Event from "./Allforms/master/evencalender/Event";
 // import Eventhandle from "./Allforms/master/evencalender/Eventhandle";
@@ -26,7 +26,8 @@ import Calender from "./Allforms/master/calender/Calender";
 import Eventhandle from "./Allforms/master/evencalender/Eventhandle";
 import Tabform from "./Allforms/master/tab/Tabform";
 import Searching_field from "./Allforms/master/item/Searching_field";
-import Sizeform from "./Allforms/master/sizeForm/Sizeform";
+import Sizeform,  {action as sizeAction} from "./Allforms/master/sizeForm/Sizeform";
+import DemoForm ,{action as demoAction}from "./Allforms/master/DemoForm";
 
 
 const router = createBrowserRouter([
@@ -78,11 +79,13 @@ const router = createBrowserRouter([
   // },
   {
     path:"unitpara",
-    element:<Unitpara />
+    element:<Unitpara />,
+    action: unitAction
   },
   {
     path:"/itemform",
-    element:<Itemform />
+    element:<Itemform />,
+    action: itemAction
   },
   {
     path: "/field",
@@ -92,14 +95,17 @@ const router = createBrowserRouter([
   {
     path: "/locationform",
     element: <LocationForm />,
+    action: locationAction
   },
   {
     path: "/partyform",
     element: <Partyform />,
+    action: partyAction
   },
   {
     path: "/styleform",
     element: <Styleform />,
+    action: styleAction
   },
   {
     path: "/calender",
@@ -110,12 +116,19 @@ const router = createBrowserRouter([
     element: <Eventhandle />,
   },
   {
+    path: "/demoform",
+    element: <DemoForm />,
+    action:demoAction
+  },
+  {
     path: "/tabform",
     element: <Tabform />,
   },
   {
     path:"/sizeform",
-    element:<Sizeform />
+    element:<Sizeform />,
+    action: sizeAction
+
   },
 
 

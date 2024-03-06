@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react'
-import { Form } from 'react-router-dom'
-import { useState } from 'react';
+import { Form, useActionData } from 'react-router-dom'
+
 import {  useLoaderData,  useNavigation, useSubmit } from 'react-router-dom';
-import Validation from '../../master/Validation';
+import Validation from '../Validation';
 import '../../master/master-common.css'
 import './itemformSecond.css'
 import {
@@ -22,34 +22,24 @@ const dropData = [
     { key: 'two', value: 'two', text: 'Two' },
     { key: 'three', value: 'three', text: 'Three' }
 ]
+
+
+export async function action({request,param}) {
+  // console.log(request)
+
+  const formdata=await request.formData();
+  const updates = Object.fromEntries(formdata);
+  console.log('Form Data:', updates);
+  const validationErrors = Validation(updates);
+  return validationErrors; }
 export default function Itemform() {
-  const [formData, setFormData] = useState({});
-  const [errors, setErrors] = useState({});
+  const validationData = useActionData(); 
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);      
-        const updates = Object.fromEntries(formData);
-       
-        console.log('Form Data:', updates);
-
-        // Store the form data in the component state
-        setFormData(updates);
-
-        // Perform validation
-        const validationErrors = Validation(updates);
-        setErrors(validationErrors);
-        }
+    
     const { contacts: initialContacts = [], q } = useLoaderData() || {};
     const navigation = useNavigation();
      const submitt = useSubmit();
-     const handleInputChange = (e) => {
-      const { name, value } = e.target;
-      setFormData({
-          ...formData,
-          [name]: value
-      });
-  };
+     
     if (!initialContacts) {
         return <div>Loading...</div>;
       } 
@@ -97,16 +87,16 @@ export default function Itemform() {
         </div>  
       </div>   
             <div className='item_form'>
-                <Form method="post" onSubmit={handleSubmit}>
+                <Form method="post" >
                     <h6 className='pl_10'>Edit Item</h6>
                     <Table celled striped>
                         <TableBody>
                             <TableRow>
-                                <TableCell ><Input   placeholder='Item Name' name='item_name' className='form__input'  error={errors.item_name} />
+                                <TableCell ><Input   placeholder='Item Name' name='item_name' className='form__input' error={validationData?.item_name} />
                        </TableCell>
                        <TableCell>
-    <div className={`select_field ${errors.item_select ? 'error' : ''}`}>
-        <select name='item_select' value={formData.item_select} onChange={handleInputChange} className={errors.item_select ? 'error' : ''}>
+    <div className={`select_field ${validationData?.item_select ? 'error' : ''} ` }>
+        <select name='item_select' className='selecting' >
             <option value="">Item Select</option>
             {dropData.map((option) => (
                 <option key={option.key} value={option.value}>{option.text}</option>
@@ -114,30 +104,30 @@ export default function Itemform() {
         </select>
     </div>
 </TableCell>
-                                <TableCell><Input name='item_type' placeholder='Item Type*' error={errors.item_type}  /></TableCell>
+                                <TableCell><Input name='item_type' placeholder='Item Type*' error={validationData?.item_type}  /></TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell ><Input  name='item_color' placeholder='Item Color*' error={errors.item_color} /></TableCell>
-                                <TableCell><Input  name='item_specification' placeholder='Specification' error={errors.item_specification}  /></TableCell>
-                                <TableCell><Input  name='item_moq' placeholder='MOQ*'  error={errors.item_moq} /></TableCell>
+                                <TableCell ><Input  name='item_color' placeholder='Item Color*' error={validationData?.item_color} /></TableCell>
+                                <TableCell><Input  name='item_specification' placeholder='Specification' error={validationData?.item_specification}  /></TableCell>
+                                <TableCell><Input  name='item_moq' placeholder='MOQ*' error={validationData?.item_moq} /></TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell ><Input  name='buffer_unit' placeholder='Buffer Unit*' error={errors.buffer_unit}  /></TableCell>
-                                <TableCell><Input  name='purchase_unit' placeholder='Purchase Unit*'  error={errors.purchase_unit} /></TableCell>
-                                <TableCell><Input name='issue_unit' placeholder='Issue Unit*'  error={errors.issue_unit} /></TableCell>
+                                <TableCell ><Input  name='buffer_unit' placeholder='Buffer Unit*' error={validationData?.buffer_unit}    /></TableCell>
+                                <TableCell><Input  name='purchase_unit' placeholder='Purchase Unit*'  error={validationData?.purchase_unit} /></TableCell>
+                                <TableCell><Input name='issue_unit' placeholder='Issue Unit*'  error={validationData?.issue_unit} /></TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell ><Input  name='unit_calc' placeholder='1 Purchase unit =? Issue Unit*'  error={errors.unit_calc} /></TableCell>
-                                <TableCell><Input  name='item_rate' placeholder='Rate*'  error={errors.item_rate} /></TableCell>
-                                <TableCell><Input  name='gst' placeholder='GST*'  error={errors.gst} /></TableCell>
+                                <TableCell ><Input  name='unit_calc' placeholder='1 Purchase unit =? Issue Unit*' error={validationData?.unit_calc} /></TableCell>
+                                <TableCell><Input  name='item_rate' placeholder='Rate*' error={validationData?.item_rate} /></TableCell>
+                                <TableCell><Input  name='gst' placeholder='GST*' error={validationData?.gst} /></TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell ><Input  name='hsn_code' placeholder='HSN Code*' error={errors.hsn_code}  /></TableCell>
-                                <TableCell><Input  name='opening_stock' placeholder='Opening Stock*' error={errors.opening_stock}  /></TableCell>
-                                <TableCell><Input  name='item_msc1' placeholder='Msc1*'  error={errors.item_msc1} /></TableCell>
+                                <TableCell ><Input  name='hsn_code' placeholder='HSN Code*' error={validationData?.hsn_code}  /></TableCell>
+                                <TableCell><Input  name='opening_stock' placeholder='Opening Stock*' error={validationData?.opening_stock} /></TableCell>
+                                <TableCell><Input  name='item_msc1' placeholder='Msc1*' error={validationData?.item_msc1} /></TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell ><Input name='item_msc2' placeholder='Msc2*' error={errors.item_msc2}  /></TableCell>
+                                <TableCell ><Input name='item_msc2' placeholder='Msc2*'error={validationData?.item_msc2}  /></TableCell>
                             </TableRow>
                         </TableBody>
                     </Table>

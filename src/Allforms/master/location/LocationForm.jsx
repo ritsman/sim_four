@@ -1,6 +1,6 @@
 
-import { Form,  } from "react-router-dom";
-import React, { useState } from 'react';
+import{ Form, useActionData, } from "react-router-dom";
+import React from 'react';
 import '../unit/Unitpara.css'
 // import '../../master/Validation'
 import {
@@ -20,26 +20,23 @@ import {
     TextArea,
     IconGroup,
 } from 'semantic-ui-react'
-import Validation from '../../master/Validation';
+import Validation from "../Validation";
 
+export async function action({request,param}) {
+    // console.log(request)
 
-
+    const formdata=await request.formData();
+    const updates = Object.fromEntries(formdata);
+    console.log('Form Data:', updates);
+    const validationErrors = Validation(updates);
+    return validationErrors; 
+}
 
 export default function LocationForm() {
-    const [formData, setFormData] = useState({});
-    const [errors, setErrors] = useState({});
+    const validationData = useActionData(); 
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);      
-        const updates = Object.fromEntries(formData);
-            console.log('Form Data:', updates);
-            setFormData(updates);
-
-            // Perform validation
-            const validationErrors = Validation(updates);
-            setErrors(validationErrors);
-        }
+   
+        
     const plus = {
         color:'black !important' ,
         width:'30px',
@@ -65,7 +62,7 @@ export default function LocationForm() {
        };
   return (
     <div className='center_box'>
-        <Form method="post" onSubmit={handleSubmit} className=''>
+        <Form method="post" className=''>
             <div className='table-responsive'>
            <h6 className='main_head'>Edit Item</h6>
                 <Table celled striped style={tableStyle} className='table-responsive'>
@@ -79,11 +76,11 @@ export default function LocationForm() {
                     <TableBody>
                             <TableRow > 
                                 <TableCell style={icons_cell}><Button style={plus_button}> <Icon className='close_btn' name="close" onClick={()=>{}}/></Button></TableCell>
-                                <TableCell  ><Input  placeholder='Unit Name*' name='unit_name' style= {input_width} error={errors.unit_name} />
+                                <TableCell  ><Input  placeholder='Unit Name*' name='unit_name' style= {input_width}  error={validationData?.unit_name} />
                                 </TableCell>
                                 <TableCell  > 
                                 <div className='p_10'>
-                                <TextArea  name='description' placeholder='Description*' style={{ minHeight: 80 }} error={errors.description} />
+                                <TextArea  name='description' placeholder='Description*' style={{ minHeight: 80 }} error={validationData?.Description} />
                                 </div>
                                 </TableCell>
                             </TableRow>

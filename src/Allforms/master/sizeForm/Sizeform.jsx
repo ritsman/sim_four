@@ -1,5 +1,5 @@
-import React, {useState} from 'react'
-import { Form } from 'react-router-dom'
+import React,{useState} from 'react'
+import { Form, useActionData } from 'react-router-dom'
 import {
     TableRow,
     TableHeaderCell,
@@ -17,15 +17,28 @@ import {
     TextArea,
     IconGroup,
 } from 'semantic-ui-react'
-import Validation from '../../master/Validation';
+import Validation from '../Validation'
 
+export async function action({request,param}) {
+    // console.log(request)
+
+    const formdata=await request.formData();
+    const updates = Object.fromEntries(formdata);
+    console.log('Form Data:', updates);
+    const sizesData = Array.from({ length: updates['no_sizes'] }, (_, index) => {
+        return { [`size_${index + 1}`]: updates[`size_${index + 1}`] };
+    });
+    console.log('Sizes Data:', sizesData);
+
+    const validationErrors = Validation(updates);
+    return validationErrors;
+}
 
 const Sizeform = () => {
     const [numberOfSizes, setNumberOfSizes] = useState(0);
 
     const [sizes, setSizes] = useState([]);
-     const [formData, setFormData] = useState({});
-    const [errors, setErrors] = useState({});
+    
 
     const handleNumberOfSizesChange = (e) => {
         const { value } = e.target;
@@ -41,31 +54,7 @@ const Sizeform = () => {
         newSizes[index] = value;
         setSizes(newSizes);
     };
-    const handleSave = (e) => {
-        e.preventDefault();
-        const formElement = e.target.closest('form');
-        const formData = new FormData(formElement);
-        
-        // Append additional data to the FormData object
-        formData.append('numberOfSizes', numberOfSizes);
-    
-        // Append size name to the FormData object
-        // const sizeNameInput = formElement.querySelector('input[name="unit_name"]');
-        const sizeNameInput = formElement.querySelector('input[name="size_name"]');
-        const sizeName = sizeNameInput?.value ?? '';
-        formData.append('sizeName', sizeNameInput.value);
-    
-        // Append text from input boxes to the FormData object
-        sizes.forEach((size, index) => {
-            formData.append(`size${index + 1}`, size);
-        });
-    
-        // Convert FormData object to object
-        const updates = Object.fromEntries(formData);
-        console.log('Form Data:', updates);
-        const validationErrors = Validation(updates);
-        setErrors(validationErrors);
-    };
+   
     const plus = {
         color: 'black !important',
         width: '30px',
@@ -89,6 +78,13 @@ const Sizeform = () => {
     const input_width = {
         width: '100%',
     };
+    const validationData = useActionData();
+    const handleClick = async () => {
+        const formData = new FormData(document.querySelector('form')); // Get form data
+        const validationErrors = await action({ request: formData });
+        // Handle validation errors if any
+    };
+    
     return (
         <div className='item_form'>
         <Form method="post" className=''>
@@ -104,7 +100,7 @@ const Sizeform = () => {
                                 Size name
                             </Label>
                             </div>
-                            <TableCell className='input_space' ><Input placeholder='Unit Name*' name='size_name' style={input_width} error={errors.size_name} />
+                            <TableCell className='input_space' ><Input placeholder='Unit Name*' name='size_name' style={input_width} error={validationData?.size_name} />
                             </TableCell>
 
                         </TableRow>
@@ -115,8 +111,9 @@ const Sizeform = () => {
                         <Label className='label_color' >
                                Number Of Sizes
                             </Label>
-                            <TableCell className='input_space' ><Input type="number" placeholder='Enter number of sizes'  value={numberOfSizes} name='no_sizes' style={input_width} onChange={handleNumberOfSizesChange} error={errors.no_sizes}/>
+                            <TableCell className='input_space' ><Input type="number" placeholder='Enter number of sizes'  value={numberOfSizes} name='no_sizes' style={input_width} error={validationData?.no_sizes} onChange={handleNumberOfSizesChange} />
                             </TableCell>
+
 
                         </TableRow>
                         </div>
@@ -127,9 +124,11 @@ const Sizeform = () => {
                 <Input
                     type="text" // Assuming these are numeric inputs
                     placeholder={`Size ${index + 1}`}
+                    name={`size_${index + 1}`}
                     value={size}
                     onChange={(e) => handleSizeInputChange(index, e)}
                     style={{ width: '100px' }} // Set a larger width for each input box
+                   
                 />
             </div>
         ))}
@@ -140,7 +139,7 @@ const Sizeform = () => {
                 </Table>
 
                 <div className='text-center'>
-                    <Button primary className='mt_10' onClick={handleSave}>save</Button>
+                    <Button primary className='mt_10' onClick={handleClick}  >save</Button>
                     <Button primary>cancel</Button>
                 </div>
             </div>

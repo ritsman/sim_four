@@ -1,9 +1,9 @@
-import React,{useState} from 'react'
-import { Form } from 'react-router-dom'
+import React from 'react'
+import { Form,  useActionData } from 'react-router-dom'
 // import '../commoncss/common.css'
 // import './styleform.css'
 import '../../master/master-common.css'
-
+import Validation from '../Validation'
 import {
     TableRow,
     TableHeaderCell,
@@ -16,7 +16,7 @@ import {
     Button,
     Select,
 } from 'semantic-ui-react'
-import Validation from '../../master/Validation';
+
 
 const dropData = [
     { key: 'supplier', value: 'supplier', text: 'supplier' },
@@ -25,50 +25,43 @@ const dropData = [
 ]
 
 
+export async function action({request,param}) {
+    // console.log(request)
 
+    const formdata=await request.formData();
+    const updates = Object.fromEntries(formdata);
+    console.log('Form Data:', updates);
+    const validationErrors = Validation(updates);
+    return validationErrors;}
 export default function Styleform() {
-    const [formData, setFormData] = useState({});
-    const [errors, setErrors] = useState({});
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        const updates = Object.fromEntries(formData);
-        console.log('Form Data:', updates);
-
-        // Store the form data in the component state
-        setFormData(updates);
-
-        // Perform validation
-        const validationErrors = Validation(updates);
-        setErrors(validationErrors);
-    };
+    const validationData = useActionData(); 
 
     return (
         <>
             <div className='item_form'>
-                <Form method="post" onSubmit={handleSubmit}>
+                <Form method="post" >
                 <div className='top_style'>
                     <label htmlFor="">Style :</label>
-                    <Input name='style_id' placeholder='Style Id' error={errors.style_id}  />
+                    <Input name='style_id' placeholder='Style Id' error={validationData?.style_id} />
                 </div>
                     <h6 className='pl_10'>General</h6>
                     <Table celled striped>
                         <TableBody>
                             <TableRow>
-                                <TableCell ><Input placeholder='Style Name*' name='style_name' className='form__input' error={errors.style_name}  /></TableCell>
-                                <TableCell><Input  name='ref_name' placeholder='Ref Name*' error={errors.ref_name}  /></TableCell>
-                                <TableCell ><Input name='season' placeholder='Season*' error={errors.season}  /></TableCell>
-                                <TableCell><Input name='style_categor' placeholder='Category*' error={errors.style_categor}  /></TableCell>
+                                <TableCell ><Input placeholder='Style Name*' name='style_name' className='form__input' error={validationData?.style_name}  /></TableCell>
+                                <TableCell><Input  name='ref_name' placeholder='Ref Name*' error={validationData?.ref_name}  /></TableCell>
+                                <TableCell ><Input name='season' placeholder='Season*'error={validationData?.season} /></TableCell>
+                                <TableCell><Input name='style_categor' placeholder='Category*'error={validationData?.style_categor}  /></TableCell>
                             </TableRow>
                             <TableRow>
                                 
-                                <TableCell><Input name='designer' placeholder='Designer*' error={errors.designer}  /></TableCell>
-                                <TableCell><Input name='misc1' placeholder='MISC 1*' error={errors.misc1}  /></TableCell>
-                                <TableCell ><Input name='misc2' placeholder='MISC 2*' error={errors.misc2}  /></TableCell>
-                                <TableCell><Input name='misc3' placeholder='MISC 3*' error={errors.misc3}  /></TableCell>
+                                <TableCell><Input name='designer' placeholder='Designer*'error={validationData?.designer}  /></TableCell>
+                                <TableCell><Input name='misc1' placeholder='MISC 1*' error={validationData?.misc1}  /></TableCell>
+                                <TableCell ><Input name='misc2' placeholder='MISC 2*' error={validationData?.misc2}  /></TableCell>
+                                <TableCell><Input name='misc3' placeholder='MISC 3*' error={validationData?.misc3}  /></TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell ><Input name='misc4' placeholder='MISC 4*' error={errors.misc4}  /></TableCell>
+                                <TableCell ><Input name='misc4' placeholder='MISC 4*' error={validationData?.misc4}  /></TableCell>
                             </TableRow>
                            
                            
