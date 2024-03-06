@@ -51,6 +51,23 @@ textarea:focus-visible {
 .p_10{
     padding: 10px;
 }
+.right_box ul {
+    list-style: none;
+    padding-left: 0;
+}
+.right_box ul li{
+    margin-bottom: 5px;
+}
+.right_box {
+    position: absolute;
+    right: -117px;
+    margin-top: -52px;
+    padding: 20px 30px;
+    background: #f9fafb;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
 /* .ui.striped.table tr,
 .ui.striped.table td{
     border: none;
