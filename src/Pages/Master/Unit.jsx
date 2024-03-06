@@ -21,6 +21,7 @@ import {
   BreadcrumbSection,
   Pagination,
 } from "semantic-ui-react";
+import Unitpara from "./Unitpara";
 //get * from units table
 async function getUnitData() {
   const data = await axios.get(
@@ -133,16 +134,6 @@ export default function Unit() {
     navigate(`${id}`);
   };
 
-  const editRecord = (e, data, id) => {
-    console.log(e);
-    console.log(data);
-    console.log(id);
-    //e.stopPropagation();
-
-    navigate(`${id}/Edit`);
-    e.preventDefault();
-    e.stopPropagation();
-  };
   return (
     <div>
       <Breadcrumb>
@@ -206,15 +197,6 @@ export default function Unit() {
                       onChange={(event, data) => setTick(contact, event, data)}
                       name={contact.id}
                     />
-                    <Icon
-                      as={Link}
-                      onClick={(e, data) => {
-                        editRecord(e, data, contact.id);
-                        e.stopPropagation();
-                      }}
-                    >
-                      E
-                    </Icon>
                   </Table.Cell>
                   <Table.Cell>{contact.unit_name}</Table.Cell>
                   <Table.Cell>{contact.short_name}</Table.Cell>
@@ -229,6 +211,9 @@ export default function Unit() {
             totalPages={3}
             onPageChange={pageChange}
           />
+        </GridRow>
+        <GridRow>
+          <Unitpara />
         </GridRow>
       </Grid>
     </div>

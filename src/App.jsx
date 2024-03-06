@@ -15,6 +15,7 @@ import Dashboard from "./Pages/Dashboard";
 import MasterIndex from "./Pages/Master/Master-Index";
 import LoginForm from "./Pages/Login";
 import Unit, { loader as unitLoader } from "./Pages/Master/Unit";
+import UnitView, { loader as unitViewLoader } from "./Pages/Master/Unit-View";
 
 const router = createBrowserRouter([
   {
@@ -52,6 +53,11 @@ const router = createBrowserRouter([
             path: "unit",
             element: <Unit />,
             loader: unitLoader,
+          },
+          {
+            path: "unit/:unitId",
+            element: <UnitView />,
+            loader: unitViewLoader,
           },
         ],
       },

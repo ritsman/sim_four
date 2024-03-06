@@ -48,6 +48,7 @@ export async function action({ request, params }) {
 }
 
 export default function Unitpara() {
+  const [rows, setRows] = useState([{ id: 0 }]);
   const [modalOpen, setModalOpen] = useState(false);
   // Function to open modal
   const openModal = (value) => {
@@ -59,10 +60,18 @@ export default function Unitpara() {
   };
   const [inputValue, setInputValue] = useState("");
 
-// List 
-const [inputValuetype, setInputValuetype] = useState('');
-// Sample list of items
-const itemList =  ['Example1', 'Example2', 'Example3', 'Example4', 'Example5','Example6','Example7'];
+  // List
+  const [inputValuetype, setInputValuetype] = useState("");
+  // Sample list of items
+  const itemList = [
+    "Example1",
+    "Example2",
+    "Example3",
+    "Example4",
+    "Example5",
+    "Example6",
+    "Example7",
+  ];
 
   // Function to handle input change
   const handleInputChange = (e, data) => {
@@ -72,11 +81,9 @@ const itemList =  ['Example1', 'Example2', 'Example3', 'Example4', 'Example5','E
     console.log(data);
     // setModalOpen(true);
 
-     // List 
-     const value = e.target.value;
-     setInputValuetype(value);
-
-
+    // List
+    const value = e.target.value;
+    setInputValuetype(value);
   };
   const plus = {
     // background:'blue',
@@ -108,7 +115,7 @@ const itemList =  ['Example1', 'Example2', 'Example3', 'Example4', 'Example5','E
   return (
     <>
       <div className="center_box">
-        <Form method="post" className='position-relative'>
+        <Form method="post" className="position-relative">
           <div className="table-responsive">
             <Table
               celled
@@ -143,17 +150,21 @@ const itemList =  ['Example1', 'Example2', 'Example3', 'Example4', 'Example5','E
                           defaultValue={row.id}
                           onChange={(e, data) => handleInputChange(e, data)}
                         />
-                            {inputValuetype.length > 0 && (
-                                <div className='right_box'>
-                                <ul>
-                                    {itemList
-                                    .filter((item) => item.toLowerCase().includes(inputValuetype.toLowerCase()))
-                                    .map((item, index) => (
-                                        <li key={index}>{item}</li>
-                                    ))}
-                                </ul>
-                                </div>
-                            )}  
+                        {inputValuetype.length > 0 && (
+                          <div className="right_box">
+                            <ul>
+                              {itemList
+                                .filter((item) =>
+                                  item
+                                    .toLowerCase()
+                                    .includes(inputValuetype.toLowerCase())
+                                )
+                                .map((item, index) => (
+                                  <li key={index}>{item}</li>
+                                ))}
+                            </ul>
+                          </div>
+                        )}
                       </TableCell>
                       <TableCell colSpan="3">
                         <Input
