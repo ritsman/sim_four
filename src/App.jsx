@@ -18,6 +18,18 @@ import Unitpara from "./Allforms/master/unit/Unitpara";
 import Itemform from "./Allforms/master/item/Itemform";
 import LocationForm from "./Allforms/master/location/LocationForm";
 import Partyform from "./Allforms/master/party/Partyform";
+import Styleform from "./Allforms/master/styleform/Styleform";
+import Calender from "./Allforms/master/calender/Calender";
+// import Event from "./Allforms/master/evencalender/Event";
+// import Eventhandle from "./Allforms/master/evencalender/Eventhandle";
+// import Event from "./Allforms/master/evencalender/Event";
+import Eventhandle from "./Allforms/master/evencalender/Eventhandle";
+import Tabform from "./Allforms/master/tab/Tabform";
+import Suggestion from "./Allforms/master/suggestionbox/Suggestion";
+import Sizeform from "./Allforms/master/size/Sizeform";
+import Unitform from "./Allforms/master/Unitform/Unitform";
+// import Unitpara from "./Pages/Master/Unitpara";
+
 
 const router = createBrowserRouter([
   {
@@ -56,6 +68,7 @@ const router = createBrowserRouter([
             element: <Unit />,
             loader: viewLoader,
           },
+        
          
         ],
       },
@@ -70,7 +83,7 @@ const router = createBrowserRouter([
     element:<Unitpara />
   },
   {
-    path:"itemform",
+    path:"/itemform",
     element:<Itemform />
   },
   {
@@ -81,6 +94,38 @@ const router = createBrowserRouter([
     path: "/partyform",
     element: <Partyform />,
   },
+  {
+    path: "/styleform",
+    element: <Styleform />,
+  },
+  {
+    path: "/calender",
+    element: <Calender />,
+  },
+  {
+    path: "/eventhandle",
+    element: <Eventhandle />,
+  },
+  {
+    path: "/tabform",
+    element: <Tabform />,
+  },
+  {
+    path: "/suggestion",
+    element: <Suggestion />,
+  },
+  {
+    path : "/sizeform",
+    element: <Sizeform />,
+  },
+  {
+    path : "/unitform",
+    element: <Unitform />,
+  },
+ 
+  
+
+
 
   {
     path: "/login",

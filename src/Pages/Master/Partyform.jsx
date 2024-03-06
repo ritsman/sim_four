@@ -2,6 +2,8 @@ import React from "react";
 import { Form } from "react-router-dom";
 // import React, { useState } from "react";
 // import './itemform.css'
+import "../common.css";
+
 import {
   TableRow,
   TableHeaderCell,
@@ -28,12 +30,6 @@ export default function Partyform() {
         <Form method="post">
           <h6 className="pl_10">Edit Item</h6>
           <Table celled striped>
-            {/* <TableHeader>
-                            <TableRow>
-                                <TableHeaderCell >Git Repository</TableHeaderCell>
-                            </TableRow>
-                        </TableHeader> */}
-
             <TableBody>
               <TableRow>
                 <TableCell>

@@ -16,7 +16,7 @@ const menu_master = {
       key: 3,
       name: "Unit",
       icon: "list ul",
-      nav: "/unit",
+      nav: "/master/unit",
     },
   ],
   dashboard: [

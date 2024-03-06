@@ -6,8 +6,9 @@ import {
   BreadcrumbDivider,
   BreadcrumbSection,
 } from "semantic-ui-react";
-import Unitpara from "./Unitpara";
-export default function Unit() {
+// import Unitpara from "./Unitpara";
+import Unitparaform from "./Unitparaform"
+export default function Unitform() {
   const submitHandler = async (event) => {
     console.log(event.target[0].files[0]);
     const file2 = event.target[0].files[0];
@@ -49,7 +50,9 @@ export default function Unit() {
         <input type="file" name="avatar" />
         <button type="submit">Submit</button>
       </form>
-      <Unitpara />
+      {/* <Unitpara /> */}
+      <Unitparaform />
+
     </div>
   );
 }
