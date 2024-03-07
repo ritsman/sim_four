@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Form } from "react-router-dom";
 // import "./Unitpara.css";
-import "../unit/unitpara.css"
+// import "../unit/unitpara.css"
+import "../../master/master-common.css"
 import {
   TableRow,
   TableHeaderCell,
@@ -39,7 +40,7 @@ function ModalComponent({ modalOpen }) {
   );
 }
 
-export default function Unitparaform() {
+export default function Styleoperation() {
   const [modalOpen, setModalOpen] = useState(false);
   // Function to open modal
   const openModal = (value) => {
@@ -128,11 +129,16 @@ export default function Unitparaform() {
   return (
     <>
     <div className='position-relative'>
-      <div className="center_box">
+      <div className="item_form">
         <Form method="post" >
           <div className="table-responsive">
-            <h6 className="main_head">Edit Item</h6>
-
+          <div className='top_style'>
+                    <label htmlFor="">Style :</label>
+                    <Input placeholder='Style Id' />
+                </div>
+          <div className='styleHead'>
+                    <h6 className='pl_10'>Pictures</h6>
+                    </div>
             <Table
               celled
               striped
@@ -150,8 +156,11 @@ export default function Unitparaform() {
                       />
                     </Button>
                   </TableHeaderCell>
-                  <TableHeaderCell>Unit Name</TableHeaderCell>
-                  <TableHeaderCell>Short Name</TableHeaderCell>
+                  <TableHeaderCell>Operation Name</TableHeaderCell>
+                  <TableHeaderCell>Operation Short Name</TableHeaderCell>
+                  <TableHeaderCell>Machine</TableHeaderCell>
+                  <TableHeaderCell>Time</TableHeaderCell>
+                  <TableHeaderCell>Rate</TableHeaderCell>
                   {/* <ModalComponent modalOpen={modalOpen} /> */}
                 </TableRow>
               </TableHeader>
@@ -170,15 +179,15 @@ export default function Unitparaform() {
                       </TableCell>
                       <TableCell>
                         <Input
-                          placeholder="Unit Name*"
-                          name="unit_name"
+                          placeholder="Operation Name*"
+                          name="ops_name"
                           style={input_width}
                           defaultValue={row.id}
                           value={inputValuetype}
                           onChange={(e, data) => handleInputChange(e, data)}
                         />
 
-                            {inputValuetype.length > 0 && (
+                                {inputValuetype.length > 0 && (
                                 <div className='right_box'>
                                 <ul>
                                     {itemList
@@ -188,27 +197,46 @@ export default function Unitparaform() {
                                     ))}
                                 </ul>
                                 </div>
-                            )}   
-
+                            )} 
                       </TableCell>
-                      <TableCell colSpan="3">
+                      <TableCell >
                         <Input
-                          placeholder="Short Name*"
-                          name="unit_shortname"
+                          placeholder="Operation Short Name*"
+                          name="ops_shortname"
                           style={input_width}
                         />
                       </TableCell>
+                      <TableCell >
+                        <Input
+                          placeholder="Machine*"
+                          name="machine"
+                          style={input_width}
+                        />
+                      </TableCell>
+                      <TableCell >
+                        <Input
+                          placeholder="Time*"
+                          name="time"
+                          style={input_width}
+                        />
+                      </TableCell>
+                      <TableCell >
+                        <Input
+                          placeholder="Rate*"
+                          name="rate"
+                          style={input_width}
+                        />
+                      </TableCell>
+                      
                     </TableRow>
                   );
                 })}
               </TableBody>
             </Table>
 
-            <div className="text-center">
-              <Button primary className="mt_10">
-                Submit
-              </Button>
-              <Button primary>Reset</Button>
+            <div className="text-center mt-3">
+            <a href='#' className='mr_10 upload_btn'>Submit</a>
+            <a href='#' className='upload_btn'>cancel</a>
             </div>
           </div>
         </Form>

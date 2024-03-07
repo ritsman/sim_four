@@ -25,7 +25,7 @@ const dropData = [
 
 
 
-export default function Styleform() {
+export default function Stylegeneralform() {
     return (
         <>
             <div className='item_form'>

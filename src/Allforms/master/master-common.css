@@ -1,3 +1,7 @@
+/* common css  */
+a{text-decoration: none;}
+
+
 /******* itemform *******/
 .item_form{
     max-width: 1000px;
@@ -31,12 +35,22 @@
 }
 .right_box {
     position: absolute;
-    right: -69px;
+    right: 50px;
     margin-top: -52px;
+    background: #f9fafb;
+    padding: 20px 30px;
+    border-radius: 10px;
+    max-width: 200px;
+    width: 100%;
 }
 
 .right_box ul{
     list-style: none;
+    padding-left: 0;
+}
+.right_box ul li{
+    margin-bottom: 5px;
+    cursor: pointer;
 }
 
 
@@ -107,6 +121,58 @@ textarea:focus-visible {
 .top_style .ui.input {
     width: fit-content;
 }
+.styleHead h6 {
+    color: #2185d0;
+    position: relative;
+    padding-bottom: 10px;
+    font-size: 18px;
+    font-weight: 400;
+    width: fit-content;
+}
+.styleHead h6::after {
+    content: "";
+    position: absolute;
+    height: 1px;
+    width: 100%;
+    background: #2185d0;
+    bottom: 0;
+    left: 10px;
+}
+.style_table .file_field input{
+    border: 0;
+    /* padding: 0; */
+}
+.tableRow_flex {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    padding: 10px;
+}
+.upload_btn {
+    display: inline-block;
+    background: #4f46e5;
+    color: #fff;
+    font-weight: 500;
+    padding: 10px 40px;
+    border-radius: 20px;
+    transition: all .5s ease;
+    border: 1px solid #4f46e5;
+}
+.upload_btn:hover{
+    background: #fff;
+    border: 1px solid #4f46e5;
+    color: #4f46e5;
+}
+.styleHead {
+    margin-bottom: 30px;
+}
+.file_field {
+    padding: 0 !important;
+}
+input[type="file"] {
+    padding: 0 !important;
+}
 
 /******* unit form  *******/
 .main_head{
@@ -118,7 +184,7 @@ textarea:focus-visible {
     border-top: none !important;
 }
 .center_box{
-    max-width: 1000px;
+    max-width: 1200px;
     width: 100%;
     margin: 0 auto;
 }
