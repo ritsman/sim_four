@@ -30,6 +30,8 @@ import Sizeform from "./Allforms/master/size/Sizeform";
 import Unitform from "./Allforms/master/Unitform/Unitform";
 import Stylepicture from "./Allforms/master/styleform/Stylepicture";
 import Styleoperation from "./Allforms/master/styleform/Styleoperation";
+import Stylespecification from "./Allforms/master/styleform/Stylespecification";
+import Sizeform1 from "./Allforms/master/size/Sizeform1";
 
 // import Unitpara from "./Pages/Master/Unitpara";
 
@@ -136,6 +138,14 @@ const router = createBrowserRouter([
   {
     path: "/styleoperation",
     element: <Styleoperation/>
+  },
+  {
+    path: "/stylespecification",
+    element: <Stylespecification />
+  },
+  {
+    path: "/sizeform1",
+    element : <Sizeform1 />
   },
   
 

@@ -124,7 +124,7 @@ export default function Styleoperation() {
     console.log(updated_rows);
     setRows(updated_rows);
     e.preventDefault();
-  };
+  };      
 
   return (
     <>
