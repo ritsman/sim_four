@@ -18,6 +18,12 @@ const menu_master = {
       icon: "list ul",
       nav: "/master/unit",
     },
+    {
+      key: 4,
+      name: "Item",
+      icon: "list ul",
+      nav: "/master/item",
+    },
   ],
   dashboard: [
     {

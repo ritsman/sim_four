@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useLoaderData, useNavigate } from "react-router-dom";
+import { getPageInfo, getPageData } from "../../Double/fun";
+import MasterUrl from "../../Consts/Master/MasterUrl.const";
 import {
   Checkbox,
   Grid,
@@ -22,31 +24,35 @@ import {
   Pagination,
 } from "semantic-ui-react";
 import "../../css/Master/master.css";
-//get * from units table
-async function getUnitData() {
-  const data = await axios.get(
-    "https://arya-erp.in/simranapi/master/get_units.php"
-  );
-  //console.log(data.data);
 
-  return data.data;
-}
+const records_per_page = 10;
+//get total no of pages from items table
+
+const totalRecords = await getPageInfo(axios, MasterUrl.getPageInfo, "unit");
+const totalPages = Math.ceil(totalRecords / records_per_page);
+
 // loader function for tUnit
 export async function loader() {
-  const units_data = await getUnitData();
-  console.log(units_data);
-  return units_data;
+  const data = await getPageData(
+    axios,
+    MasterUrl.getPageData,
+    records_per_page,
+    1,
+    "unit"
+  );
+  //console.log(data);
+  return data;
 }
 
 // main function====================================
 export default function Unit() {
-  const units_data = useLoaderData();
-  const [contacts, setContacts] = useState(units_data);
+  const data = useLoaderData();
+  const [pageData, setpageData] = useState(data);
   const [showclass, setShowClass] = useState("noshow");
-  console.log(`contacts222:`);
-  console.log(contacts);
+  console.log(`pageDataUnit:`);
+  console.log(pageData);
   const chkstat = {};
-  contacts.forEach((val, ind) => {
+  pageData.forEach((val, ind) => {
     console.log(`v:${val.id}::i:${ind}`);
     chkstat[val.id] = false;
   });
@@ -118,14 +124,15 @@ export default function Unit() {
     return loader_val.data;
   }
   const pageChange = async (event, data) => {
-    console.log(event.target);
-    console.log("pagenno:");
-    console.log(event.target.text);
-    console.log(data.activePage);
-    const t = await loaderPage(data.activePage);
-    console.log(`t`);
-    console.log(t);
-    setContacts(t);
+    const newpageData = await getPageData(
+      axios,
+      MasterUrl.getPageData,
+      records_per_page,
+      data.activePage,
+      "items"
+    );
+
+    setpageData(newpageData);
   };
 
   const show_record = (id) => {
@@ -159,21 +166,6 @@ export default function Unit() {
         </Button>
       </div>
       <Grid verticalAlign="middle">
-        {/* <GridRow centered color="blue" style={{ fontWeight: "900" }}>
-          <GridColumn textAlign="center" width={12}>
-            {contact.company_name}
-          </GridColumn>
-          <GridColumn
-            floated="right"
-            width={4}
-            // color="red"
-            textAlign="right"
-            verticalAlign="middle"
-          >
-            <Button onClick={() => editParty(contact.id)}>Edit</Button>
-            <Button>Delete</Button>
-          </GridColumn>
-        </GridRow> */}
         <GridRow centered>
           <Table style={{ maxWidth: "900px" }} celled>
             <TableHeader>
@@ -186,7 +178,7 @@ export default function Unit() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {units_data.map((contact) => (
+              {pageData.map((contact) => (
                 <Table.Row
                   onClick={() => show_record(contact.id)}
                   key={contact.id}
@@ -208,7 +200,7 @@ export default function Unit() {
         <GridRow>
           <Pagination
             defaultActivePage={1}
-            totalPages={3}
+            totalPages={totalPages}
             onPageChange={pageChange}
           />
         </GridRow>

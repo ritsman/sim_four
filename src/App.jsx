@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RootLayout from "./RootLayout";
 import ErrorPage from "./Pages/error-page";
-import Party from "./Pages/Master/Party";
+import Party, { loader as partyLoader } from "./Pages/Master/Party";
 import PartyView, { loader as viewLoader } from "./Pages/Master/Party-View";
 // import PartyEdit, {
 //   action as editAction,
@@ -41,6 +41,7 @@ const router = createBrowserRouter([
           {
             path: "party/",
             element: <Party />,
+            loader: partyLoader,
           },
           {
             path: "party/:partyId/Edit",
