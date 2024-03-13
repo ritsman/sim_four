@@ -16,7 +16,8 @@ import MasterIndex from "./Pages/Master/Master-Index";
 import LoginForm from "./Pages/Login";
 import Unit, { loader as unitLoader } from "./Pages/Master/Unit";
 import UnitView, { loader as unitViewLoader } from "./Pages/Master/UnitView";
-import Item from "./Pages/Master/Item";
+import ItemView, { loader as itemViewLoader } from "./Pages/Master/ItemView";
+import Item, { loader as itemLoader } from "./Pages/Master/Item";
 
 const router = createBrowserRouter([
   {
@@ -64,7 +65,12 @@ const router = createBrowserRouter([
           {
             path: "item",
             element: <Item />,
-            loader: unitLoader,
+            loader: itemLoader,
+          },
+          {
+            path: "item/:itemId",
+            element: <ItemView />,
+            loader: itemViewLoader,
           },
         ],
       },
