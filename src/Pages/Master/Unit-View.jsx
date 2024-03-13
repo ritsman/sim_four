@@ -30,11 +30,11 @@ export async function loader({ params }) {
   console.log(`inside loader unitview:`);
   //console.log(params);
 
-  const data = await get_contact_info(params.unitId);
+  const data = await get_unit_info(params.unitId);
   console.log(data);
   return data;
 }
-async function get_contact_info(id) {
+async function get_unit_info(id) {
   const data = await axios.get(
     `https://arya-erp.in/simranapi/master/get_unit_single.php?unit=${id}`
   );
@@ -43,7 +43,12 @@ async function get_contact_info(id) {
 }
 
 export default function UnitView() {
-  const contact = useLoaderData();
+  const unit_data = useLoaderData();
+  const navigate = useNavigate();
+  const editUnit = (id) => {
+    console.log(id);
+    navigate(`Edit`);
+  };
   return (
     <div>
       <Breadcrumb>
@@ -60,7 +65,7 @@ export default function UnitView() {
       <Grid verticalAlign="middle">
         <GridRow centered color="blue" style={{ fontWeight: "900" }}>
           <GridColumn textAlign="center" width={12}>
-            {contact.company_name}
+            {unit_data.unit_name}
           </GridColumn>
           <GridColumn
             floated="right"
@@ -69,14 +74,17 @@ export default function UnitView() {
             textAlign="right"
             verticalAlign="middle"
           >
-            <Button onClick={() => editParty(contact.id)}>Edit</Button>
+            <Button onClick={() => editUnit(unit_data.id)}>Edit</Button>
             <Button>Delete</Button>
           </GridColumn>
         </GridRow>
         <GridRow centered>
           <Table style={{ maxWidth: "900px" }} celled>
             <TableBody>
-              <TableRow></TableRow>
+              <TableRow>
+                <TableCell>{unit_data.unit_name}</TableCell>
+                <TableCell>{unit_data.short_name}</TableCell>
+              </TableRow>
               <TableRow></TableRow>
               <TableRow></TableRow>
             </TableBody>

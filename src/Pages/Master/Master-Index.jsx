@@ -21,8 +21,9 @@ export default function MasterIndex() {
           description="Listing of all Units of Measurement."
         />
         <Card
-          href="#card-example-link-card"
-          header="Elliot Baker"
+          as={Link}
+          to="item"
+          header="Item"
           meta="Friend"
           description="Elliot is a sound engineer living in Nashville who enjoys playing guitar and hanging with his cat."
         />

@@ -21,7 +21,7 @@ import {
   BreadcrumbSection,
   Pagination,
 } from "semantic-ui-react";
-import Unitpara from "./Unitpara";
+import "../../css/Master/master.css";
 //get * from units table
 async function getUnitData() {
   const data = await axios.get(
@@ -211,9 +211,6 @@ export default function Unit() {
             totalPages={3}
             onPageChange={pageChange}
           />
-        </GridRow>
-        <GridRow>
-          <Unitpara />
         </GridRow>
       </Grid>
     </div>
