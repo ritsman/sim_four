@@ -8,13 +8,15 @@ import PartyView, { loader as viewLoader } from "./Pages/Master/Party-View";
 //   loader as contactLoader,
 // } from "./Pages/Master/Party-Edit"; //action as editAction, // loader as contactLoader,
 import PartyEdit, { loader as editLoader } from "./Pages/Master/Party-Edit"; //action as editAction, // loader as contactLoader,
-
+import { action as editAction } from "./Pages/Master/Partyform";
 import { action as subActUnit } from "./Pages/Master/Unitpara";
 import Master from "./Pages/Master/Master";
 import Dashboard from "./Pages/Dashboard";
 import MasterIndex from "./Pages/Master/Master-Index";
 import LoginForm from "./Pages/Login";
 import Unit, { loader as unitLoader } from "./Pages/Master/Unit";
+import UnitView, { loader as unitViewLoader } from "./Pages/Master/UnitView";
+import Item from "./Pages/Master/Item";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +44,7 @@ const router = createBrowserRouter([
             path: "party/:partyId/Edit",
             element: <PartyEdit />,
             loader: editLoader,
+            action: editAction,
           },
           {
             path: "party/:partyId",
@@ -51,6 +54,16 @@ const router = createBrowserRouter([
           {
             path: "unit",
             element: <Unit />,
+            loader: unitLoader,
+          },
+          {
+            path: "unit/:unitId",
+            element: <UnitView />,
+            loader: unitViewLoader,
+          },
+          {
+            path: "item",
+            element: <Item />,
             loader: unitLoader,
           },
         ],

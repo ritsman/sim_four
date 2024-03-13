@@ -34,12 +34,12 @@ async function getUnitData() {
 export async function loader() {
   const units_data = await getUnitData();
   console.log(units_data);
-  return units_data;
+  return { units_data };
 }
 
 // main function====================================
 export default function Unit() {
-  const units_data = useLoaderData();
+  const { units_data } = useLoaderData();
   const [contacts, setContacts] = useState(units_data);
   const [showclass, setShowClass] = useState("noshow");
   console.log(`contacts222:`);
@@ -206,15 +206,6 @@ export default function Unit() {
                       onChange={(event, data) => setTick(contact, event, data)}
                       name={contact.id}
                     />
-                    <Icon
-                      as={Link}
-                      onClick={(e, data) => {
-                        editRecord(e, data, contact.id);
-                        e.stopPropagation();
-                      }}
-                    >
-                      E
-                    </Icon>
                   </Table.Cell>
                   <Table.Cell>{contact.unit_name}</Table.Cell>
                   <Table.Cell>{contact.short_name}</Table.Cell>

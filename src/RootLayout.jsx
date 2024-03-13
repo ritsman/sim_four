@@ -10,10 +10,15 @@ export default function RootLayout() {
   const navigate = useNavigate();
   const [activeItem, setActiveItem] = useState("dashboard");
   const [visible, setVisible] = useState(false);
+
   const handleItemClick = (e, { name }) => {
     setActiveItem(name);
     setVisible(true);
-    navigate(`${name}`);
+    if (name == "master") {
+      navigate(`${name}`);
+    } else {
+      navigate(`master/${name}`);
+    }
     e.stopPropagation();
   };
 

@@ -226,15 +226,6 @@ export default function Party() {
                     onChange={(event, data) => setTick(contact, event, data)}
                     name={contact.id}
                   />
-                  <Icon
-                    as={Link}
-                    onClick={(e, data) => {
-                      editRecord(e, data, contact.id);
-                      e.stopPropagation();
-                    }}
-                  >
-                    E
-                  </Icon>
                 </Table.Cell>
                 <Table.Cell>{contact.company_name}</Table.Cell>
                 <Table.Cell>{contact.contact_person}</Table.Cell>
