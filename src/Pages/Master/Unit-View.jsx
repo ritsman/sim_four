@@ -22,7 +22,8 @@ import {
   BreadcrumbDivider,
   BreadcrumbSection,
 } from "semantic-ui-react";
-
+import MasterUrl from "../../Consts/Master/MasterUrl.const";
+import { getIdEntry } from "../../Double/fun";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
@@ -30,7 +31,13 @@ export async function loader({ params }) {
   console.log(`inside loader unitview:`);
   //console.log(params);
 
-  const data = await get_unit_info(params.unitId);
+  //const data = await get_unit_info(params.unitId);
+  const data = await getIdEntry(
+    axios,
+    MasterUrl.getIdEntry,
+    params.unitId,
+    "unit"
+  );
   console.log(data);
   return data;
 }

@@ -57,3 +57,16 @@ export async function updateRecord(axios, id, updates, mod2) {
       //toast.success(`DEfault Notificatiln!! ${response.data}`);
     });
 }
+//get data against single id in master module
+export async function getIdEntry(axios, url, id, mod2) {
+  let data = await axios.post(
+    //`https://arya-erp.in/simranapi/master/getIdEntry.php`,
+    url,
+    {
+      id: id,
+      mod2: mod2,
+    }
+  );
+  console.log(data.data);
+  return data.data;
+}
