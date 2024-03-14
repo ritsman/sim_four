@@ -1,6 +1,6 @@
 import { useLoaderData, Form, redirect, useNavigate } from "react-router-dom";
-/* import the AutoComplete dependency styles */
-import * as React from "react";
+import { updateRecord } from "../../Double/fun";
+import axios from "axios";
 
 import {
   Input,
@@ -23,7 +23,6 @@ import {
 
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
 
 async function get_unit_info(id) {
   const data = await axios.get(
@@ -42,30 +41,16 @@ export async function loader({ params }) {
   //return ["a", "b"];
 }
 
-async function update_unit(id, updates) {
-  console.log(`updates`);
-  console.log(updates);
-  axios
-    .post(`https://arya-erp.in/simranapi/update_contact.php?`, {
-      id: id,
-      updates: updates,
-    })
-    .then((response) => {
-      console.log(response);
-      toast.success(`DEfault Notificatiln!! ${response.data}`);
-    });
-}
-
 export async function action({ request, params }) {
+  console.log(`inside action Edit function`);
   const formData = await request.formData();
   const updates = Object.fromEntries(formData);
-  console.log(`formdata:`);
+  console.log(`formdata from actionUnit:`);
   console.log(updates);
   console.log(params);
-  await update_unit(params.unitId, updates);
-
-  //return null;
-  return redirect(`${params.partyId}`);
+  await updateRecord(axios, params.unitId, updates, "unit");
+  return null;
+  //return redirect(`${params.partyId}`);
 }
 //============================main function
 export default function UnitEdit() {
@@ -102,26 +87,28 @@ export default function UnitEdit() {
   return (
     <>
       <h1>unit{data.unit_name}</h1>
-      <Table style={{ maxWidth: "900px" }} celled>
-        <TableBody>
-          <TableRow>
-            <TableCell>
-              <input value={data.unit_name}></input>
-            </TableCell>
-            <TableCell>
-              <input value={data.short_name}></input>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>
-              <Button>Submit</Button>
-            </TableCell>
-            <TableCell>
-              <Button>Cancel</Button>
-            </TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
+      <Form method="post">
+        <Table style={{ maxWidth: "900px" }} celled>
+          <TableBody>
+            <TableRow>
+              <TableCell>
+                <input defaultValue={data.unit_name} name="unit_name"></input>
+              </TableCell>
+              <TableCell>
+                <input defaultValue={data.short_name} name="short_name"></input>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>
+                <Button>Submit</Button>
+              </TableCell>
+              <TableCell>
+                <Button>Cancel</Button>
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </Form>
     </>
   );
 }

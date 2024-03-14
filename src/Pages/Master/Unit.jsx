@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useLoaderData, useNavigate } from "react-router-dom";
-import { getPageInfo, getPageData } from "../../Double/fun";
+import { getPageInfo, getPageData, putNewId } from "../../Double/fun";
 import MasterUrl from "../../Consts/Master/MasterUrl.const";
 import {
   Checkbox,
@@ -43,6 +43,58 @@ export async function loader() {
   //console.log(data);
   return data;
 }
+//create new entry in database and send id
+//for redirection to Edit
+async function new_contact() {
+  const info_pages = await axios.get(
+    `https://arya-erp.in/simranapi/master/party_new_contact.php?`
+  );
+  console.log(info_pages.data);
+  return info_pages.data;
+}
+
+async function update_contact(id, updates) {
+  console.log(`updates`);
+  console.log(updates);
+  axios
+    .post(`https://arya-erp.in/simranapi/update_contact.php?`, {
+      id: id,
+      updates: updates,
+    })
+    .then((response) => {
+      console.log(response);
+      toast.success(`DEfault Notificatiln!! ${response.data}`);
+    });
+}
+async function updateRecord(id, updates, mod2) {
+  console.log(`updates`);
+  console.log(updates);
+  axios
+    .post(
+      //`https://arya-erp.in/simranapi/update_contact.php?`
+      `https://arya-erp.in/simranapi/master/updateContact.php?`,
+      {
+        id: id,
+        updates: updates,
+        mod2: mod2,
+      }
+    )
+    .then((response) => {
+      console.log(response);
+      toast.success(`DEfault Notificatiln!! ${response.data}`);
+    });
+}
+export async function action({ request, params }) {
+  const formData = await request.formData();
+  const updates = Object.fromEntries(formData);
+  console.log(`formdata:`);
+  console.log(updates);
+  console.log(params);
+  await update_contact(params.partyId, updates);
+
+  //return null;
+  return redirect(`${params.partyId}`);
+}
 
 // main function====================================
 export default function Unit() {
@@ -65,9 +117,9 @@ export default function Unit() {
   //   d.checkid = false;
   // });
   const navigate = useNavigate();
-
+  // add id and return
   const addNew = async () => {
-    const id2 = await new_contact();
+    const id2 = await putNewId(axios, MasterUrl.putNewId, "unit");
     console.log(`id2:${id2}`);
 
     return navigate(`${id2}/Edit`);

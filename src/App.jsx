@@ -16,7 +16,10 @@ import MasterIndex from "./Pages/Master/Master-Index";
 import LoginForm from "./Pages/Login";
 import Unit, { loader as unitLoader } from "./Pages/Master/Unit";
 import UnitView, { loader as unitViewLoader } from "./Pages/Master/Unit-View";
-import UnitEdit, { loader as unitEditLoader } from "./Pages/Master/Unit-Edit";
+import UnitEdit, {
+  loader as unitEditLoader,
+  action as unitAction,
+} from "./Pages/Master/Unit-Edit";
 
 import Item, { loader as itemLoader } from "./Pages/Master/Item";
 
@@ -67,6 +70,7 @@ const router = createBrowserRouter([
             path: "unit/:unitId/Edit",
             element: <UnitEdit />,
             loader: unitEditLoader,
+            action: unitAction,
           },
           {
             path: "item",
