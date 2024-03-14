@@ -1,103 +1,79 @@
-import { useState } from "react";
-//import data from "../../Data/data";
-import { useAuth } from "../../hooks/useAuth";
-import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import React, { useState } from "react";
+import { getPageInfo, getPageData, putNewId } from "../../Double/fun";
 import {
+  MasterUrl,
+  records_per_page,
+} from "../../Consts/Master/MasterUrl.const";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
+import {
+  Checkbox,
+  Table,
+  Button,
   Breadcrumb,
   BreadcrumbDivider,
   BreadcrumbSection,
-} from "semantic-ui-react";
-import "../../css/Master/master.css";
-import axios from "axios";
-import {
-  Table,
-  Input,
   Pagination,
-  Button,
-  Icon,
-  Checkbox,
 } from "semantic-ui-react";
-
+//get * from units table
 const header = [
+  " ",
   "Company Name",
   "Contact Person",
   "Address",
   "City",
   "State",
-  "pin",
+  "email",
   "Role",
-  "Land Line",
   "Mobile",
-  "GST",
-  "PAN",
-  "Bank",
-  "Account",
-  "IFSC",
-  "Opening Balance",
 ];
-async function get_info() {
-  const info_pages = await axios.get(
-    "https://arya-erp.in/simranapi/get_contacts_info.php"
-  );
-  console.log(info_pages.data);
-  return info_pages.data;
-}
-async function loaderP() {
-  const loader_val = await axios.get(
-    "https://arya-erp.in/simranapi/get_contacts.php"
-  );
-  //console.log(`loader_val:`);
-  //console.log(typeof loader_val.data);
-  //console.log(loader_val.data);
 
-  return loader_val.data;
-}
-const data = await loaderP();
-console.log("data...");
-console.log(data);
+//get total no of pages from items table
+const totalRecords = await getPageInfo(axios, MasterUrl.getPageInfo, "party");
+const totalPages = Math.ceil(totalRecords / records_per_page);
 
-const totalPages = await get_info();
-
-async function new_contact() {
-  const info_pages = await axios.get(
-    `https://arya-erp.in/simranapi/master/party_new_contact.php?`
+// loader function for Unit
+export async function loader() {
+  const data = await getPageData(
+    axios,
+    MasterUrl.getPageData,
+    records_per_page,
+    1,
+    "party"
   );
-  console.log(info_pages.data);
-  return info_pages.data;
+  //console.log(data);
+  return data;
 }
 
-export default function Party() {
-  const { auth } = useAuth();
-  console.log(`authfromparty:`);
-  console.log(auth);
+// main function====================================
+export default function Unit() {
+  const data = useLoaderData();
+  const [pageData, setPageData] = useState(data);
+  console.log(`partyPageData:`);
+  console.log(pageData);
+
+  const [showclass, setShowClass] = useState("noshow");
+
+  const chkstat = {};
+
+  pageData.forEach((val, ind) => {
+    // console.log(`v:${val.id}::i:${ind}`);
+    chkstat[val.id] = false;
+  });
+
+  //console.log("-----");
+  //console.log(chkstat);
+  const [chkstat2, setChkStat2] = useState(chkstat);
+
   const navigate = useNavigate();
 
   const addNew = async () => {
-    const id2 = await new_contact();
+    const id2 = await putNewId(axios, MasterUrl.putNewId, "party");
     console.log(`id2:${id2}`);
 
     return navigate(`${id2}/Edit`);
     //return null;
   };
-  console.log(data);
-  const [contacts, setContacts] = useState(data);
-  const [showclass, setShowClass] = useState("noshow");
-  console.log(`contacts222:`);
-  console.log(contacts);
-  const chkstat = {};
-  contacts.forEach((val, ind) => {
-    console.log(`v:${val.id}::i:${ind}`);
-    chkstat[val.id] = false;
-  });
-
-  console.log("-----");
-  console.log(chkstat);
-  const [chkstat2, setChkStat2] = useState(chkstat);
-
-  // contacts.map((d) => {
-  //   d.checkid = false;
-  // });
-
   const showCl = () => {
     const sh = showclass === "noshow" ? "nowshow" : "noshow";
     setShowClass(sh);
@@ -138,25 +114,15 @@ export default function Party() {
     console.log(`t::::`);
     console.log(t);
   };
-  async function loaderPage(pageno) {
-    const loader_val = await axios.get(
-      `https://arya-erp.in/simranapi/get_contact_page.php?pageno=${pageno}`
-    );
-    //console.log(`loader_val:`);
-    //console.log(typeof loader_val.data);
-    console.log(loader_val.data);
-
-    return loader_val.data;
-  }
   const pageChange = async (event, data) => {
-    console.log(event.target);
-    console.log("pagenno:");
-    console.log(event.target.text);
-    console.log(data.activePage);
-    const t = await loaderPage(data.activePage);
-    console.log(`t`);
-    console.log(t);
-    setContacts(t);
+    const newpageData = await getPageData(
+      axios,
+      MasterUrl.getPageData,
+      records_per_page,
+      data.activePage,
+      "party"
+    );
+    setpageData(newpageData);
   };
 
   const show_record = (id) => {
@@ -175,9 +141,8 @@ export default function Party() {
     e.preventDefault();
     e.stopPropagation();
   };
-
   return (
-    <>
+    <div>
       <Breadcrumb>
         <BreadcrumbSection as={Link} to="/">
           Home
@@ -187,9 +152,7 @@ export default function Party() {
           Master
         </BreadcrumbSection>
         <BreadcrumbDivider icon="right chevron" />
-        <BreadcrumbSection as={Link} to="master/party" active>
-          Party
-        </BreadcrumbSection>
+        <BreadcrumbSection active>Party</BreadcrumbSection>
       </Breadcrumb>
       <div>
         <Button color="teal" onClick={showCl}>
@@ -215,7 +178,7 @@ export default function Party() {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {contacts.map((contact) => (
+            {pageData.map((contact) => (
               <Table.Row
                 onClick={() => show_record(contact.id)}
                 key={contact.id}
@@ -232,27 +195,21 @@ export default function Party() {
                 <Table.Cell>{contact.address}</Table.Cell>
                 <Table.Cell>{contact.city}</Table.Cell>
                 <Table.Cell>{contact.state}</Table.Cell>
-                <Table.Cell>{contact.pin}</Table.Cell>
-                <Table.Cell>{contact.role.toUpperCase()}</Table.Cell>
                 <Table.Cell>{contact.email}</Table.Cell>
-                <Table.Cell>{contact.landline}</Table.Cell>
+                <Table.Cell>{contact.role.toUpperCase()}</Table.Cell>
+
                 <Table.Cell>{contact.mobile}</Table.Cell>
-                <Table.Cell>{contact.gst}</Table.Cell>
-                <Table.Cell>{contact.pan}</Table.Cell>
-                <Table.Cell>{contact.bank}</Table.Cell>
-                <Table.Cell>{contact.account}</Table.Cell>
-                <Table.Cell>{contact.ifsc}</Table.Cell>
-                <Table.Cell>{contact.open_bal}</Table.Cell>
               </Table.Row>
             ))}
           </Table.Body>
         </Table>
       </div>
+
       <Pagination
         defaultActivePage={1}
         totalPages={totalPages}
         onPageChange={pageChange}
       />
-    </>
+    </div>
   );
 }

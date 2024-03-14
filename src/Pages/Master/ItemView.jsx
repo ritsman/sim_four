@@ -1,78 +1,97 @@
 import axios from "axios";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import {
-  Checkbox,
-  Grid,
-  Input,
-  Icon,
   Table,
   Button,
+  Grid,
   GridRow,
   GridColumn,
   TableRow,
   TableBody,
-  TableHeader,
-  Header,
-  TableHeaderCell,
   TableCell,
-  Breadcrumb,
-  BreadcrumbDivider,
-  BreadcrumbSection,
-  Pagination,
 } from "semantic-ui-react";
+import { MasterUrl } from "../../Consts/Master/MasterUrl.const";
+import { getIdEntry } from "../../Double/fun";
 
-const records_per_page = 10;
-async function getPageData(records, pageno, mod2) {
-  let data = await axios.post(
-    `https://arya-erp.in/simranapi/master/getPageData.php`,
-    {
-      records: records,
-      pageno: pageno,
-      mod2: mod2,
-    }
+export async function loader({ params }) {
+  console.log(`inside loader itemview:`);
+  //console.log(params);
+
+  const data = await getIdEntry(
+    axios,
+    MasterUrl.getIdEntry,
+    params.itemId,
+    "items"
   );
-
-  return data.data;
-}
-// loader function for tUnit
-export async function loader() {
-  const data = await getPageData(records_per_page, 1, "units");
   console.log(data);
   return data;
 }
 
 const ItemView = () => {
-  const [showclass, setShowClass] = useState("noshow");
-  const showCl = () => {
-    const sh = showclass === "noshow" ? "nowshow" : "noshow";
-    setShowClass(sh);
-  };
+  const item = useLoaderData();
+  console.log(`itemView::`);
+  console.log(item);
 
+  const navigate = useNavigate();
+
+  const editItem = (id) => {
+    console.log(id);
+    navigate(`Edit`);
+  };
   return (
     <div>
-      <Breadcrumb>
-        <BreadcrumbSection as={Link} to="/">
-          Home
-        </BreadcrumbSection>
-        <BreadcrumbDivider icon="right chevron" />
-        <BreadcrumbSection as={Link} to="/master">
-          Master
-        </BreadcrumbSection>
-        <BreadcrumbDivider icon="right chevron" />
-        <BreadcrumbSection active>Item</BreadcrumbSection>
-      </Breadcrumb>
-      <div>
-        <Button color="teal" onClick={showCl}>
-          Modify
-        </Button>
-        <Button color="red" className={showclass}>
-          Delete
-        </Button>
-        <Button primary className={showclass}>
-          Add New
-        </Button>
-      </div>
+      <Grid verticalAlign="middle">
+        <GridRow centered color="blue" style={{ fontWeight: "900" }}>
+          <GridColumn textAlign="center" width={12}>
+            {item.name}
+          </GridColumn>
+          <GridColumn
+            floated="right"
+            width={4}
+            // color="red"
+            textAlign="right"
+            verticalAlign="middle"
+          >
+            <Button onClick={() => editItem(item.id)}>Edit</Button>
+            <Button>Delete</Button>
+          </GridColumn>
+        </GridRow>
+        <GridRow centered>
+          <Table style={{ maxWidth: "900px" }} celled>
+            <TableBody>
+              <TableRow>
+                <TableCell style={{ fontWeight: "900" }}>Type</TableCell>
+                <TableCell>{item.item_type}</TableCell>
+                <TableCell style={{ fontWeight: "900" }}>Color</TableCell>
+                <TableCell>{item.item_color}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell style={{ fontWeight: "900" }}>Price</TableCell>
+                <TableCell>{item.rate}</TableCell>
+                <TableCell style={{ fontWeight: "900" }}>Item Select</TableCell>
+                <TableCell>
+                  {item.item_select} {item.issue_unit}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell style={{ fontWeight: "900" }}>HSN Code</TableCell>
+                <TableCell>{item.hsn_code}</TableCell>
+                <TableCell style={{ fontWeight: "900" }}>MOQ</TableCell>
+                <TableCell>{item.moq}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell style={{ fontWeight: "900" }}>
+                  Date of Creation
+                </TableCell>
+                <TableCell>{item.dtd}</TableCell>
+                <TableCell style={{ fontWeight: "900" }}>Created By</TableCell>
+                <TableCell>{item.user}</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </GridRow>
+      </Grid>
     </div>
   );
 };

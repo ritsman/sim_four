@@ -1,19 +1,12 @@
 import React from "react";
-import { Form, redirect, useLoaderData } from "react-router-dom";
-// import React, { useState } from "react";
-// import './itemform.css'
-//import "../common.css";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { Form } from "react-router-dom";
+import { updateRecord } from "../../Double/fun";
 import axios from "axios";
 
 import {
   TableRow,
-  TableHeaderCell,
-  TableHeader,
   TableCell,
   TableBody,
-  Icon,
   Input,
   Table,
   Button,
@@ -26,37 +19,24 @@ const dropData = [
   { key: "Buyer", value: "Buyer", text: "Buyer" },
 ];
 
-async function update_contact(id, updates) {
-  console.log(`updates`);
-  console.log(updates);
-  axios
-    .post(`https://arya-erp.in/simranapi/update_contact.php?`, {
-      id: id,
-      updates: updates,
-    })
-    .then((response) => {
-      console.log(response);
-      toast.success(`DEfault Notificatiln!! ${response.data}`);
-    });
-}
 export async function action({ request, params }) {
   const formData = await request.formData();
   const updates = Object.fromEntries(formData);
   console.log(`formdata:`);
   console.log(updates);
   console.log(params);
-  await update_contact(params.partyId, updates);
+  await updateRecord(axios, params.partyId, updates, "party");
 
   return null;
-  //return redirect(`${params.partyId}`);
+  //return redirect(`/master/party/${params.partyId}`);
 }
 
-export default function Partyform({ data }) {
+export default function PartyForm({ data }) {
   return (
     <>
       <div className="item_form">
-        <Form method="post" action="/master/party/:partyId/Edit">
-          <h6 className="pl_10">Edit Item</h6>
+        <Form method="post">
+          <h2 className="pl_10">Party: {data.company_name}</h2>
           <Table celled striped>
             <TableBody>
               <TableRow>
@@ -67,6 +47,7 @@ export default function Partyform({ data }) {
                     className="form__input"
                     required
                     defaultValue={data.company_name}
+                    //error={true}
                   />
                 </TableCell>
                 <TableCell>
@@ -195,7 +176,7 @@ export default function Partyform({ data }) {
                 <TableCell>
                   <div className="select_field">
                     <Select
-                      placeholder="Item Select"
+                      placeholder="Role"
                       options={dropData}
                       required
                       defaultValue={data.role}

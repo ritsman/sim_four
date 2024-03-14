@@ -10,43 +10,44 @@ import {
   GridColumn,
   TableRow,
   TableBody,
-  TableHeader,
-  Header,
-  TableHeaderCell,
   TableCell,
 } from "semantic-ui-react";
+import { MasterUrl } from "../../Consts/Master/MasterUrl.const";
+import { getIdEntry } from "../../Double/fun";
 
 export async function loader({ params }) {
   console.log(`inside loader unitview:`);
   //console.log(params);
 
-  const data = await get_unit_info(params.unitId);
+  const data = await getIdEntry(
+    axios,
+    MasterUrl.getIdEntry,
+    params.unitId,
+    "unit"
+  );
   //console.log(data);
   return data;
 }
-async function get_unit_info(id) {
-  const info_pages = await axios.get(
-    `https://arya-erp.in/simranapi/master/get_unit.php?unit=${id}`
-  );
-  console.log(info_pages.data);
-  return info_pages.data;
-}
 
 const UnitView = () => {
-  const { unit } = useLoaderData();
+  const unit = useLoaderData();
+
   console.log(`unitView::`);
-  console.log(units_data);
+  console.log(unit);
+
   const navigate = useNavigate();
 
-  const editParty = (id) => {
-    console.log(id);
+  const editUnit = (id) => {
+    //console.log(id);
     navigate(`Edit`);
   };
   return (
     <div>
       <Grid verticalAlign="middle">
         <GridRow centered color="blue" style={{ fontWeight: "900" }}>
-          <GridColumn textAlign="center" width={12}></GridColumn>
+          <GridColumn textAlign="center" width={12}>
+            {unit.unit_name}
+          </GridColumn>
           <GridColumn
             floated="right"
             width={4}
@@ -54,7 +55,7 @@ const UnitView = () => {
             textAlign="right"
             verticalAlign="middle"
           >
-            <Button onClick={() => editParty(unit.id)}>Edit</Button>
+            <Button onClick={() => editUnit(unit.id)}>Edit</Button>
             <Button>Delete</Button>
           </GridColumn>
         </GridRow>
@@ -63,9 +64,9 @@ const UnitView = () => {
             <TableBody>
               <TableRow>
                 <TableCell style={{ fontWeight: "900" }}>Unit Name</TableCell>
-                <TableCell>kilogram</TableCell>
+                <TableCell>{unit.unit_name}</TableCell>
                 <TableCell style={{ fontWeight: "900" }}>Short Name</TableCell>
-                <TableCell>KG</TableCell>
+                <TableCell>{unit.short_name}</TableCell>
               </TableRow>
             </TableBody>
           </Table>

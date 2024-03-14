@@ -1,5 +1,10 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { getPageInfo, getPageData, putNewId } from "../../Double/fun";
+import {
+  MasterUrl,
+  records_per_page,
+} from "../../Consts/Master/MasterUrl.const";
 import { Link, useLoaderData, useNavigate } from "react-router-dom";
 import {
   Checkbox,
@@ -21,25 +26,11 @@ import {
   BreadcrumbSection,
   Pagination,
 } from "semantic-ui-react";
-import { getPageInfo, getPageData, putNewId } from "../../Double/fun";
-import {
-  MasterUrl,
-  records_per_page,
-} from "../../Consts/Master/MasterUrl.const";
-import "../../css/Master/master.css";
-
-const header = [
-  " ",
-  "Item Name",
-  "Item Type",
-  "Item Color",
-  "Buffer Unit",
-  "Specification",
-  "Rate",
-];
+//get * from units table
+const header = [" ", "Unit Name", "Short Name"];
 
 //get total no of pages from items table
-const totalRecords = await getPageInfo(axios, MasterUrl.getPageInfo, "items");
+const totalRecords = await getPageInfo(axios, MasterUrl.getPageInfo, "unit");
 const totalPages = Math.ceil(totalRecords / records_per_page);
 
 // loader function for Unit
@@ -49,25 +40,19 @@ export async function loader() {
     MasterUrl.getPageData,
     records_per_page,
     1,
-    "items"
+    "unit"
   );
   console.log(data);
   return data;
 }
 
 // main function====================================
-export default function Item() {
+export default function Unit() {
   const data = useLoaderData();
-  const navigate = useNavigate();
-  const [pageData, setpageData] = useState(data);
-  console.log(`itemsData:`);
+  const [pageData, setPageData] = useState(data);
+  console.log(`unitsData:`);
   console.log(pageData);
   const [showclass, setShowClass] = useState("noshow");
-  const showCl = () => {
-    const sh = showclass === "noshow" ? "nowshow" : "noshow";
-    setShowClass(sh);
-  };
-
   const chkstat = {};
   pageData.forEach((val, ind) => {
     //console.log(`v:${val.id}::i:${ind}`);
@@ -78,12 +63,19 @@ export default function Item() {
   //console.log(chkstat);
   const [chkstat2, setChkStat2] = useState(chkstat);
 
+  const navigate = useNavigate();
+
   const addNew = async () => {
-    const id2 = await putNewId(axios, MasterUrl.putNewId, "items");
+    const id2 = await putNewId(axios, MasterUrl.putNewId, "unit");
     console.log(`id2:${id2}`);
 
     return navigate(`${id2}/Edit`);
     //return null;
+  };
+
+  const showCl = () => {
+    const sh = showclass === "noshow" ? "nowshow" : "noshow";
+    setShowClass(sh);
   };
 
   const leadSet = (event) => {
@@ -125,7 +117,7 @@ export default function Item() {
       MasterUrl.getPageData,
       records_per_page,
       data.activePage,
-      "items"
+      "unit"
     );
     setpageData(newpageData);
   };
@@ -136,6 +128,16 @@ export default function Item() {
     navigate(`${id}`);
   };
 
+  const editRecord = (e, data, id) => {
+    console.log(e);
+    console.log(data);
+    console.log(id);
+    //e.stopPropagation();
+
+    navigate(`${id}/Edit`);
+    e.preventDefault();
+    e.stopPropagation();
+  };
   return (
     <div>
       <Breadcrumb>
@@ -147,11 +149,8 @@ export default function Item() {
           Master
         </BreadcrumbSection>
         <BreadcrumbDivider icon="right chevron" />
-        <BreadcrumbSection active>Item</BreadcrumbSection>
+        <BreadcrumbSection active>Unit</BreadcrumbSection>
       </Breadcrumb>
-      <br />
-      {pageData.id}
-      {totalPages}
       <div>
         <Button color="teal" onClick={showCl}>
           Modify
@@ -159,15 +158,18 @@ export default function Item() {
         <Button color="red" className={showclass} onClick={delObj}>
           Delete
         </Button>
-        <Button primary className={showclass} onClick={addNew}>
+        <Button primary onClick={addNew} className={showclass}>
           Add New
         </Button>
       </div>
       <div style={{ overflowX: "scroll" }}>
         <Table>
-          <Table.Header>
+          <Table.Header style={{ backgroundColor: "blue" }}>
             <Table.Row>
-              <Table.HeaderCell className={showclass}>
+              <Table.HeaderCell
+                className={showclass}
+                style={{ backgroundColor: "blue" }}
+              >
                 <input type="checkbox" onChange={(event) => leadSet(event)} />
               </Table.HeaderCell>
               {header.map((h) => (
@@ -176,21 +178,20 @@ export default function Item() {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {pageData.map((item) => (
-              <Table.Row onClick={() => show_record(item.id)} key={item.id}>
+            {pageData.map((contact) => (
+              <Table.Row
+                onClick={() => show_record(contact.id)}
+                key={contact.id}
+              >
                 <Table.Cell>
                   <Checkbox
-                    checked={chkstat2[item.id]}
-                    onChange={(event, data) => setTick(item, event, data)}
-                    name={item.id}
+                    checked={chkstat2[contact.id]}
+                    onChange={(event, data) => setTick(contact, event, data)}
+                    name={contact.id}
                   />
                 </Table.Cell>
-                <Table.Cell>{item.name}</Table.Cell>
-                <Table.Cell>{item.item_type}</Table.Cell>
-                <Table.Cell>{item.item_color}</Table.Cell>
-                <Table.Cell>{item.buffer_unit}</Table.Cell>
-                <Table.Cell>{item.specification}</Table.Cell>
-                <Table.Cell>{item.rate}</Table.Cell>
+                <Table.Cell>{contact.unit_name}</Table.Cell>
+                <Table.Cell>{contact.short_name}</Table.Cell>
               </Table.Row>
             ))}
           </Table.Body>
@@ -200,7 +201,7 @@ export default function Item() {
         defaultActivePage={1}
         totalPages={totalPages}
         onPageChange={pageChange}
-      />
+      />{" "}
     </div>
   );
 }

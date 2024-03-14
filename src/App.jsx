@@ -1,23 +1,22 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RootLayout from "./RootLayout";
 import ErrorPage from "./Pages/error-page";
-import Party from "./Pages/Master/Party";
+import Party2, { loader as partyLoader } from "./Pages/Master/Party2";
 import PartyView, { loader as viewLoader } from "./Pages/Master/Party-View";
-// import PartyEdit, {
-//   action as editAction,
-//   loader as contactLoader,
-// } from "./Pages/Master/Party-Edit"; //action as editAction, // loader as contactLoader,
 import PartyEdit, { loader as editLoader } from "./Pages/Master/Party-Edit"; //action as editAction, // loader as contactLoader,
-import { action as editAction } from "./Pages/Master/Partyform";
-import { action as subActUnit } from "./Pages/Master/Unitpara";
+import { action as editAction } from "./Pages/Master/PartyForm";
 import Master from "./Pages/Master/Master";
 import Dashboard from "./Pages/Dashboard";
 import MasterIndex from "./Pages/Master/Master-Index";
 import LoginForm from "./Pages/Login";
-import Unit, { loader as unitLoader } from "./Pages/Master/Unit";
+import Unit2, { loader as unitLoader } from "./Pages/Master/Unit2";
 import UnitView, { loader as unitViewLoader } from "./Pages/Master/UnitView";
 import ItemView, { loader as itemViewLoader } from "./Pages/Master/ItemView";
 import Item, { loader as itemLoader } from "./Pages/Master/Item";
+import ItemEdit, { loader as itemEditLoader } from "./Pages/Master/ItemEdit";
+import UnitEdit, { loader as unitEditLoader } from "./Pages/Master/UnitEdit";
+import { action as unitEditAction } from "./Pages/Master/UnitForm";
+import { action as itemEditAction } from "./Pages/Master/ItemForm";
 
 const router = createBrowserRouter([
   {
@@ -39,7 +38,8 @@ const router = createBrowserRouter([
           },
           {
             path: "party/",
-            element: <Party />,
+            element: <Party2 />,
+            loader: partyLoader,
           },
           {
             path: "party/:partyId/Edit",
@@ -54,7 +54,7 @@ const router = createBrowserRouter([
           },
           {
             path: "unit",
-            element: <Unit />,
+            element: <Unit2 />,
             loader: unitLoader,
           },
           {
@@ -62,6 +62,13 @@ const router = createBrowserRouter([
             element: <UnitView />,
             loader: unitViewLoader,
           },
+          {
+            path: "unit/:unitId/Edit",
+            element: <UnitEdit />,
+            loader: unitEditLoader,
+            action: unitEditAction,
+          },
+
           {
             path: "item",
             element: <Item />,
@@ -71,6 +78,12 @@ const router = createBrowserRouter([
             path: "item/:itemId",
             element: <ItemView />,
             loader: itemViewLoader,
+          },
+          {
+            path: "item/:itemId/Edit",
+            element: <ItemEdit />,
+            loader: itemEditLoader,
+            action: itemEditAction,
           },
         ],
       },

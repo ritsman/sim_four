@@ -1,6 +1,5 @@
-import { useLoaderData, Form, redirect, useNavigate } from "react-router-dom";
+import { useLoaderData, redirect, useNavigate } from "react-router-dom";
 import {
-  Input,
   Table,
   Button,
   Grid,
@@ -8,42 +7,41 @@ import {
   GridColumn,
   TableRow,
   TableBody,
-  TableHeader,
-  Header,
-  TableHeaderCell,
   TableCell,
 } from "semantic-ui-react";
 
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import { MasterUrl } from "../../Consts/Master/MasterUrl.const";
+import { getIdEntry } from "../../Double/fun";
 
 export async function loader({ params }) {
   console.log(`inside loader partyview:`);
   //console.log(params);
 
-  const data = await get_contact_info(params.partyId);
-  //console.log(data);
+  const data = await getIdEntry(
+    axios,
+    MasterUrl.getIdEntry,
+    params.partyId,
+    "party"
+  );
+  console.log(data);
   return data;
 }
-async function get_contact_info(id) {
-  const info_pages = await axios.get(
-    `https://arya-erp.in/simranapi/get_contact.php?party=${id}`
-  );
-  console.log(info_pages.data);
-  return info_pages.data;
-}
-
-//edit btn
 
 export default function PartyView() {
   const contact = useLoaderData();
+
   console.log(`contactView::`);
   console.log(contact);
+
   const navigate = useNavigate();
+
   const editParty = (id) => {
-    console.log(id);
+    //console.log(id);
     navigate(`Edit`);
   };
+
   return (
     <Grid verticalAlign="middle">
       <GridRow centered color="blue" style={{ fontWeight: "900" }}>

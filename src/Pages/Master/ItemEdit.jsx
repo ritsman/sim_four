@@ -1,10 +1,10 @@
 import { useLoaderData, Form, redirect, useNavigate } from "react-router-dom";
-
 import * as React from "react";
+import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-import PartyForm from "./PartyForm";
-import { getIdEntry } from "../../Double/fun";
+import ItemForm from "./ItemForm";
 import { MasterUrl } from "../../Consts/Master/MasterUrl.const";
+import { getIdEntry } from "../../Double/fun";
 
 export async function loader({ params }) {
   //console.log(params);
@@ -12,20 +12,19 @@ export async function loader({ params }) {
   const data = await getIdEntry(
     axios,
     MasterUrl.getIdEntry,
-    params.partyId,
-    "party"
+    params.itemId,
+    "items"
   );
   //console.log(`inside loader unit edit:`);
   //console.log(data);
   return data;
 }
-
-export default function PartyEdit() {
+export default function ItemEdit() {
   const data = useLoaderData();
 
   return (
     <div>
-      <PartyForm data={data} />
+      <ItemForm data={data} />
     </div>
   );
 }
