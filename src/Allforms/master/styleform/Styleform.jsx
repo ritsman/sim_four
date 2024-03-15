@@ -1,9 +1,9 @@
 import React from 'react'
-import { Form } from 'react-router-dom'
+import { Form,  useActionData } from 'react-router-dom'
 // import '../commoncss/common.css'
 // import './styleform.css'
 import '../../master/master-common.css'
-
+import Validation from '../Validation'
 import {
     TableRow,
     TableHeaderCell,
@@ -17,6 +17,7 @@ import {
     Select,
 } from 'semantic-ui-react'
 
+
 const dropData = [
     { key: 'supplier', value: 'supplier', text: 'supplier' },
     { key: 'vender', value: 'vender', text: 'venders' },
@@ -24,34 +25,43 @@ const dropData = [
 ]
 
 
+export async function action({request,param}) {
+    // console.log(request)
 
+    const formdata=await request.formData();
+    const updates = Object.fromEntries(formdata);
+    console.log('Form Data:', updates);
+    const validationErrors = Validation(updates);
+    return validationErrors;}
 export default function Styleform() {
+    const validationData = useActionData(); 
+
     return (
         <>
             <div className='item_form'>
-                <Form method="post">
+                <Form method="post" >
                 <div className='top_style'>
                     <label htmlFor="">Style :</label>
-                    <Input placeholder='Style Id' />
+                    <Input name='style_id' placeholder='Style Id' error={validationData?.style_id} />
                 </div>
                     <h6 className='pl_10'>General</h6>
                     <Table celled striped>
                         <TableBody>
                             <TableRow>
-                                <TableCell ><Input placeholder='Style Name*' name='style_name' className='form__input' /></TableCell>
-                                <TableCell><Input  name='ref_name' placeholder='Ref Name*' /></TableCell>
-                                <TableCell ><Input name='season' placeholder='Season*' /></TableCell>
-                                <TableCell><Input name='style_categor' placeholder='Category*' /></TableCell>
+                                <TableCell ><Input placeholder='Style Name*' name='style_name' className='form__input' error={validationData?.style_name}  /></TableCell>
+                                <TableCell><Input  name='ref_name' placeholder='Ref Name*' error={validationData?.ref_name}  /></TableCell>
+                                <TableCell ><Input name='season' placeholder='Season*'error={validationData?.season} /></TableCell>
+                                <TableCell><Input name='style_categor' placeholder='Category*'error={validationData?.style_categor}  /></TableCell>
                             </TableRow>
                             <TableRow>
                                 
-                                <TableCell><Input name='designer' placeholder='Designer*' /></TableCell>
-                                <TableCell><Input name='misc1' placeholder='MISC 1*' /></TableCell>
-                                <TableCell ><Input name='misc2' placeholder='MISC 2*' /></TableCell>
-                                <TableCell><Input name='misc3' placeholder='MISC 3*' /></TableCell>
+                                <TableCell><Input name='designer' placeholder='Designer*'error={validationData?.designer}  /></TableCell>
+                                <TableCell><Input name='misc1' placeholder='MISC 1*' error={validationData?.misc1}  /></TableCell>
+                                <TableCell ><Input name='misc2' placeholder='MISC 2*' error={validationData?.misc2}  /></TableCell>
+                                <TableCell><Input name='misc3' placeholder='MISC 3*' error={validationData?.misc3}  /></TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell ><Input name='misc4' placeholder='MISC 4*' /></TableCell>
+                                <TableCell ><Input name='misc4' placeholder='MISC 4*' error={validationData?.misc4}  /></TableCell>
                             </TableRow>
                            
                            

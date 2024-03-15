@@ -1,7 +1,8 @@
-import React from 'react'
-import { Form,  } from "react-router-dom";
-import { useState } from 'react'
+
+import{ Form, useActionData, } from "react-router-dom";
+import React from 'react';
 import '../unit/Unitpara.css'
+// import '../../master/Validation'
 import {
     TableRow,
     TableHeaderCell,
@@ -19,32 +20,23 @@ import {
     TextArea,
     IconGroup,
 } from 'semantic-ui-react'
+import Validation from "../Validation";
 
+export async function action({request,param}) {
+    // console.log(request)
 
-
+    const formdata=await request.formData();
+    const updates = Object.fromEntries(formdata);
+    console.log('Form Data:', updates);
+    const validationErrors = Validation(updates);
+    return validationErrors; 
+}
 
 export default function LocationForm() {
-    // const [searchParams, setSearchParams] = useSearchParams()
-    const [errors, setErrors] = useState({})
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);      
-        const updates = Object.fromEntries(formData);
-        console.log('Form Data:', updates);
-        if (validateForm(updates)) {       
-        }
-    };
-    const validateForm = (data) => {
-        const newErrors = {}; 
-        if (!data.unit_name) {
-            newErrors.unit_name = "Item Name is required";
-        } 
-        if (!data.description) {
-            newErrors.description = "Item Name is required";
-        } 
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
+    const validationData = useActionData(); 
+
+   
+        
     const plus = {
         color:'black !important' ,
         width:'30px',
@@ -59,14 +51,6 @@ export default function LocationForm() {
         background:'transparent',
         padding:'0',
        };
-    //    const close = {
-    //     width:'30px',
-    //     height:'30px',
-    //     borderRadius:'50%',
-    //     display:'flex',
-    //     justifyContent:'center',
-    //     alignItems:'center',
-    //    };
        const tableStyle = {
         border: 'none !important',
        };
@@ -78,12 +62,9 @@ export default function LocationForm() {
        };
   return (
     <div className='center_box'>
-        <Form method="post" onSubmit={handleSubmit} className=''>
+        <Form method="post" className=''>
             <div className='table-responsive'>
-           {/* <div className=''> */}
            <h6 className='main_head'>Edit Item</h6>
-           {/* </div> */}
-
                 <Table celled striped style={tableStyle} className='table-responsive'>
                     <TableHeader>
                         <TableRow style={tableStyle}>
@@ -93,13 +74,13 @@ export default function LocationForm() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {/* {data.map((ele) => */}
                             <TableRow > 
                                 <TableCell style={icons_cell}><Button style={plus_button}> <Icon className='close_btn' name="close" onClick={()=>{}}/></Button></TableCell>
-                                <TableCell  ><Input error={errors.unit_name} placeholder='Unit Name*' name='unit_name' style={input_width} /></TableCell>
+                                <TableCell  ><Input  placeholder='Unit Name*' name='unit_name' style= {input_width}  error={validationData?.unit_name} />
+                                </TableCell>
                                 <TableCell  > 
                                 <div className='p_10'>
-                                <TextArea error={errors.description} name='description' placeholder='Description*' style={{ minHeight: 80 }} />
+                                <TextArea  name='description' placeholder='Description*' style={{ minHeight: 80 }} error={validationData?.Description} />
                                 </div>
                                 </TableCell>
                             </TableRow>
