@@ -3,8 +3,8 @@ import RootLayout from "./RootLayout";
 import ErrorPage from "./Pages/error-page";
 import Party2, { loader as partyLoader } from "./Pages/Master/Party2";
 import PartyView, { loader as viewLoader } from "./Pages/Master/Party-View";
-import PartyEdit, { loader as editLoader } from "./Pages/Master/Party-Edit"; //action as editAction, // loader as contactLoader,
-import { action as editAction } from "./Pages/Master/PartyForm";
+import PartyEdit, { loader as editLoader } from "./Pages/Master/Party-Edit";
+import { action as editAction } from "./Pages/Master/Partyformm";
 import Master from "./Pages/Master/Master";
 import Dashboard from "./Pages/Dashboard";
 import MasterIndex from "./Pages/Master/Master-Index";
@@ -17,6 +17,7 @@ import ItemEdit, { loader as itemEditLoader } from "./Pages/Master/ItemEdit";
 import UnitEdit, { loader as unitEditLoader } from "./Pages/Master/UnitEdit";
 import { action as unitEditAction } from "./Pages/Master/UnitForm";
 import { action as itemEditAction } from "./Pages/Master/ItemForm";
+import MyForm from "./Pages/MyForm";
 
 const router = createBrowserRouter([
   {

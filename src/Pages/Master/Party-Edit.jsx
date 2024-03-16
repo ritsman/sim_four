@@ -5,6 +5,7 @@ import axios from "axios";
 import PartyForm from "./PartyForm";
 import { getIdEntry } from "../../Double/fun";
 import { MasterUrl } from "../../Consts/Master/MasterUrl.const";
+import Partyformm from "./Partyformm";
 
 export async function loader({ params }) {
   //console.log(params);
@@ -25,7 +26,8 @@ export default function PartyEdit() {
 
   return (
     <div>
-      <PartyForm data={data} />
+      <Partyformm data={data} />
+      {/* <PartyForm data={data} /> */}
     </div>
   );
 }

@@ -137,7 +137,7 @@ export default function Item() {
   };
 
   return (
-    <div>
+    <>
       <Breadcrumb>
         <BreadcrumbSection as={Link} to="/">
           Home
@@ -149,58 +149,66 @@ export default function Item() {
         <BreadcrumbDivider icon="right chevron" />
         <BreadcrumbSection active>Item</BreadcrumbSection>
       </Breadcrumb>
-      <br />
-      {pageData.id}
-      {totalPages}
-      <div>
-        <Button color="teal" onClick={showCl}>
-          Modify
-        </Button>
-        <Button color="red" className={showclass} onClick={delObj}>
-          Delete
-        </Button>
-        <Button primary className={showclass} onClick={addNew}>
-          Add New
-        </Button>
-      </div>
-      <div style={{ overflowX: "scroll" }}>
-        <Table>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell className={showclass}>
-                <input type="checkbox" onChange={(event) => leadSet(event)} />
-              </Table.HeaderCell>
-              {header.map((h) => (
-                <Table.HeaderCell key={h}>{h}</Table.HeaderCell>
-              ))}
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {pageData.map((item) => (
-              <Table.Row onClick={() => show_record(item.id)} key={item.id}>
-                <Table.Cell>
-                  <Checkbox
-                    checked={chkstat2[item.id]}
-                    onChange={(event, data) => setTick(item, event, data)}
-                    name={item.id}
-                  />
-                </Table.Cell>
-                <Table.Cell>{item.name}</Table.Cell>
-                <Table.Cell>{item.item_type}</Table.Cell>
-                <Table.Cell>{item.item_color}</Table.Cell>
-                <Table.Cell>{item.buffer_unit}</Table.Cell>
-                <Table.Cell>{item.specification}</Table.Cell>
-                <Table.Cell>{item.rate}</Table.Cell>
+      <Grid verticalAlign="middle">
+        <GridRow centered color="blue" style={{ fontWeight: "900" }}>
+          <GridColumn
+            floated="right"
+            width={4}
+            // color="red"
+            textAlign="right"
+            verticalAlign="middle"
+          >
+            <Button color="teal" onClick={showCl}>
+              Modify
+            </Button>
+            <Button color="red" className={showclass} onClick={delObj}>
+              Delete
+            </Button>
+            <Button primary onClick={addNew} className={showclass}>
+              Add New
+            </Button>
+          </GridColumn>
+        </GridRow>
+        <GridRow centered>
+          <Table style={{ maxWidth: "1490px" }}>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell className={showclass}>
+                  <input type="checkbox" onChange={(event) => leadSet(event)} />
+                </Table.HeaderCell>
+                {header.map((h) => (
+                  <Table.HeaderCell key={h}>{h}</Table.HeaderCell>
+                ))}
               </Table.Row>
-            ))}
-          </Table.Body>
-        </Table>
-      </div>
+            </Table.Header>
+            <Table.Body>
+              {pageData.map((item) => (
+                <Table.Row onClick={() => show_record(item.id)} key={item.id}>
+                  <Table.Cell>
+                    <Checkbox
+                      checked={chkstat2[item.id]}
+                      onChange={(event, data) => setTick(item, event, data)}
+                      name={item.id}
+                    />
+                  </Table.Cell>
+                  <Table.Cell>{item.name}</Table.Cell>
+                  <Table.Cell>{item.item_type}</Table.Cell>
+                  <Table.Cell>{item.item_color}</Table.Cell>
+                  <Table.Cell>{item.buffer_unit}</Table.Cell>
+                  <Table.Cell>{item.specification}</Table.Cell>
+                  <Table.Cell>{item.rate}</Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table>
+        </GridRow>
+      </Grid>
       <Pagination
+        floated="right"
         defaultActivePage={1}
         totalPages={totalPages}
         onPageChange={pageChange}
       />
-    </div>
+    </>
   );
 }

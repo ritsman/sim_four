@@ -1,6 +1,7 @@
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
+
 import {
   Input,
   Table,
@@ -11,9 +12,12 @@ import {
   TableRow,
   TableBody,
   TableCell,
+  Message,
+  MessageHeader,
 } from "semantic-ui-react";
 import { MasterUrl } from "../../Consts/Master/MasterUrl.const";
 import { getIdEntry } from "../../Double/fun";
+//import "./partyForm.css";
 
 export async function loader({ params }) {
   console.log(`inside loader unitview:`);
@@ -41,8 +45,19 @@ const UnitView = () => {
     //console.log(id);
     navigate(`Edit`);
   };
+  const [del, setDel] = useState(false);
+  const [visible, setVisible] = useState(true);
+
+  const deleteUnit = (id) => {
+    setDel(true);
+  };
+
+  const handleDismiss = () => {
+    setVisible(false);
+  };
+
   return (
-    <div>
+    <>
       <Grid verticalAlign="middle">
         <GridRow centered color="blue" style={{ fontWeight: "900" }}>
           <GridColumn textAlign="center" width={12}>
@@ -56,11 +71,16 @@ const UnitView = () => {
             verticalAlign="middle"
           >
             <Button onClick={() => editUnit(unit.id)}>Edit</Button>
-            <Button>Delete</Button>
+            <Button onClick={() => deleteUnit(unit.id)}>Delete</Button>
           </GridColumn>
         </GridRow>
         <GridRow centered>
-          <Table style={{ maxWidth: "900px" }} celled>
+          <Table
+            className="borderless-table"
+            basic="very"
+            //collapsing
+            style={{ maxWidth: "1200px" }}
+          >
             <TableBody>
               <TableRow>
                 <TableCell style={{ fontWeight: "900" }}>Unit Name</TableCell>
@@ -72,7 +92,18 @@ const UnitView = () => {
           </Table>
         </GridRow>
       </Grid>
-    </div>
+      {del && visible && (
+        <Message warning style={{ textAlign: "center" }}>
+          <MessageHeader>
+            Are you sure you want to delete this entry?
+          </MessageHeader>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <Button>Yes</Button>
+            <Button onClick={handleDismiss}>No</Button>
+          </div>
+        </Message>
+      )}
+    </>
   );
 };
 
