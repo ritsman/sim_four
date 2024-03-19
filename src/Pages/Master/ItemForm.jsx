@@ -277,12 +277,12 @@ export default function ItemForm({ data }) {
                     verticalAlign="middle"
                     style={{ fontWeight: "900" }}
                   >
-                    Purchase Issue Atio
+                    Purchase Issue Ratio
                   </TableCell>
                   <TableCell>
                     <Input
                       name="purchase_issue_atio"
-                      placeholder="Purchase Issue Atio*"
+                      placeholder="Purchase Issue Ratio*"
                       defaultValue={data.purchase_issue_atio}
                       error={errors?.purchase_issue_atio}
                     />
@@ -342,7 +342,7 @@ export default function ItemForm({ data }) {
                   </TableCell>
                   <TableCell>
                     <Input
-                      name="Specification"
+                      name="specification"
                       placeholder="specification*"
                       defaultValue={data.specification}
                       error={errors?.specification}
