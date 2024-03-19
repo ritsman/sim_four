@@ -12,6 +12,7 @@ import {
   Button,
   Select,
 } from "semantic-ui-react";
+import { toast, ToastContainer } from "react-toastify";
 
 const dropData = [
   { key: "supplier", value: "supplier", text: "supplier" },
@@ -25,10 +26,10 @@ export async function action({ request, params }) {
   console.log(`formdata:`);
   console.log(updates);
   console.log(params);
-  await updateRecord(axios, params.partyId, updates, "party");
+  await updateRecord(axios, params.partyId, updates, "party", toast);
 
-  return null;
-  //return redirect(`/master/party/${params.partyId}`);
+  // return null;
+  return redirect(`/master/party/${params.partyId}`);
 }
 
 export default function PartyForm({ data }) {

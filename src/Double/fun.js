@@ -39,7 +39,7 @@ export async function putNewId(axios, url, mod2) {
 }
 
 //update record in master-sub-module
-export async function updateRecord(axios, id, updates, mod2) {
+export async function updateRecord(axios, id, updates, mod2, toast) {
   //console.log(`updates`);
   //console.log(updates);
   await axios
@@ -54,7 +54,9 @@ export async function updateRecord(axios, id, updates, mod2) {
     )
     .then((response) => {
       console.log(response.data);
-      //toast.success(`DEfault Notificatiln!! ${response.data}`);
+      if (response.data == "success") {
+        toast.success(`DEfault Notificatiln!! ${response.data}`);
+      }
     });
 }
 //get data against single id in master module

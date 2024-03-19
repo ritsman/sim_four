@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form, redirect, useActionData } from "react-router-dom";
 import { getPageData, updateRecord } from "../../Double/fun";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
 import "./partyForm.css";
 import {
   Grid,
@@ -36,7 +37,7 @@ export async function action({ request, params }) {
     console.log(error);
     return error;
   } else {
-    await updateRecord(axios, params.itemId, updates, "item");
+    await updateRecord(axios, params.itemId, updates, "item", toast);
 
     return redirect(`/master/item/${params.itemId}`);
   }
@@ -88,6 +89,7 @@ export default function ItemForm({ data }) {
             >
               <Button>Submit</Button>
               <Button>Cancel</Button>
+              <ToastContainer />
             </GridColumn>
           </GridRow>
           <GridRow centered>

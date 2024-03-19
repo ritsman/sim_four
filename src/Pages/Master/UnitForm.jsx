@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Form, redirect, useActionData, useLoaderData } from "react-router-dom";
 import { getPageData, updateRecord } from "../../Double/fun";
 import "react-toastify/dist/ReactToastify.css";
+import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 import "./partyForm.css";
 
@@ -36,9 +37,9 @@ export async function action({ request, params }) {
     console.log(error);
     return error;
   } else {
-    // await updateRecord(axios, params.unitId, updates, "unit");
-    return null;
-    //return redirect(`/master/unit/${params.unitId}`);
+    await updateRecord(axios, params.unitId, updates, "unit", toast);
+    //return null;
+    return redirect(`/master/unit/${params.unitId}`);
   }
 
   //return null;
@@ -90,6 +91,7 @@ export default function UnitForm({ data }) {
               textAlign="right"
               verticalAlign="middle"
             >
+              <ToastContainer />
               <Button>Submit</Button>
               <Button>Cancel</Button>
             </GridColumn>
