@@ -17,7 +17,8 @@ import ItemEdit, { loader as itemEditLoader } from "./Pages/Master/ItemEdit";
 import UnitEdit, { loader as unitEditLoader } from "./Pages/Master/UnitEdit";
 import { action as unitEditAction } from "./Pages/Master/UnitForm";
 import { action as itemEditAction } from "./Pages/Master/ItemForm";
-import MyForm from "./Pages/MyForm";
+import MyForm from "./Pages/Master/MyForm";
+import NavigationPane from "./Components/NavigationPane";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,11 @@ const router = createBrowserRouter([
         path: "dashboard/",
         element: <Dashboard />,
       },
+      {
+        path: "navigate/",
+        element: <NavigationPane />,
+      },
+
       {
         path: "master/",
         element: <Master />,

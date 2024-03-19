@@ -1,6 +1,6 @@
-import React from "react";
-import { Form, redirect, useActionData, useLoaderData } from "react-router-dom";
-import { updateRecord } from "../../Double/fun";
+import React, { useState, useEffect } from "react";
+import { Form, redirect, useActionData } from "react-router-dom";
+import { getPageData, updateRecord } from "../../Double/fun";
 import axios from "axios";
 import "./partyForm.css";
 import {
@@ -16,6 +16,8 @@ import {
   Select,
   Item,
 } from "semantic-ui-react";
+
+import { MasterUrl } from "../../Consts/Master/MasterUrl.const";
 
 const dropData = [
   { key: "one", value: "one", text: "One" },
@@ -55,6 +57,21 @@ const validation = (formData) => {
 
 export default function ItemForm({ data }) {
   const errors = useActionData();
+
+  const [post, setPost] = useState([]);
+
+  // useEffect(() => {
+  //   axios
+  //     .get(getPageData(axios, MasterUrl.getPageData, 10, 1, "items"))
+  //     .then((response) => {
+  //       setPost(response.data);
+  //     });
+  // }, []);
+  // console.log("inside post");
+  // console.log(post);
+
+  const [search, setSearch] = useState("");
+  const [isInputFocused, setInputFocused] = useState(false);
   return (
     <>
       <Form method="post">
@@ -135,19 +152,17 @@ export default function ItemForm({ data }) {
                     verticalAlign="middle"
                     style={{ fontWeight: "900" }}
                   >
-                    Quantity
+                    Item Select
                   </TableCell>
                   <TableCell>
-                    <div className="select_field">
-                      <Select
-                        name="item_select"
-                        placeholder="Item Select"
-                        options={dropData}
-                        defaultValue={data.item_select}
-                        error={errors?.item_select}
-                      />
-                    </div>
+                    <Input
+                      name="item_select"
+                      placeholder="Item Select*"
+                      defaultValue={data.item_select}
+                      error={errors?.item_select}
+                    />
                   </TableCell>
+
                   <TableCell
                     textAlign="center"
                     verticalAlign="middle"
@@ -232,6 +247,53 @@ export default function ItemForm({ data }) {
                     verticalAlign="middle"
                     style={{ fontWeight: "900" }}
                   >
+                    Opening Stock
+                  </TableCell>
+                  <TableCell>
+                    <Input
+                      name="opening_stock"
+                      placeholder="Opening Stock*"
+                      defaultValue={data.opening_stock}
+                      error={errors?.opening_stock}
+                    />
+                  </TableCell>
+                  <TableCell
+                    textAlign="center"
+                    verticalAlign="middle"
+                    style={{ fontWeight: "900" }}
+                  >
+                    Purchase Unit
+                  </TableCell>
+                  <TableCell>
+                    <Input
+                      name="purchase_unit"
+                      placeholder="Purchase Unit*"
+                      defaultValue={data.purchase_unit}
+                      error={errors?.purchase_unit}
+                    />
+                  </TableCell>
+                  <TableCell
+                    textAlign="center"
+                    verticalAlign="middle"
+                    style={{ fontWeight: "900" }}
+                  >
+                    Purchase Issue Atio
+                  </TableCell>
+                  <TableCell>
+                    <Input
+                      name="purchase_issue_atio"
+                      placeholder="Purchase Issue Atio*"
+                      defaultValue={data.purchase_issue_atio}
+                      error={errors?.purchase_issue_atio}
+                    />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell
+                    textAlign="center"
+                    verticalAlign="middle"
+                    style={{ fontWeight: "900" }}
+                  >
                     MOQ
                   </TableCell>
                   <TableCell>
@@ -267,6 +329,38 @@ export default function ItemForm({ data }) {
                       name="msc2"
                       placeholder="Msc2*"
                       defaultValue={data.msc2}
+                    />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell
+                    textAlign="center"
+                    verticalAlign="middle"
+                    style={{ fontWeight: "900" }}
+                  >
+                    Specification
+                  </TableCell>
+                  <TableCell>
+                    <Input
+                      name="Specification"
+                      placeholder="specification*"
+                      defaultValue={data.specification}
+                      error={errors?.specification}
+                    />
+                  </TableCell>
+                  <TableCell
+                    textAlign="center"
+                    verticalAlign="middle"
+                    style={{ fontWeight: "900" }}
+                  >
+                    User
+                  </TableCell>
+                  <TableCell>
+                    <Input
+                      name="user"
+                      placeholder="User*"
+                      defaultValue={data.user}
+                      error={errors?.user}
                     />
                   </TableCell>
                 </TableRow>

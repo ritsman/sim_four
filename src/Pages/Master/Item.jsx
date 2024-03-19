@@ -164,7 +164,7 @@ export default function Item() {
             <Button color="red" className={showclass} onClick={delObj}>
               Delete
             </Button>
-            <Button primary onClick={addNew} className={showclass}>
+            <Button color="green" onClick={addNew} className={showclass}>
               Add New
             </Button>
           </GridColumn>
@@ -186,6 +186,7 @@ export default function Item() {
                 <Table.Row onClick={() => show_record(item.id)} key={item.id}>
                   <Table.Cell>
                     <Checkbox
+                      className={showclass}
                       checked={chkstat2[item.id]}
                       onChange={(event, data) => setTick(item, event, data)}
                       name={item.id}

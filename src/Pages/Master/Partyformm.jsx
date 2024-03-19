@@ -12,7 +12,12 @@ import {
   TableRow,
   TableBody,
   TableCell,
+  Card,
+  CardContent,
+  CardHeader,
+  CardDescription,
 } from "semantic-ui-react";
+import { useEffect, useState } from "react";
 
 const dropData = [
   { key: "supplier", value: "supplier", text: "supplier" },
@@ -51,6 +56,19 @@ const validation = (formData) => {
 
 export default function Partyformm({ data }) {
   const errors = useActionData();
+
+  const [search, setSearch] = useState("");
+  const [post, setPost] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("https://arya-erp.in/simranapi/get_contacts.php")
+      .then((response) => {
+        setPost(response.data);
+      });
+  }, []);
+
+  const [isInputFocused, setInputFocused] = useState(false);
   return (
     <Form method="post">
       <Grid verticalAlign="middle">
@@ -68,6 +86,25 @@ export default function Partyformm({ data }) {
             <Button>Cancel</Button>
           </GridColumn>
         </GridRow>
+
+        {isInputFocused && (
+          <Grid.Column floated="right" width={3}>
+            <Card>
+              <CardContent>
+                <CardHeader>Company Names</CardHeader>
+                {post
+                  .filter((item) => {
+                    return search.toUpperCase() === ""
+                      ? item
+                      : item.company_name.includes(search);
+                  })
+                  .map((item) => (
+                    <CardDescription>{item.company_name}</CardDescription>
+                  ))}
+              </CardContent>
+            </Card>
+          </Grid.Column>
+        )}
         <GridRow centered>
           <Table
             className="borderless-table"
@@ -86,6 +123,9 @@ export default function Partyformm({ data }) {
                 </TableCell>
                 <TableCell>
                   <Input
+                    onFocus={() => setInputFocused(true)}
+                    onBlur={() => setInputFocused(false)}
+                    onChange={(e) => setSearch(e.target.value)}
                     placeholder="Company Name*"
                     name="company_name"
                     className="form__input"
@@ -181,13 +221,18 @@ export default function Partyformm({ data }) {
                 </TableCell>
                 <TableCell>
                   <div className="select_field">
-                    <Select
+                    {/* <Select
                       name="role"
                       placeholder="Role"
                       options={dropData}
                       defaultValue={data.role}
                       error={errors?.role}
-                    />
+                    /> */}
+                    <select name="role" id="role" defaultValue={data.role}>
+                      <option value="supplier">Supplier</option>
+                      <option value="buyer">Buyer</option>
+                      <option value="vender">Vender</option>
+                    </select>
                   </div>
                 </TableCell>
 

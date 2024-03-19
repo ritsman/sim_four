@@ -18,6 +18,7 @@ import {
   GridColumn,
   Grid,
 } from "semantic-ui-react";
+import { useEffect } from "react";
 //get * from units table
 const header = [
   " ",
@@ -172,7 +173,7 @@ export default function Unit() {
             <Button color="red" className={showclass} onClick={delObj}>
               Delete
             </Button>
-            <Button primary onClick={addNew} className={showclass}>
+            <Button color="green" onClick={addNew} className={showclass}>
               Add New
             </Button>
           </GridColumn>
@@ -197,6 +198,7 @@ export default function Unit() {
                 >
                   <Table.Cell>
                     <Checkbox
+                      className={showclass}
                       checked={chkstat2[contact.id]}
                       onChange={(event, data) => setTick(contact, event, data)}
                       name={contact.id}

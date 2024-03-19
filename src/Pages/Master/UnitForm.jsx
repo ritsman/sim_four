@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, redirect, useActionData, useLoaderData } from "react-router-dom";
-import { updateRecord } from "../../Double/fun";
+import { getPageData, updateRecord } from "../../Double/fun";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import "./partyForm.css";
@@ -15,7 +15,15 @@ import {
   Grid,
   GridRow,
   GridColumn,
+  Card,
+  CardContent,
+  CardHeader,
+  CardDescription,
 } from "semantic-ui-react";
+import {
+  MasterUrl,
+  records_per_page,
+} from "../../Consts/Master/MasterUrl.const";
 
 export async function action({ request, params }) {
   const formData = await request.formData();
@@ -28,13 +36,14 @@ export async function action({ request, params }) {
     console.log(error);
     return error;
   } else {
-    await updateRecord(axios, params.unitId, updates, "unit");
-
-    return redirect(`/master/unit/${params.unitId}`);
+    // await updateRecord(axios, params.unitId, updates, "unit");
+    return null;
+    //return redirect(`/master/unit/${params.unitId}`);
   }
 
   //return null;
 }
+
 const validation = (formData) => {
   const errors = {};
 
@@ -50,15 +59,23 @@ const validation = (formData) => {
 export default function UnitForm({ data }) {
   const errors = useActionData();
 
-  const [inputError, setInputError] = useState(false);
+  // const unit = useLoaderData();
+  // const [unitData, setUnitData] = useState(unit);
 
-  const validate = () => {
-    if (error) {
-      console.log(error);
-      setInputError(true);
-    }
-  };
+  const [post, setPost] = useState([]);
 
+  useEffect(() => {
+    axios
+      .get("https://arya-erp.in/simranapi/master/get_units.php")
+      .then((response) => {
+        setPost(response.data);
+      });
+  }, []);
+  console.log("inside post");
+  console.log(post);
+
+  const [search, setSearch] = useState("");
+  const [isInputFocused, setInputFocused] = useState(false);
   return (
     <>
       <Form method="post">
@@ -73,7 +90,7 @@ export default function UnitForm({ data }) {
               textAlign="right"
               verticalAlign="middle"
             >
-              <Button onClick={validate}>Submit</Button>
+              <Button>Submit</Button>
               <Button>Cancel</Button>
             </GridColumn>
           </GridRow>
@@ -95,10 +112,12 @@ export default function UnitForm({ data }) {
                   </TableCell>
                   <TableCell>
                     <Input
+                      onFocus={() => setInputFocused(true)}
+                      onBlur={() => setInputFocused(false)}
+                      onChange={(e) => setSearch(e.target.value)}
                       placeholder="Unit Name*"
                       name="unit_name"
                       className="form__input"
-                      //required
                       defaultValue={data.unit_name}
                       error={errors?.unit_name}
                     />
@@ -122,6 +141,25 @@ export default function UnitForm({ data }) {
               </TableBody>
             </Table>
           </GridRow>
+          {isInputFocused && (
+            <Grid.Column floated="right" width={3}>
+              <Card>
+                <CardContent>
+                  <CardHeader>Unit Names</CardHeader>
+
+                  {post
+                    .filter((item) => {
+                      return search.toUpperCase() === ""
+                        ? item
+                        : item.unit_name.includes(search);
+                    })
+                    .map((item) => (
+                      <CardDescription>{item.unit_name}</CardDescription>
+                    ))}
+                </CardContent>
+              </Card>
+            </Grid.Column>
+          )}
         </Grid>
       </Form>
     </>

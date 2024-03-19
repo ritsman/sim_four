@@ -20,7 +20,7 @@ import { getIdEntry } from "../../Double/fun";
 //import "./partyForm.css";
 
 export async function loader({ params }) {
-  console.log(`inside loader unitview:`);
+  //console.log(`inside loader unitview:`);
   //console.log(params);
 
   const data = await getIdEntry(

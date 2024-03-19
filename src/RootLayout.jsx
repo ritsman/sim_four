@@ -14,42 +14,49 @@ export default function RootLayout() {
   const handleItemClick = (e, { name }) => {
     setActiveItem(name);
     setVisible(true);
-    if (name == "master") {
-      navigate(`${name}`);
-    } else {
-      navigate(`master/${name}`);
-    }
+    // if (name == "master") {
+    //   navigate(`${name}`);
+    // } else {
+    //   navigate(`master/${name}`);
+    // }
+    // e.stopPropagation();
+    navigate(`${name}`);
     e.stopPropagation();
   };
 
   return (
-    <Grid>
-      <Grid.Row>
-        <Grid.Column
-          width={1}
-          color="red"
-          textAlign="center"
-          verticalAlign="middle"
-        >
-          <Icon
-            name="th"
-            size="big"
-            onClick={() => setVisible(!visible)}
-          ></Icon>
-        </Grid.Column>
-        <Grid.Column width={15}>
-          <Menubar activeItem={activeItem} handleItemClick={handleItemClick} />
-        </Grid.Column>
-      </Grid.Row>
-      <Grid.Row>
-        <Grid.Column width={16} style={{ height: "1000px" }}>
-          <SidebarCom
-            visible={visible}
-            change={setVisible}
-            sidemenu2={activeItem}
-          />
-        </Grid.Column>
-      </Grid.Row>
-    </Grid>
+    <>
+      <Grid>
+        <Grid.Row>
+          <Grid.Column
+            width={1}
+            color="red"
+            textAlign="center"
+            verticalAlign="middle"
+          >
+            <Icon
+              name="th"
+              size="big"
+              onClick={() => setVisible(!visible)}
+            ></Icon>
+          </Grid.Column>
+          <Grid.Column width={15}>
+            <Menubar
+              activeItem={activeItem}
+              handleItemClick={handleItemClick}
+            />
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column width={16} style={{ height: "1000px" }}>
+            <SidebarCom
+              visible={visible}
+              change={setVisible}
+              sidemenu2={activeItem}
+            />
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    </>
   );
 }

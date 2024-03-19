@@ -166,7 +166,7 @@ export default function Unit() {
             <Button color="red" className={showclass} onClick={delObj}>
               Delete
             </Button>
-            <Button primary onClick={addNew} className={showclass}>
+            <Button color="green" onClick={addNew} className={showclass}>
               Add New
             </Button>
           </GridColumn>
@@ -177,7 +177,7 @@ export default function Unit() {
               <Table.Row>
                 <Table.HeaderCell
                   className={showclass}
-                  style={{ overflowX: "hidden" }}
+                  //style={{ overflowX: "hidden" }}
                 >
                   <input type="checkbox" onChange={(event) => leadSet(event)} />
                 </Table.HeaderCell>
@@ -194,6 +194,7 @@ export default function Unit() {
                 >
                   <Table.Cell>
                     <Checkbox
+                      className={showclass}
                       checked={chkstat2[contact.id]}
                       onChange={(event, data) => setTick(contact, event, data)}
                       name={contact.id}

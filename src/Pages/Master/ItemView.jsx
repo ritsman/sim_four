@@ -90,15 +90,13 @@ const ItemView = () => {
                 <TableCell>{item.item_color}</TableCell>
               </TableRow>
               <TableRow>
-                <TableCell style={{ fontWeight: "900" }}>Price</TableCell>
+                <TableCell style={{ fontWeight: "900" }}>Rate</TableCell>
 
                 <TableCell>{item.rate}</TableCell>
 
                 <TableCell style={{ fontWeight: "900" }}>Item Select</TableCell>
 
-                <TableCell>
-                  {item.item_select} {item.issue_unit}
-                </TableCell>
+                <TableCell>{item.item_select}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell style={{ fontWeight: "900" }}>HSN Code</TableCell>
@@ -108,6 +106,59 @@ const ItemView = () => {
                 <TableCell style={{ fontWeight: "900" }}>MOQ</TableCell>
 
                 <TableCell>{item.moq}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell style={{ fontWeight: "900" }}>Buffer Unit</TableCell>
+
+                <TableCell>{item.buffer_unit}</TableCell>
+
+                <TableCell style={{ fontWeight: "900" }}>Issue Unit</TableCell>
+
+                <TableCell>{item.issue_unit}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell style={{ fontWeight: "900" }}>
+                  Purchase Issue Atio
+                </TableCell>
+
+                <TableCell>{item.purchase_issue_atio}</TableCell>
+
+                <TableCell style={{ fontWeight: "900" }}>
+                  Purchase Unit
+                </TableCell>
+
+                <TableCell>{item.purchase_unit}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell style={{ fontWeight: "900" }}>MSC1</TableCell>
+
+                <TableCell>{item.msc1}</TableCell>
+
+                <TableCell style={{ fontWeight: "900" }}>MS2</TableCell>
+
+                <TableCell>{item.msc2}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell style={{ fontWeight: "900" }}>GST</TableCell>
+
+                <TableCell>{item.gst}</TableCell>
+
+                <TableCell style={{ fontWeight: "900" }}>
+                  Specification
+                </TableCell>
+
+                <TableCell>{item.specification}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell style={{ fontWeight: "900" }}>User</TableCell>
+
+                <TableCell>{item.user}</TableCell>
+
+                <TableCell style={{ fontWeight: "900" }}>
+                  Opening Stock
+                </TableCell>
+
+                <TableCell>{item.opening_stock}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell style={{ fontWeight: "900" }}>
