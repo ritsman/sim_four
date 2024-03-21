@@ -6,82 +6,156 @@ import {
   CardGroup,
   Header,
   Icon,
+  IconGroup,
 } from "semantic-ui-react";
+import "./navigationpane.css";
 
-export default function MasterIndex({ setOpen }) {
+export default function MasterIndex() {
   return (
-    <div>
-      <CardGroup itemsPerRow={4}>
-        <Card href="#card-example-link-card" onClick={() => setOpen(false)}>
-          <CardDescription textAlign="center" style={{ margin: "10px" }}>
-            <Icon size="big" circular name="home" />
-            <Header as="h1">Dashboard</Header>
+    <div className="container">
+      <Card.Header as="h1" className="navheading">
+        NAVIGATION PANE
+      </Card.Header>
+
+      <CardGroup cemtered className="cardgroup" itemsPerRow={4}>
+        <Card className="navcard" href="#card-example-link-card">
+          <CardDescription textAlign="center" style={{ margin: "30px" }}>
+            <IconGroup size="big">
+              <Icon size="big" name="circle outline" className="navicon2" />
+              <Icon name="user" className="navicon" />
+            </IconGroup>
+
+            <Card.Header className="navheader" as="h3">
+              Dashboard
+            </Card.Header>
           </CardDescription>
         </Card>
-        <Card href="#card-example-link-card" onClick={() => setOpen(false)}>
-          <CardDescription textAlign="center" style={{ margin: "10px" }}>
-            <Icon size="big" circular name="home" />
-            <Header as="h1">Admin</Header>
+        <Card className="navcard" href="#card-example-link-card">
+          <CardDescription textAlign="center" style={{ margin: "30px" }}>
+            <IconGroup size="big">
+              <Icon size="big" name="circle outline" className="navicon2" />
+              <Icon name="user" className="navicon" />
+            </IconGroup>
+
+            <Card.Header className="navheader" as="h3">
+              Admin
+            </Card.Header>
           </CardDescription>
         </Card>
-        <Card href="#card-example-link-card" onClick={() => setOpen(false)}>
-          <CardDescription textAlign="center" style={{ margin: "10px" }}>
-            <Icon size="big" circular name="home" />
-            <Header as="h1">Work Order</Header>
+        <Card className="navcard" href="#card-example-link-card">
+          <CardDescription textAlign="center" style={{ margin: "30px" }}>
+            <IconGroup size="big">
+              <Icon size="big" name="circle outline" className="navicon2" />
+              <Icon name="user" className="navicon" />
+            </IconGroup>
+
+            <Card.Header className="navheader" as="h3">
+              Work Order
+            </Card.Header>
           </CardDescription>
         </Card>
-        <Card href="#card-example-link-card" onClick={() => setOpen(false)}>
-          <CardDescription textAlign="center" style={{ margin: "10px" }}>
-            <Icon size="big" circular name="home" />
-            <Header as="h1">Material Management</Header>
+        <Card className="navcard" href="#card-example-link-card">
+          <CardDescription textAlign="center" style={{ margin: "30px" }}>
+            <IconGroup size="big">
+              <Icon size="big" name="circle outline" className="navicon2" />
+              <Icon name="user" className="navicon" />
+            </IconGroup>
+
+            <Card.Header className="navheader" as="h3">
+              Material Management
+            </Card.Header>
           </CardDescription>
         </Card>
-        <Card href="#card-example-link-card" onClick={() => setOpen(false)}>
-          <CardDescription textAlign="center" style={{ margin: "10px" }}>
-            <Icon size="big" circular name="home" />
-            <Header as="h1">Manufacturing</Header>
+        <Card className="navcard" href="#card-example-link-card">
+          <CardDescription textAlign="center" style={{ margin: "30px" }}>
+            <IconGroup size="big">
+              <Icon size="big" name="circle outline" className="navicon2" />
+              <Icon name="user" className="navicon" />
+            </IconGroup>
+            <Card.Header className="navheader" as="h3">
+              Manufacturing
+            </Card.Header>
           </CardDescription>
         </Card>
-        <Card href="#card-example-link-card" onClick={() => setOpen(false)}>
-          <CardDescription textAlign="center" style={{ margin: "10px" }}>
-            <Icon size="big" circular name="home" />
-            <Header as="h1">Sales</Header>
+        <Card className="navcard" href="#card-example-link-card">
+          <CardDescription textAlign="center" style={{ margin: "30px" }}>
+            <IconGroup size="big">
+              <Icon size="big" name="circle outline" className="navicon2" />
+              <Icon name="user" className="navicon" />
+            </IconGroup>
+
+            <Card.Header className="navheader" as="h3">
+              Sales
+            </Card.Header>
           </CardDescription>
         </Card>
-        <Card href="#card-example-link-card" onClick={() => setOpen(false)}>
-          <CardDescription textAlign="center" style={{ margin: "10px" }}>
-            <Icon size="big" circular name="home" />
-            <Header as="h1">Inventory</Header>
+        <Card className="navcard" href="#card-example-link-card">
+          <CardDescription textAlign="center" style={{ margin: "30px" }}>
+            <IconGroup size="big">
+              <Icon size="big" name="circle outline" className="navicon2" />
+              <Icon name="user" className="navicon" />
+            </IconGroup>
+
+            <Card.Header className="navheader" as="h3">
+              Inventory
+            </Card.Header>
           </CardDescription>
         </Card>
-        <Card href="#card-example-link-card" onClick={() => setOpen(false)}>
-          <CardDescription textAlign="center" style={{ margin: "10px" }}>
-            <Icon size="big" circular name="home" />
-            <Header as="h1">Money</Header>
+        <Card className="navcard" href="#card-example-link-card">
+          <CardDescription textAlign="center" style={{ margin: "30px" }}>
+            <IconGroup size="big">
+              <Icon size="big" name="circle outline" className="navicon2" />
+              <Icon name="user" className="navicon" />
+            </IconGroup>
+
+            <Card.Header className="navheader" as="h3">
+              Money
+            </Card.Header>
           </CardDescription>
         </Card>
-        <Card href="#card-example-link-card" onClick={() => setOpen(false)}>
-          <CardDescription textAlign="center" style={{ margin: "10px" }}>
-            <Icon size="big" circular name="home" />
-            <Header as="h1">Inspection</Header>
+        <Card className="navcard" href="#card-example-link-card">
+          <CardDescription textAlign="center" style={{ margin: "30px" }}>
+            <IconGroup size="big">
+              <Icon size="big" name="circle outline" className="navicon2" />
+              <Icon name="user" className="navicon" />
+            </IconGroup>
+            <Card.Header className="navheader" as="h3">
+              Inspection
+            </Card.Header>
           </CardDescription>
         </Card>
-        <Card as={Link} to="/master" onClick={() => setOpen(false)}>
-          <CardDescription textAlign="center" style={{ margin: "10px" }}>
-            <Icon size="big" circular name="home" />
-            <Header as="h1">Master</Header>
+        <Card className="navcard" as={Link} to="/master">
+          <CardDescription textAlign="center" style={{ margin: "30px" }}>
+            <IconGroup size="big">
+              <Icon size="big" name="circle outline" color="#f5f5f5" />
+              <Icon name="user" color="#f5f5f5" />
+            </IconGroup>
+            <Card.Header className="navheader" as="h3">
+              Master
+            </Card.Header>
           </CardDescription>
         </Card>
-        <Card href="#card-example-link-card" onClick={() => setOpen(false)}>
-          <CardDescription textAlign="center" style={{ margin: "10px" }}>
-            <Icon size="big" circular name="home" />
-            <Header as="h1">Product Gallery</Header>
+        <Card className="navcard" href="#card-example-link-card">
+          <CardDescription textAlign="center" style={{ margin: "30px" }}>
+            <IconGroup size="big">
+              <Icon size="big" name="circle outline" className="navicon2" />
+              <Icon name="user" className="navicon" />
+            </IconGroup>
+            <Card.Header className="navheader" as="h3">
+              Product Gallery
+            </Card.Header>
           </CardDescription>
         </Card>
-        <Card href="#card-example-link-card" onClick={() => setOpen(false)}>
-          <CardDescription textAlign="center" style={{ margin: "10px" }}>
-            <Icon size="big" circular name="home" />
-            <Header as="h1">Report</Header>
+        <Card className="navcard" href="#card-example-link-card">
+          <CardDescription textAlign="center" style={{ margin: "30px" }}>
+            <IconGroup size="big">
+              <Icon size="big" name="circle outline" className="navicon2" />
+              <Icon name="user" className="navicon" />
+            </IconGroup>
+
+            <Card.Header className="navheader" as="h3">
+              Report
+            </Card.Header>
           </CardDescription>
         </Card>
       </CardGroup>

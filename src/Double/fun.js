@@ -39,26 +39,21 @@ export async function putNewId(axios, url, mod2) {
 }
 
 //update record in master-sub-module
-export async function updateRecord(axios, id, updates, mod2, toast) {
+export async function updateRecord(axios, id, updates, mod2) {
   //console.log(`updates`);
   //console.log(updates);
-  await axios
-    .post(
-      //`https://arya-erp.in/simranapi/update_contact.php?`
-      `https://arya-erp.in/simranapi/master/updateContact.php?`,
-      {
-        id: id,
-        updates: updates,
-        mod2: mod2,
-      }
-    )
-    .then((response) => {
-      console.log(response.data);
-      if (response.data == "success") {
-        toast.success(`DEfault Notificatiln!! ${response.data}`);
-      }
-    });
+  let data = await axios.post(
+    //`https://arya-erp.in/simranapi/update_contact.php?`
+    `https://arya-erp.in/simranapi/master/updateContact.php?`,
+    {
+      id: id,
+      updates: updates,
+      mod2: mod2,
+    }
+  );
+  return data.data;
 }
+
 //get data against single id in master module
 export async function getIdEntry(axios, url, id, mod2) {
   let data = await axios.post(

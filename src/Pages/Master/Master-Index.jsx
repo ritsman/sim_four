@@ -6,81 +6,113 @@ export default function MasterIndex() {
   return (
     <div>
       <CardGroup itemsPerRow={4}>
-        <Card
-          as={Link}
-          to="party"
-          header="Party"
-          meta="Friend"
-          description="Listing of all Customers and Vendors."
-        />
-        <Card
-          as={Link}
-          to="unit"
-          header="Units"
-          meta="Friend"
-          description="Listing of all Units of Measurement."
-        />
-        <Card
-          as={Link}
-          to="item"
-          header="Item"
-          meta="Friend"
-          description="Elliot is a sound engineer living in Nashville who enjoys playing guitar and hanging with his cat."
-        />
-        <Card
-          href="#card-example-link-card"
-          header="Elliot Baker"
-          meta="Friend"
-          description="Elliot is a sound engineer living in Nashville who enjoys playing guitar and hanging with his cat."
-        />
-        <Card
-          href="#card-example-link-card"
-          header="Elliot Baker"
-          meta="Friend"
-          description="Elliot is a sound engineer living in Nashville who enjoys playing guitar and hanging with his cat."
-        />
-        <Card
-          href="#card-example-link-card"
-          header="Elliot Baker"
-          meta="Friend"
-          description="Elliot is a sound engineer living in Nashville who enjoys playing guitar and hanging with his cat."
-        />
-        <Card
-          href="#card-example-link-card"
-          header="Elliot Baker"
-          meta="Friend"
-          description="Elliot is a sound engineer living in Nashville who enjoys playing guitar and hanging with his cat."
-        />
-        <Card
-          href="#card-example-link-card"
-          header="Elliot Baker"
-          meta="Friend"
-          description="Elliot is a sound engineer living in Nashville who enjoys playing guitar and hanging with his cat."
-        />
-        <Card
-          href="#card-example-link-card"
-          header="Elliot Baker"
-          meta="Friend"
-          description="Elliot is a sound engineer living in Nashville who enjoys playing guitar and hanging with his cat."
-        />
-        <Card
-          href="#card-example-link-card"
-          header="Elliot Baker"
-          meta="Friend"
-          description="Elliot is a sound engineer living in Nashville who enjoys playing guitar and hanging with his cat."
-        />
-        <Card
-          href="#card-example-link-card"
-          header="Elliot Baker"
-          meta="Friend"
-          description="Elliot is a sound engineer living in Nashville who enjoys playing guitar and hanging with his cat."
-        />
-        <Card
-          href="#card-example-link-card"
-          header="Elliot Baker"
-          meta="Friend"
-          description="Elliot is a sound engineer living in Nashville who enjoys playing guitar and hanging with his cat."
-        />
+        <Card className="modulecard" as={Link} to="party">
+          <Card.Description textAlign="center" style={{ margin: "30px" }}>
+            <Card.Header as="h3">Party</Card.Header>
+            <Card.Description>
+              Listing of all Customers and Vendors.
+            </Card.Description>
+          </Card.Description>
+        </Card>
+
+        <Card className="modulecard" as={Link} to="unit">
+          <Card.Description textAlign="center" style={{ margin: "30px" }}>
+            <Card.Header as="h3">Unit</Card.Header>
+            <Card.Description>
+              Listing of all Units of Measurement.
+            </Card.Description>
+          </Card.Description>
+        </Card>
+
+        <Card className="modulecard" as={Link} to="item">
+          <Card.Description textAlign="center" style={{ margin: "30px" }}>
+            <Card.Header as="h3">Item</Card.Header>
+            <Card.Description>
+              Listing of all Units of Measurement.
+            </Card.Description>
+          </Card.Description>
+        </Card>
+
+        <Card className="modulecard" href="#card-example-link-card">
+          <Card.Description textAlign="center" style={{ margin: "30px" }}>
+            <Card.Header as="h3">Elliot Baker</Card.Header>
+            <Card.Description>
+              Listing of all Units of Measurement.
+            </Card.Description>
+          </Card.Description>
+        </Card>
+
+        <Card className="modulecard" href="#card-example-link-card">
+          <Card.Description textAlign="center" style={{ margin: "30px" }}>
+            <Card.Header as="h3">Elliot Baker</Card.Header>
+            <Card.Description>
+              Listing of all Units of Measurement.
+            </Card.Description>
+          </Card.Description>
+        </Card>
+
+        <Card className="modulecard" href="#card-example-link-card">
+          <Card.Description textAlign="center" style={{ margin: "30px" }}>
+            <Card.Header as="h3">Elliot Baker</Card.Header>
+            <Card.Description>
+              Listing of all Units of Measurement.
+            </Card.Description>
+          </Card.Description>
+        </Card>
+
+        <Card className="modulecard" href="#card-example-link-card">
+          <Card.Description textAlign="center" style={{ margin: "30px" }}>
+            <Card.Header as="h3">Elliot Baker</Card.Header>
+            <Card.Description>
+              Listing of all Units of Measurement.
+            </Card.Description>
+          </Card.Description>
+        </Card>
+
+        <Card className="modulecard" href="#card-example-link-card">
+          <Card.Description textAlign="center" style={{ margin: "30px" }}>
+            <Card.Header as="h3">Elliot Baker</Card.Header>
+            <Card.Description>
+              Listing of all Units of Measurement.
+            </Card.Description>
+          </Card.Description>
+        </Card>
+
+        <Card className="modulecard" href="#card-example-link-card">
+          <Card.Description textAlign="center" style={{ margin: "30px" }}>
+            <Card.Header as="h3">Elliot Baker</Card.Header>
+            <Card.Description>
+              Listing of all Units of Measurement.
+            </Card.Description>
+          </Card.Description>
+        </Card>
+
+        <Card className="modulecard" href="#card-example-link-card">
+          <Card.Description textAlign="center" style={{ margin: "30px" }}>
+            <Card.Header as="h3">Elliot Baker</Card.Header>
+            <Card.Description>
+              Listing of all Units of Measurement.
+            </Card.Description>
+          </Card.Description>
+        </Card>
+
+        <Card className="modulecard" href="#card-example-link-card">
+          <Card.Description textAlign="center" style={{ margin: "30px" }}>
+            <Card.Header as="h3">Elliot Baker</Card.Header>
+            <Card.Description>
+              Listing of all Units of Measurement.
+            </Card.Description>
+          </Card.Description>
+        </Card>
+
+        <Card className="modulecard" href="#card-example-link-card">
+          <Card.Description textAlign="center" style={{ margin: "30px" }}>
+            <Card.Header as="h3">Elliot Baker</Card.Header>
+            <Card.Description>
+              Listing of all Units of Measurement.
+            </Card.Description>
+          </Card.Description>
+        </Card>
       </CardGroup>
     </div>
   );

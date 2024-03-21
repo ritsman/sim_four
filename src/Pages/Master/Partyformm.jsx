@@ -18,6 +18,7 @@ import {
   CardDescription,
 } from "semantic-ui-react";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const dropData = [
   { key: "supplier", value: "supplier", text: "supplier" },
@@ -36,8 +37,14 @@ export async function action({ request, params }) {
     console.log(error);
     return error;
   } else {
-    await updateRecord(axios, params.partyId, updates, "party");
-    return redirect(`/master/party/${params.partyId}`);
+    const res = await updateRecord(axios, params.partyId, updates, "party");
+    if (res == "success") {
+      toast.success("Successfully Edited");
+      return redirect(`/master/party/${params.partyId}`);
+    } else {
+      toast.error("Error");
+      return null;
+    }
   }
 
   //return null;
@@ -91,7 +98,6 @@ export default function Partyformm({ data }) {
           <Grid.Column floated="right" width={3}>
             <Card>
               <CardContent>
-                <CardHeader>Company Names</CardHeader>
                 {post
                   .filter((item) => {
                     return search.toUpperCase() === ""
@@ -99,7 +105,9 @@ export default function Partyformm({ data }) {
                       : item.company_name.includes(search);
                   })
                   .map((item) => (
-                    <CardDescription>{item.company_name}</CardDescription>
+                    <CardDescription style={{ fontWeight: "bold" }}>
+                      {item.company_name}
+                    </CardDescription>
                   ))}
               </CardContent>
             </Card>
@@ -220,20 +228,30 @@ export default function Partyformm({ data }) {
                   Role
                 </TableCell>
                 <TableCell>
-                  <div className="select_field">
-                    {/* <Select
+                  {/* <Select
                       name="role"
                       placeholder="Role"
                       options={dropData}
                       defaultValue={data.role}
                       error={errors?.role}
                     /> */}
-                    <select name="role" id="role" defaultValue={data.role}>
-                      <option value="supplier">Supplier</option>
-                      <option value="buyer">Buyer</option>
-                      <option value="vender">Vender</option>
-                    </select>
-                  </div>
+                  <select
+                    style={{
+                      padding: "10px 50px",
+                      border: "none",
+                      marginLeft: "12px",
+                      outline: "none",
+                    }}
+                    placeholder="Role"
+                    className=".ui.selection.dropdown"
+                    name="role"
+                    id="role"
+                    defaultValue={data.role}
+                  >
+                    <option value="supplier">Supplier</option>
+                    <option value="buyer">Buyer</option>
+                    <option value="vender">Vender</option>
+                  </select>
                 </TableCell>
 
                 <TableCell

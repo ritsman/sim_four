@@ -20,12 +20,6 @@ import {
 
 import { MasterUrl } from "../../Consts/Master/MasterUrl.const";
 
-const dropData = [
-  { key: "one", value: "one", text: "One" },
-  { key: "two", value: "two", text: "Two" },
-  { key: "three", value: "three", text: "Three" },
-];
-
 export async function action({ request, params }) {
   const formData = await request.formData();
   const updates = Object.fromEntries(formData);
@@ -37,9 +31,14 @@ export async function action({ request, params }) {
     console.log(error);
     return error;
   } else {
-    await updateRecord(axios, params.itemId, updates, "item", toast);
-
-    return redirect(`/master/item/${params.itemId}`);
+    const res = await updateRecord(axios, params.itemId, updates, "item");
+    if (res == "success") {
+      toast.success("Successfully Edited");
+      return redirect(`/master/item/${params.itemId}`);
+    } else {
+      toast.error("Error");
+      return null;
+    }
   }
 
   //return null;
@@ -61,15 +60,15 @@ export default function ItemForm({ data }) {
 
   const [post, setPost] = useState([]);
 
-  // useEffect(() => {
-  //   axios
-  //     .get(getPageData(axios, MasterUrl.getPageData, 10, 1, "items"))
-  //     .then((response) => {
-  //       setPost(response.data);
-  //     });
-  // }, []);
-  // console.log("inside post");
-  // console.log(post);
+  useEffect(() => {
+    axios
+      .get(getPageData(axios, MasterUrl.getPageData, 10, 1, "items"))
+      .then((response) => {
+        setPost(response.config.url);
+      });
+  }, []);
+  console.log("inside post");
+  console.log(post);
 
   const [search, setSearch] = useState("");
   const [isInputFocused, setInputFocused] = useState(false);
@@ -345,7 +344,7 @@ export default function ItemForm({ data }) {
                   <TableCell>
                     <Input
                       name="specification"
-                      placeholder="specification*"
+                      placeholder="Specification*"
                       defaultValue={data.specification}
                       error={errors?.specification}
                     />

@@ -5,6 +5,7 @@ import { Grid, Icon } from "semantic-ui-react";
 import Menubar from "./Components/Menu";
 import SidebarCom from "./Components/Sidebar";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 export default function RootLayout() {
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ export default function RootLayout() {
 
   return (
     <>
+      <ToastContainer />
       <Grid>
         <Grid.Row>
           <Grid.Column

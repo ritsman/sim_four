@@ -1,3 +1,4 @@
+import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RootLayout from "./RootLayout";
 import ErrorPage from "./Pages/error-page";
@@ -19,6 +20,9 @@ import { action as unitEditAction } from "./Pages/Master/UnitForm";
 import { action as itemEditAction } from "./Pages/Master/ItemForm";
 import MyForm from "./Pages/Master/MyForm";
 import NavigationPane from "./Components/NavigationPane";
+import { ToastContainer } from "react-toastify";
+import Style, { loader as styleLoader } from "./Pages/Master/Style";
+import Sizeform1 from "./Allforms/master/size/Sizeform1";
 
 const router = createBrowserRouter([
   {
@@ -92,6 +96,11 @@ const router = createBrowserRouter([
             loader: itemEditLoader,
             action: itemEditAction,
           },
+          {
+            path: "style",
+            element: <Style />,
+            loader: styleLoader,
+          },
         ],
       },
     ],
@@ -100,8 +109,17 @@ const router = createBrowserRouter([
     path: "/login",
     element: <LoginForm />,
   },
+  {
+    path: "/stylegeneralform",
+    element: <Sizeform1 />,
+    //loader: styleLoader,
+  },
 ]);
 
 export default function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router} />;
+    </>
+  );
 }

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Form, redirect, useActionData, useLoaderData } from "react-router-dom";
-import { getPageData, updateRecord } from "../../Double/fun";
+import { updateRecord } from "../../Double/fun";
 import "react-toastify/dist/ReactToastify.css";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import axios from "axios";
 import "./partyForm.css";
 
@@ -37,14 +37,21 @@ export async function action({ request, params }) {
     console.log(error);
     return error;
   } else {
-    await updateRecord(axios, params.unitId, updates, "unit", toast);
-    //return null;
-    return redirect(`/master/unit/${params.unitId}`);
+    const res = await updateRecord(axios, params.unitId, updates, "unit");
+
+    //console.log("inside upd2");
+    // console.log(res);
+    if (res == "success") {
+      toast.success("Successfully Edited");
+      return redirect(`/master/unit/${params.unitId}`);
+    } else {
+      toast.error("Error");
+      return null;
+    }
   }
 
   //return null;
 }
-
 const validation = (formData) => {
   const errors = {};
 
@@ -59,9 +66,6 @@ const validation = (formData) => {
 
 export default function UnitForm({ data }) {
   const errors = useActionData();
-
-  // const unit = useLoaderData();
-  // const [unitData, setUnitData] = useState(unit);
 
   const [post, setPost] = useState([]);
 
@@ -91,11 +95,30 @@ export default function UnitForm({ data }) {
               textAlign="right"
               verticalAlign="middle"
             >
-              <ToastContainer />
               <Button>Submit</Button>
               <Button>Cancel</Button>
             </GridColumn>
           </GridRow>
+          {isInputFocused && (
+            <Grid.Column floated="right" width={3}>
+              <Card>
+                <CardContent>
+                  {post
+                    .filter((item) => {
+                      return search.toUpperCase() === ""
+                        ? item
+                        : item.unit_name.includes(search);
+                    })
+                    .map((item) => (
+                      <CardDescription style={{ fontWeight: "bold" }}>
+                        {item.unit_name}
+                      </CardDescription>
+                    ))}
+                </CardContent>
+              </Card>
+            </Grid.Column>
+          )}
+
           <GridRow centered>
             <Table
               className="borderless-table"
@@ -143,25 +166,6 @@ export default function UnitForm({ data }) {
               </TableBody>
             </Table>
           </GridRow>
-          {isInputFocused && (
-            <Grid.Column floated="right" width={3}>
-              <Card>
-                <CardContent>
-                  <CardHeader>Unit Names</CardHeader>
-
-                  {post
-                    .filter((item) => {
-                      return search.toUpperCase() === ""
-                        ? item
-                        : item.unit_name.includes(search);
-                    })
-                    .map((item) => (
-                      <CardDescription>{item.unit_name}</CardDescription>
-                    ))}
-                </CardContent>
-              </Card>
-            </Grid.Column>
-          )}
         </Grid>
       </Form>
     </>

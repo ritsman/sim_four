@@ -21,7 +21,6 @@ import NavigationPane from "./NavigationPane";
 
 export default function SidebarCom({ visible, change, sidemenu2 }) {
   //console.log(sidemenu2);
-  const [open, setOpen] = useState(false);
 
   const menu_items_default = [
     {
@@ -82,10 +81,9 @@ export default function SidebarCom({ visible, change, sidemenu2 }) {
             </Menu.Item>
           ))}
         </Sidebar>
-        <Sidebar.Pusher>
+        <Sidebar.Pusher style={{ backgroundColor: "#F0F8FF" }}>
           <Segment basic>
-            <Header as="h4">Data</Header>
-
+            {/* <Header as="h4">Data</Header> */}
             <Outlet />
           </Segment>
         </Sidebar.Pusher>
