@@ -126,7 +126,7 @@ export default function Unit() {
       data.activePage,
       "unit"
     );
-    setpageData(newpageData);
+    setPageData(newpageData);
   };
 
   const show_record = (id) => {
@@ -160,26 +160,32 @@ export default function Unit() {
   const [perPage, setPerPage] = useState(records_per_page);
   //const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(totalRecords / perPage);
+  const [perPage2, setPerPage2] = useState();
 
   // const startIndex = (currentPage - 1) * perPage;
   // const endIndex = startIndex + perPage;
   // const currentData = pageData.slice(startIndex, endIndex);
 
   const handlePerPageChange = async (e) => {
-    setPerPage(parseInt(e.target.value));
     console.log(e.target.value);
-    console.log(perPage);
+    setPerPage2(parseInt(e.target.value));
+    //setCurrentPage(1);
+    await pageDataChange();
+  };
+
+  const pageDataChange = async () => {
+    console.log(perPage2);
+
     let perpageData = await getPageData(
       axios,
       MasterUrl.getPageData,
-      perPage,
+      perPage2,
       1,
       "unit"
     );
-    console.log("perpage");
-    console.log(perPage);
-    setpageData(perpageData);
-    //setCurrentPage(1);
+    //console.log("perpage");
+    //console.log(perPage);
+    setPageData(perpageData);
   };
 
   return (
@@ -206,7 +212,7 @@ export default function Unit() {
           >
             <Label style={{ padding: "8px" }}>
               Records per page:
-              <select value={perPage} onChange={(e) => handlePerPageChange(e)}>
+              <select onChange={(e) => handlePerPageChange(e)}>
                 <option value={3}>3</option>
                 <option value={5}>5</option>
                 <option value={10}>10</option>
