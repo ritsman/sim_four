@@ -125,15 +125,11 @@ export default function ProcessForm({ data }) {
   };
 
   const activity_length = data.activities.split("**").length;
-  const data_activity = data.activities.split("**");
-  console.log(`data_activity`);
-  console.log(data_activity);
 
   console.log(`activity_length: ${activity_length}`);
   const [row_id, setRow_id] = useState(activity_length); //1
   //console.log(row_id + "usestate");
-  const [rows, setRows] = useState([{ id: activity_length }]);
-
+  const [rows, setRows] = useState([{ id: 0 }]);
   const handleAddRow = (e) => {
     console.log("add clicked");
     setRow_id(row_id + 1);
@@ -230,13 +226,31 @@ export default function ProcessForm({ data }) {
                     />
                   </TableCell>
                 </TableRow>
-              </TableBody>
-            </Table>
-            <Table>
-              <TableBody>
-                {data_activity.map((activity) => (
-                  <TableRow>
-                    <TableCell style={icons_cell}>
+                <TableRow>
+                  <TableCell
+                    textAlign="center"
+                    verticalAlign="middle"
+                    style={{ fontWeight: "900" }}
+                  >
+                    <Button style={plus_button}>
+                      <Icon
+                        className="plus"
+                        name="plus"
+                        onClick={(e) => handleAddRow(e)}
+                      />
+                    </Button>
+                    Activities
+                  </TableCell>
+                  <TableCell>
+                    {rows.map((row) => {
+                      console.log(row);
+                      return (
+                        <TableRow key={`R${row.id}`}>
+                          {data.activities.split("**").map((item, index) => {
+                            console.log(`item:${item}:ind:${index}`);
+                            return (
+                              <>
+                                <TableCell style={icons_cell}>
                                   <Button style={plus_button}>
                                     <Icon
                                       style={{
@@ -248,9 +262,18 @@ export default function ProcessForm({ data }) {
                                       onClick={(e) => handleDelRow(e, index)}
                                     />
                                   </Button>
-                                </TableCell><TableCell>{activity}</TableCell>
-                  </TableRow>
-                ))}
+                                </TableCell>
+                                <TableCell>
+                                  <Input defaultValue={item} />
+                                </TableCell>
+                              </>
+                            );
+                          })}
+                        </TableRow>
+                      );
+                    })}
+                  </TableCell>
+                </TableRow>
               </TableBody>
             </Table>
           </GridRow>
