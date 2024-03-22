@@ -72,31 +72,6 @@ const validation = (formData) => {
 export default function ActivtyForm({ data }) {
   const errors = useActionData();
 
-  const [post, setPost] = useState([]);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const data = await getPageData(
-          axios,
-          MasterUrl.getPageData,
-          records_per_page,
-          1,
-          "activity"
-        );
-        console.log(data);
-        setPost(data);
-      } catch (err) {
-        console.log("Error occured when fetching books");
-      }
-    })();
-  }, []);
-
-  console.log("inside post");
-  console.log(post);
-
-  const [search, setSearch] = useState("");
-  const [isInputFocused, setInputFocused] = useState(false);
   return (
     <>
       <Form method="post">
@@ -115,25 +90,6 @@ export default function ActivtyForm({ data }) {
               <Button>Cancel</Button>
             </GridColumn>
           </GridRow>
-          {isInputFocused && (
-            <Grid.Column floated="right" width={3}>
-              <Card>
-                <CardContent>
-                  {post
-                    .filter((item) => {
-                      return search.toUpperCase() === ""
-                        ? item
-                        : item.activity_name.includes(search);
-                    })
-                    .map((item) => (
-                      <CardDescription style={{ fontWeight: "bold" }}>
-                        {item.activity_name}
-                      </CardDescription>
-                    ))}
-                </CardContent>
-              </Card>
-            </Grid.Column>
-          )}
 
           <GridRow centered>
             <Table
@@ -153,9 +109,7 @@ export default function ActivtyForm({ data }) {
                   </TableCell>
                   <TableCell>
                     <Input
-                      onFocus={() => setInputFocused(true)}
-                      onBlur={() => setInputFocused(false)}
-                      onChange={(e) => setSearch(e.target.value)}
+                      disabled
                       placeholder="Activity Name*"
                       name="activity_name"
                       className="form__input"

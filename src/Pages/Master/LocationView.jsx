@@ -61,7 +61,7 @@ const LocationView = () => {
       <Grid verticalAlign="middle">
         <GridRow centered color="blue" style={{ fontWeight: "900" }}>
           <GridColumn textAlign="center" width={12}>
-            {location.activity_name}
+            {location.location_name}
           </GridColumn>
           <GridColumn
             floated="right"
@@ -84,9 +84,9 @@ const LocationView = () => {
             <TableBody>
               <TableRow>
                 <TableCell style={{ fontWeight: "900" }}>
-                  Activity Name
+                  Location Name
                 </TableCell>
-                <TableCell>{location.activity_name}</TableCell>
+                <TableCell>{location.location_name}</TableCell>
                 <TableCell style={{ fontWeight: "900" }}>Description</TableCell>
                 <TableCell>{location.description}</TableCell>
               </TableRow>

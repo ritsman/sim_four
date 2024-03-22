@@ -20,6 +20,7 @@ import {
   CardContent,
   CardHeader,
   CardDescription,
+  Icon,
 } from "semantic-ui-react";
 import {
   MasterUrl,
@@ -63,9 +64,15 @@ const validation = (formData) => {
   console.log(errors);
   return errors;
 };
-
+const dropData = [
+  { key: "supplier", value: "supplier", text: "supplier" },
+  { key: "vender", value: "vender", text: "venders" },
+  { key: "Buyer", value: "Buyer", text: "Buyer" },
+];
 export default function ProcessForm({ data }) {
   const errors = useActionData();
+  console.log("arrya data");
+  console.log(data.activities.split("**"));
 
   const [post, setPost] = useState([]);
 
@@ -87,8 +94,68 @@ export default function ProcessForm({ data }) {
     })();
   }, []);
 
-  console.log("inside post");
-  console.log(post);
+  // console.log("inside post");
+  // console.log(post);
+
+  const plus = {
+    // background:'blue',
+    color: "black !important",
+    width: "30px",
+    height: "30px",
+    borderRadius: "50%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  };
+
+  const plus_button = {
+    background: "transparent",
+    padding: "0",
+  };
+
+  const tableStyle = {
+    border: "none !important",
+    // padding:'20px',
+  };
+  const icons_cell = {
+    width: "50px",
+  };
+  const input_width = {
+    width: "100%",
+  };
+
+  const activity_length = data.activities.split("**").length;
+
+  console.log(`activity_length: ${activity_length}`);
+  const [row_id, setRow_id] = useState(activity_length); //1
+  //console.log(row_id + "usestate");
+  const [rows, setRows] = useState([{ id: 0 }]);
+  const handleAddRow = (e) => {
+    console.log("add clicked");
+    setRow_id(row_id + 1);
+    console.log(`row_id:${row_id}`);
+    console.log("rows.length");
+    console.log(rows.length);
+    setRows([...rows, { id: rows.length }]);
+    console.log(rows);
+    e.preventDefault();
+  };
+
+  const handleDelRow = (e, ind) => {
+    console.log("cross clicked");
+    console.log(ind);
+
+    const updated_rows = [...rows];
+    console.log(`rows:${rows}`);
+    console.log(`rows.length:${rows.length}`);
+    console.log(`updated_rows: ${rows.length}`);
+
+    updated_rows.splice(ind, 1);
+    console.log(rows);
+    console.log(updated_rows);
+    setRows(updated_rows);
+    e.preventDefault();
+  };
 
   const [search, setSearch] = useState("");
   const [isInputFocused, setInputFocused] = useState(false);
@@ -98,7 +165,7 @@ export default function ProcessForm({ data }) {
         <Grid verticalAlign="middle">
           <GridRow centered color="blue" style={{ fontWeight: "900" }}>
             <GridColumn textAlign="center" width={12}>
-              {data.activity_name}
+              {data.process_name}
             </GridColumn>
             <GridColumn
               floated="right"
@@ -118,11 +185,11 @@ export default function ProcessForm({ data }) {
                     .filter((item) => {
                       return search.toUpperCase() === ""
                         ? item
-                        : item.activity_name.includes(search);
+                        : item.process_name.includes(search);
                     })
                     .map((item) => (
                       <CardDescription style={{ fontWeight: "bold" }}>
-                        {item.activity_name}
+                        {item.process_name}
                       </CardDescription>
                     ))}
                 </CardContent>
@@ -144,34 +211,67 @@ export default function ProcessForm({ data }) {
                     verticalAlign="middle"
                     style={{ fontWeight: "900" }}
                   >
-                    Activity Name
+                    Process Name
                   </TableCell>
                   <TableCell>
                     <Input
                       onFocus={() => setInputFocused(true)}
                       onBlur={() => setInputFocused(false)}
                       onChange={(e) => setSearch(e.target.value)}
-                      placeholder="Activity Name*"
-                      name="activity_name"
+                      placeholder="Process Name*"
+                      name="process_name"
                       className="form__input"
-                      defaultValue={data.activity_name}
-                      error={errors?.activity_name}
+                      defaultValue={data.process_name}
+                      error={errors?.process_name}
                     />
                   </TableCell>
+                </TableRow>
+                <TableRow>
                   <TableCell
                     textAlign="center"
                     verticalAlign="middle"
                     style={{ fontWeight: "900" }}
                   >
-                    Description
+                    <Button style={plus_button}>
+                      <Icon
+                        className="plus"
+                        name="plus"
+                        onClick={(e) => handleAddRow(e)}
+                      />
+                    </Button>
+                    Activities
                   </TableCell>
                   <TableCell>
-                    <Input
-                      name="description"
-                      placeholder="Description*"
-                      defaultValue={data.description}
-                      error={errors?.description}
-                    />
+                    {rows.map((row) => {
+                      console.log(row);
+                      return (
+                        <TableRow key={`R${row.id}`}>
+                          {data.activities.split("**").map((item, index) => {
+                            console.log(`item:${item}:ind:${index}`);
+                            return (
+                              <>
+                                <TableCell style={icons_cell}>
+                                  <Button style={plus_button}>
+                                    <Icon
+                                      style={{
+                                        paddingLeft: "40px",
+                                        paddingTop: "20px",
+                                      }}
+                                      className="close_btn"
+                                      name="close"
+                                      onClick={(e) => handleDelRow(e, index)}
+                                    />
+                                  </Button>
+                                </TableCell>
+                                <TableCell>
+                                  <Input defaultValue={item} />
+                                </TableCell>
+                              </>
+                            );
+                          })}
+                        </TableRow>
+                      );
+                    })}
                   </TableCell>
                 </TableRow>
               </TableBody>

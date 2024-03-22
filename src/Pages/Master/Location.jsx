@@ -22,17 +22,7 @@ import {
 import * as XLSX from "xlsx/xlsx.mjs";
 import { useEffect } from "react";
 //get * from units table
-const header = [
-  " ",
-  "Company Name",
-  "Contact Person",
-  "Address",
-  "City",
-  "State",
-  "email",
-  "Role",
-  "Mobile",
-];
+const header = [" ", "Location Name", "Description"];
 
 //get total no of pages from items table
 const totalRecords = await getPageInfo(
@@ -78,7 +68,7 @@ export default function Location() {
   const navigate = useNavigate();
 
   const addNew = async () => {
-    const id2 = await putNewId(axios, MasterUrl.putNewId, "process");
+    const id2 = await putNewId(axios, MasterUrl.putNewId, "location");
     console.log(`id2:${id2}`);
 
     return navigate(`${id2}/Edit`);
@@ -130,9 +120,9 @@ export default function Location() {
       MasterUrl.getPageData,
       records_per_page,
       data.activePage,
-      "process"
+      "location"
     );
-    setpageData(newpageData);
+    setPageData(newpageData);
   };
 
   const show_record = (id) => {
@@ -176,7 +166,7 @@ export default function Location() {
       MasterUrl.getPageData,
       value,
       1,
-      "unit"
+      "location"
     );
     //console.log("perpage");
     //console.log(perPage);
@@ -255,15 +245,8 @@ export default function Location() {
                       name={contact.id}
                     />
                   </Table.Cell>
-                  <Table.Cell>{contact.company_name}</Table.Cell>
-                  <Table.Cell>{contact.contact_person}</Table.Cell>
-                  <Table.Cell>{contact.address}</Table.Cell>
-                  <Table.Cell>{contact.city}</Table.Cell>
-                  <Table.Cell>{contact.state}</Table.Cell>
-                  <Table.Cell>{contact.email}</Table.Cell>
-                  {/* <Table.Cell>{contact.role.toUpperCase()}</Table.Cell> */}
-
-                  <Table.Cell>{contact.mobile}</Table.Cell>
+                  <Table.Cell>{contact.location_name}</Table.Cell>
+                  <Table.Cell>{contact.description}</Table.Cell>
                 </Table.Row>
               ))}
             </Table.Body>

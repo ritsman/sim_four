@@ -46,6 +46,7 @@ import ProcessEdit, {
 } from "./Pages/Master/ProcessEdit";
 import { action as locationEditAction } from "./Pages/Master/LocationForm";
 import { action as processEditAction } from "./Pages/Master/ProcessForm";
+import Example from "./Pages/Master/Example";
 
 const router = createBrowserRouter([
   {
@@ -176,8 +177,8 @@ const router = createBrowserRouter([
     element: <LoginForm />,
   },
   {
-    path: "/stylegeneralform",
-    element: <Sizeform1 />,
+    path: "/example",
+    element: <Example />,
     //loader: styleLoader,
   },
 ]);

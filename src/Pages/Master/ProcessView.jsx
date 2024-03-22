@@ -84,11 +84,13 @@ const ProcessView = () => {
             <TableBody>
               <TableRow>
                 <TableCell style={{ fontWeight: "900" }}>
-                  process Name
+                  Process Name
                 </TableCell>
                 <TableCell>{process.process_name}</TableCell>
-                <TableCell style={{ fontWeight: "900" }}>Description</TableCell>
-                <TableCell>{process.description}</TableCell>
+                <TableCell style={{ fontWeight: "900" }}>Activities</TableCell>
+                <TableCell>
+                  {process.activities.split("**").join(", ")}
+                </TableCell>
               </TableRow>
             </TableBody>
           </Table>

@@ -21,7 +21,6 @@ export async function loader({ params }) {
 
 export default function ProcessEdit() {
   const data = useLoaderData();
-
   return (
     <div>
       <ProcessForm data={data} />

@@ -103,7 +103,7 @@ export default function LocationForm({ data }) {
         <Grid verticalAlign="middle">
           <GridRow centered color="blue" style={{ fontWeight: "900" }}>
             <GridColumn textAlign="center" width={12}>
-              {data.activity_name}
+              {data.location_name}
             </GridColumn>
             <GridColumn
               floated="right"
@@ -123,11 +123,11 @@ export default function LocationForm({ data }) {
                     .filter((item) => {
                       return search.toUpperCase() === ""
                         ? item
-                        : item.activity_name.includes(search);
+                        : item.location_name.includes(search);
                     })
                     .map((item) => (
                       <CardDescription style={{ fontWeight: "bold" }}>
-                        {item.activity_name}
+                        {item.location_name}
                       </CardDescription>
                     ))}
                 </CardContent>
@@ -149,18 +149,18 @@ export default function LocationForm({ data }) {
                     verticalAlign="middle"
                     style={{ fontWeight: "900" }}
                   >
-                    Activity Name
+                    Location Name
                   </TableCell>
                   <TableCell>
                     <Input
                       onFocus={() => setInputFocused(true)}
                       onBlur={() => setInputFocused(false)}
                       onChange={(e) => setSearch(e.target.value)}
-                      placeholder="Activity Name*"
-                      name="activity_name"
+                      placeholder="Location Name*"
+                      name="location_name"
                       className="form__input"
-                      defaultValue={data.activity_name}
-                      error={errors?.activity_name}
+                      defaultValue={data.location_name}
+                      error={errors?.location_name}
                     />
                   </TableCell>
                   <TableCell

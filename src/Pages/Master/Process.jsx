@@ -17,21 +17,12 @@ import {
   GridRow,
   GridColumn,
   Grid,
+  Label,
 } from "semantic-ui-react";
 import * as XLSX from "xlsx/xlsx.mjs";
 import { useEffect } from "react";
 //get * from units table
-const header = [
-  " ",
-  "Company Name",
-  "Contact Person",
-  "Address",
-  "City",
-  "State",
-  "email",
-  "Role",
-  "Mobile",
-];
+const header = [" ", "Process Name", "Activities"];
 
 //get total no of pages from items table
 const totalRecords = await getPageInfo(axios, MasterUrl.getPageInfo, "process");
@@ -54,7 +45,7 @@ export async function loader() {
 export default function Unit() {
   const data = useLoaderData();
   const [pageData, setPageData] = useState(data);
-  console.log(`partyPageData:`);
+  console.log(`processPageData:`);
   console.log(pageData);
 
   const [showclass, setShowClass] = useState("noshow");
@@ -127,7 +118,7 @@ export default function Unit() {
       data.activePage,
       "process"
     );
-    setpageData(newpageData);
+    setPageData(newpageData);
   };
 
   const show_record = (id) => {
@@ -151,10 +142,13 @@ export default function Unit() {
     console.log(pageData);
     let wb = XLSX.utils.book_new(),
       ws = XLSX.utils.json_to_sheet(pageData);
-    XLSX.utils.book_append_sheet(wb, ws, "UnitDataSheet");
+    XLSX.utils.book_append_sheet(wb, ws, "ProcessDataSheet");
 
     XLSX.writeFile(wb, "MyExcel.xlsx");
   };
+
+  const [perPage2, setPerPage2] = useState();
+  const totalPages = Math.ceil(totalRecords / perPage2);
 
   const handlePerPageChange = async (e) => {
     console.log(e.target.value);
@@ -169,7 +163,7 @@ export default function Unit() {
       MasterUrl.getPageData,
       value,
       1,
-      "unit"
+      "process"
     );
     //console.log("perpage");
     //console.log(perPage);
@@ -195,11 +189,21 @@ export default function Unit() {
         <GridRow centered color="blue" style={{ fontWeight: "900" }}>
           <GridColumn
             floated="right"
-            width={4}
+            width={6}
             // color="red"
             textAlign="right"
             verticalAlign="middle"
           >
+            <Label style={{ padding: "8px" }}>
+              Records per page:
+              <select onChange={(e) => handlePerPageChange(e)}>
+                <option value={3}>3</option>
+                <option value={5}>5</option>
+                <option value={10}>10</option>
+                <option value={20}>20</option>
+              </select>
+              {/* <Select options={dropData} /> */}
+            </Label>
             <Button onClick={handleExportData}>Export</Button>
             <Button color="teal" onClick={showCl}>
               Modify
@@ -238,15 +242,10 @@ export default function Unit() {
                       name={contact.id}
                     />
                   </Table.Cell>
-                  <Table.Cell>{contact.company_name}</Table.Cell>
-                  <Table.Cell>{contact.contact_person}</Table.Cell>
-                  <Table.Cell>{contact.address}</Table.Cell>
-                  <Table.Cell>{contact.city}</Table.Cell>
-                  <Table.Cell>{contact.state}</Table.Cell>
-                  <Table.Cell>{contact.email}</Table.Cell>
-                  {/* <Table.Cell>{contact.role.toUpperCase()}</Table.Cell> */}
-
-                  <Table.Cell>{contact.mobile}</Table.Cell>
+                  <Table.Cell>{contact.process_name}</Table.Cell>
+                  <Table.Cell>
+                    {contact.activities.split("**").join(", ")}
+                  </Table.Cell>
                 </Table.Row>
               ))}
             </Table.Body>
