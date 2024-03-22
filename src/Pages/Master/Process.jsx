@@ -244,7 +244,7 @@ export default function Unit() {
                   <Table.Cell>{contact.city}</Table.Cell>
                   <Table.Cell>{contact.state}</Table.Cell>
                   <Table.Cell>{contact.email}</Table.Cell>
-                  <Table.Cell>{contact.role.toUpperCase()}</Table.Cell>
+                  {/* <Table.Cell>{contact.role.toUpperCase()}</Table.Cell> */}
 
                   <Table.Cell>{contact.mobile}</Table.Cell>
                 </Table.Row>
