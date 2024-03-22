@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Form, redirect, useActionData, useLoaderData } from "react-router-dom";
-import { updateRecord } from "../../Double/fun";
+import { Form, redirect, useActionData } from "react-router-dom";
+import { getPageData, updateRecord } from "../../Double/fun";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -37,13 +37,13 @@ export async function action({ request, params }) {
     console.log(error);
     return error;
   } else {
-    const res = await updateRecord(axios, params.unitId, updates, "unit");
+    const res = await updateRecord(axios, params.processId, updates, "process");
 
-    //console.log("inside upd2");
-    // console.log(res);
+    console.log("inside upd2");
+    console.log(res);
     if (res == "success") {
       toast.success("Successfully Edited");
-      return redirect(`/master/unit/${params.unitId}`);
+      return redirect(`/master/process/${params.processId}`);
     } else {
       toast.error("Error");
       return null;
@@ -64,35 +64,29 @@ const validation = (formData) => {
   return errors;
 };
 
-export default function UnitForm({ data }) {
+export default function ProcessForm({ data }) {
   const errors = useActionData();
 
-  useEffect(() => {
-    axios
-      .get("https://arya-erp.in/simranapi/master/get_units.php")
-      .then((response) => {
-        setPost(response.data);
-      });
-  }, []);
   const [post, setPost] = useState([]);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       const data = await getPageData(
-  //         axios,
-  //         MasterUrl.getPageData,
-  //         records_per_page,
-  //         1,
-  //         "unit"
-  //       );
-  //       console.log(data);
-  //       setPost(data);
-  //     } catch (err) {
-  //       console.log("Error occured when fetching books");
-  //     }
-  //   })();
-  // }, []);
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await getPageData(
+          axios,
+          MasterUrl.getPageData,
+          records_per_page,
+          1,
+          "process"
+        );
+        console.log(data);
+        setPost(data);
+      } catch (err) {
+        console.log("Error occured when fetching books");
+      }
+    })();
+  }, []);
+
   console.log("inside post");
   console.log(post);
 
@@ -104,7 +98,7 @@ export default function UnitForm({ data }) {
         <Grid verticalAlign="middle">
           <GridRow centered color="blue" style={{ fontWeight: "900" }}>
             <GridColumn textAlign="center" width={12}>
-              {data.unit_name}
+              {data.activity_name}
             </GridColumn>
             <GridColumn
               floated="right"
@@ -124,11 +118,11 @@ export default function UnitForm({ data }) {
                     .filter((item) => {
                       return search.toUpperCase() === ""
                         ? item
-                        : item.unit_name.includes(search);
+                        : item.activity_name.includes(search);
                     })
                     .map((item) => (
                       <CardDescription style={{ fontWeight: "bold" }}>
-                        {item.unit_name}
+                        {item.activity_name}
                       </CardDescription>
                     ))}
                 </CardContent>
@@ -150,18 +144,18 @@ export default function UnitForm({ data }) {
                     verticalAlign="middle"
                     style={{ fontWeight: "900" }}
                   >
-                    Unit Name
+                    Activity Name
                   </TableCell>
                   <TableCell>
                     <Input
                       onFocus={() => setInputFocused(true)}
                       onBlur={() => setInputFocused(false)}
                       onChange={(e) => setSearch(e.target.value)}
-                      placeholder="Unit Name*"
-                      name="unit_name"
+                      placeholder="Activity Name*"
+                      name="activity_name"
                       className="form__input"
-                      defaultValue={data.unit_name}
-                      error={errors?.unit_name}
+                      defaultValue={data.activity_name}
+                      error={errors?.activity_name}
                     />
                   </TableCell>
                   <TableCell
@@ -169,14 +163,14 @@ export default function UnitForm({ data }) {
                     verticalAlign="middle"
                     style={{ fontWeight: "900" }}
                   >
-                    Short Name
+                    Description
                   </TableCell>
                   <TableCell>
                     <Input
-                      name="short_name"
-                      placeholder="Short Name*"
-                      defaultValue={data.short_name}
-                      error={errors?.short_name}
+                      name="description"
+                      placeholder="Description*"
+                      defaultValue={data.description}
+                      error={errors?.description}
                     />
                   </TableCell>
                 </TableRow>

@@ -17,7 +17,6 @@ import {
   GridRow,
   GridColumn,
   Grid,
-  Label,
 } from "semantic-ui-react";
 import * as XLSX from "xlsx/xlsx.mjs";
 import { useEffect } from "react";
@@ -35,7 +34,7 @@ const header = [
 ];
 
 //get total no of pages from items table
-const totalRecords = await getPageInfo(axios, MasterUrl.getPageInfo, "party");
+const totalRecords = await getPageInfo(axios, MasterUrl.getPageInfo, "process");
 const totalPages = Math.ceil(totalRecords / records_per_page);
 
 // loader function for Unit
@@ -45,14 +44,14 @@ export async function loader() {
     MasterUrl.getPageData,
     records_per_page,
     1,
-    "party"
+    "process"
   );
   //console.log(data);
   return data;
 }
 
 // main function====================================
-export default function Party2() {
+export default function Unit() {
   const data = useLoaderData();
   const [pageData, setPageData] = useState(data);
   console.log(`partyPageData:`);
@@ -74,7 +73,7 @@ export default function Party2() {
   const navigate = useNavigate();
 
   const addNew = async () => {
-    const id2 = await putNewId(axios, MasterUrl.putNewId, "party");
+    const id2 = await putNewId(axios, MasterUrl.putNewId, "process");
     console.log(`id2:${id2}`);
 
     return navigate(`${id2}/Edit`);
@@ -126,7 +125,7 @@ export default function Party2() {
       MasterUrl.getPageData,
       records_per_page,
       data.activePage,
-      "party"
+      "process"
     );
     setpageData(newpageData);
   };
@@ -157,27 +156,26 @@ export default function Party2() {
     XLSX.writeFile(wb, "MyExcel.xlsx");
   };
 
-  const [perPage2, setPerPage2] = useState();
-  const totalPages = Math.ceil(totalRecords / perPage2);
-
   const handlePerPageChange = async (e) => {
-    //console.log(e.target.value);
+    console.log(e.target.value);
     setPerPage2(parseInt(e.target.value));
+    //setCurrentPage(1);
     await pageDataChange(parseInt(e.target.value));
   };
 
-  const pageDataChange = async (pp) => {
+  const pageDataChange = async (value) => {
     const perpageData = await getPageData(
       axios,
       MasterUrl.getPageData,
-      pp,
+      value,
       1,
-      "party"
+      "unit"
     );
     //console.log("perpage");
     //console.log(perPage);
     setPageData(perpageData);
   };
+
   return (
     <>
       <Grid verticalAlign="middle">
@@ -191,29 +189,18 @@ export default function Party2() {
               Master
             </BreadcrumbSection>
             <BreadcrumbDivider icon="right chevron" />
-            <BreadcrumbSection active>Party</BreadcrumbSection>
+            <BreadcrumbSection active>Process</BreadcrumbSection>
           </Breadcrumb>
         </GridRow>
         <GridRow centered color="blue" style={{ fontWeight: "900" }}>
           <GridColumn
             floated="right"
-            width={6}
+            width={4}
             // color="red"
             textAlign="right"
             verticalAlign="middle"
           >
-            <Label style={{ padding: "8px" }}>
-              Records per page:
-              <select onChange={(e) => handlePerPageChange(e)}>
-                <option value={3}>3</option>
-                <option value={5}>5</option>
-                <option value={10}>10</option>
-                <option value={20}>20</option>
-              </select>
-              {/* <Select options={dropData} /> */}
-            </Label>
             <Button onClick={handleExportData}>Export</Button>
-
             <Button color="teal" onClick={showCl}>
               Modify
             </Button>

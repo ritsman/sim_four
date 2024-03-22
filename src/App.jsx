@@ -20,9 +20,32 @@ import { action as unitEditAction } from "./Pages/Master/UnitForm";
 import { action as itemEditAction } from "./Pages/Master/ItemForm";
 import MyForm from "./Pages/Master/MyForm";
 import NavigationPane from "./Components/NavigationPane";
-import { ToastContainer } from "react-toastify";
 import Style, { loader as styleLoader } from "./Pages/Master/Style";
 import Sizeform1 from "./Allforms/master/size/Sizeform1";
+import Activity, { loader as activityLoader } from "./Pages/Master/Activity";
+import ActivityView, {
+  loader as activityViewLoader,
+} from "./Pages/Master/ActivityView";
+import ActivityEdit, {
+  loader as activityEditLoader,
+} from "./Pages/Master/ActivityEdit";
+import { action as activityEditAction } from "./Pages/Master/ActivityForm";
+import Process, { loader as processLoader } from "./Pages/Master/Process";
+import Location, { loader as locationLoader } from "./Pages/Master/Location";
+import ProcessView, {
+  loader as processViewLoader,
+} from "./Pages/Master/ProcessView";
+import LocationView, {
+  loader as locationViewLoader,
+} from "./Pages/Master/LocationView";
+import LocationEdit, {
+  loader as locationEditLoader,
+} from "./Pages/Master/LocationEdit";
+import ProcessEdit, {
+  loader as processEditLoader,
+} from "./Pages/Master/ProcessEdit";
+import { action as locationEditAction } from "./Pages/Master/LocationForm";
+import { action as processEditAction } from "./Pages/Master/ProcessForm";
 
 const router = createBrowserRouter([
   {
@@ -97,9 +120,52 @@ const router = createBrowserRouter([
             action: itemEditAction,
           },
           {
-            path: "style",
-            element: <Style />,
-            loader: styleLoader,
+            path: "activity",
+            element: <Activity />,
+            loader: activityLoader,
+          },
+          {
+            path: "activity/:activityId",
+            element: <ActivityView />,
+            loader: activityViewLoader,
+          },
+          {
+            path: "activity/:activityId/Edit",
+            element: <ActivityEdit />,
+            loader: activityEditLoader,
+            action: activityEditAction,
+          },
+          {
+            path: "process",
+            element: <Process />,
+            loader: processLoader,
+          },
+          {
+            path: "process/:processId",
+            element: <ProcessView />,
+            loader: processViewLoader,
+          },
+          {
+            path: "process/:processId/Edit",
+            element: <ProcessEdit />,
+            loader: processEditLoader,
+            action: processEditAction,
+          },
+          {
+            path: "location",
+            element: <Location />,
+            loader: locationLoader,
+          },
+          {
+            path: "location/:locationId",
+            element: <LocationView />,
+            loader: locationViewLoader,
+          },
+          {
+            path: "location/:locationId/Edit",
+            element: <LocationEdit />,
+            loader: locationEditLoader,
+            action: locationEditAction,
           },
         ],
       },

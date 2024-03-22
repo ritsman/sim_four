@@ -1,6 +1,6 @@
 import { Form, redirect, useActionData } from "react-router-dom";
 import axios from "axios";
-import { updateRecord } from "../../Double/fun";
+import { getPageData, updateRecord } from "../../Double/fun";
 import {
   Select,
   Input,
@@ -19,6 +19,10 @@ import {
 } from "semantic-ui-react";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import {
+  MasterUrl,
+  records_per_page,
+} from "../../Consts/Master/MasterUrl.const";
 
 const dropData = [
   { key: "supplier", value: "supplier", text: "supplier" },
@@ -68,11 +72,21 @@ export default function Partyformm({ data }) {
   const [post, setPost] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("https://arya-erp.in/simranapi/get_contacts.php")
-      .then((response) => {
-        setPost(response.data);
-      });
+    (async () => {
+      try {
+        const data = await getPageData(
+          axios,
+          MasterUrl.getPageData,
+          records_per_page,
+          1,
+          "party"
+        );
+        console.log(data);
+        setPost(data);
+      } catch (err) {
+        console.log("Error occured when fetching books");
+      }
+    })();
   }, []);
 
   const [isInputFocused, setInputFocused] = useState(false);

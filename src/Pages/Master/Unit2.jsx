@@ -157,10 +157,10 @@ export default function Unit() {
 
   //get total no of pages from items table
   //const totalPages = Math.ceil(totalRecords / records_per_page);
-  const [perPage, setPerPage] = useState(records_per_page);
+  //const [perPage, setPerPage] = useState(records_per_page);
   //const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(totalRecords / perPage);
   const [perPage2, setPerPage2] = useState();
+  const totalPages = Math.ceil(totalRecords / perPage2);
 
   // const startIndex = (currentPage - 1) * perPage;
   // const endIndex = startIndex + perPage;
@@ -170,16 +170,14 @@ export default function Unit() {
     console.log(e.target.value);
     setPerPage2(parseInt(e.target.value));
     //setCurrentPage(1);
-    await pageDataChange();
+    await pageDataChange(parseInt(e.target.value));
   };
 
-  const pageDataChange = async () => {
-    console.log(perPage2);
-
-    let perpageData = await getPageData(
+  const pageDataChange = async (value) => {
+    const perpageData = await getPageData(
       axios,
       MasterUrl.getPageData,
-      perPage2,
+      value,
       1,
       "unit"
     );
@@ -190,18 +188,20 @@ export default function Unit() {
 
   return (
     <>
-      <Breadcrumb>
-        <BreadcrumbSection as={Link} to="/">
-          Home
-        </BreadcrumbSection>
-        <BreadcrumbDivider icon="right chevron" />
-        <BreadcrumbSection as={Link} to="/master">
-          Master
-        </BreadcrumbSection>
-        <BreadcrumbDivider icon="right chevron" />
-        <BreadcrumbSection active>Unit</BreadcrumbSection>
-      </Breadcrumb>
       <Grid verticalAlign="middle">
+        <GridRow style={{ marginLeft: "15px" }}>
+          <Breadcrumb>
+            <BreadcrumbSection as={Link} to="/">
+              Home
+            </BreadcrumbSection>
+            <BreadcrumbDivider icon="right chevron" />
+            <BreadcrumbSection as={Link} to="/master">
+              Master
+            </BreadcrumbSection>
+            <BreadcrumbDivider icon="right chevron" />
+            <BreadcrumbSection active>Unit</BreadcrumbSection>
+          </Breadcrumb>
+        </GridRow>
         <GridRow centered color="blue" style={{ fontWeight: "900" }}>
           <GridColumn
             floated="right"

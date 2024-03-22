@@ -1,42 +1,36 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { getPageInfo, getPageData, putNewId } from "../../Double/fun";
-import {
-  MasterUrl,
-  records_per_page,
-} from "../../Consts/Master/MasterUrl.const";
+
+import { MasterUrl } from "../../Consts/Master/MasterUrl.const";
 import { Link, useLoaderData, useNavigate } from "react-router-dom";
 import {
   Checkbox,
+  Grid,
+  Input,
+  Icon,
   Table,
   Button,
+  GridRow,
+  GridColumn,
+  TableRow,
+  TableBody,
+  TableHeader,
+  Header,
+  TableHeaderCell,
+  TableCell,
   Breadcrumb,
   BreadcrumbDivider,
   BreadcrumbSection,
   Pagination,
-  GridRow,
-  GridColumn,
-  Grid,
   Label,
+  Select,
 } from "semantic-ui-react";
 import * as XLSX from "xlsx/xlsx.mjs";
-import { useEffect } from "react";
-//get * from units table
-const header = [
-  " ",
-  "Company Name",
-  "Contact Person",
-  "Address",
-  "City",
-  "State",
-  "email",
-  "Role",
-  "Mobile",
-];
 
-//get total no of pages from items table
-const totalRecords = await getPageInfo(axios, MasterUrl.getPageInfo, "party");
-const totalPages = Math.ceil(totalRecords / records_per_page);
+//get * from units table
+const header = [" ", "Activity Name", "Description"];
+const records_per_page = 10;
 
 // loader function for Unit
 export async function loader() {
@@ -45,25 +39,34 @@ export async function loader() {
     MasterUrl.getPageData,
     records_per_page,
     1,
-    "party"
+    "activity"
   );
-  //console.log(data);
+  // console.log(data);
   return data;
 }
+const totalRecords = await getPageInfo(
+  axios,
+  MasterUrl.getPageInfo,
+  "activity"
+);
+
+const dropData = [
+  { key: "3", value: "3", text: "3" },
+  { key: "5", value: "5", text: "5" },
+  { key: "10", value: "10", text: "10" },
+  { key: "20", value: "20", text: "20" },
+];
 
 // main function====================================
-export default function Party2() {
+export default function Activity() {
   const data = useLoaderData();
   const [pageData, setPageData] = useState(data);
-  console.log(`partyPageData:`);
+  console.log(`activityData:`);
   console.log(pageData);
-
   const [showclass, setShowClass] = useState("noshow");
-
   const chkstat = {};
-
   pageData.forEach((val, ind) => {
-    // console.log(`v:${val.id}::i:${ind}`);
+    //console.log(`v:${val.id}::i:${ind}`);
     chkstat[val.id] = false;
   });
 
@@ -74,12 +77,13 @@ export default function Party2() {
   const navigate = useNavigate();
 
   const addNew = async () => {
-    const id2 = await putNewId(axios, MasterUrl.putNewId, "party");
+    const id2 = await putNewId(axios, MasterUrl.putNewId, "activity");
     console.log(`id2:${id2}`);
 
     return navigate(`${id2}/Edit`);
     //return null;
   };
+
   const showCl = () => {
     const sh = showclass === "noshow" ? "nowshow" : "noshow";
     setShowClass(sh);
@@ -95,22 +99,19 @@ export default function Party2() {
     console.log(c);
     setChkStat2(c);
   };
+
   const setTick = (contact, event, data) => {
-    console.log(event);
-    console.log(data);
-    console.log(`contact:`);
-    console.log(contact.id);
     console.log(chkstat2);
     chkstat2[contact.id] = data.checked;
     console.log(contact);
     console.log(chkstat2);
-    console.log("cccccccccc");
     const c = {
       ...chkstat2,
     };
     console.log(c);
     setChkStat2(c);
   };
+
   const delObj = () => {
     console.log(chkstat2);
     let t = [];
@@ -120,15 +121,16 @@ export default function Party2() {
     console.log(`t::::`);
     console.log(t);
   };
+
   const pageChange = async (event, data) => {
     const newpageData = await getPageData(
       axios,
       MasterUrl.getPageData,
       records_per_page,
       data.activePage,
-      "party"
+      "activity"
     );
-    setpageData(newpageData);
+    setPageData(newpageData);
   };
 
   const show_record = (id) => {
@@ -152,32 +154,42 @@ export default function Party2() {
     console.log(pageData);
     let wb = XLSX.utils.book_new(),
       ws = XLSX.utils.json_to_sheet(pageData);
-    XLSX.utils.book_append_sheet(wb, ws, "UnitDataSheet");
+    XLSX.utils.book_append_sheet(wb, ws, "ActivityDataSheet");
 
     XLSX.writeFile(wb, "MyExcel.xlsx");
   };
 
+  //get total no of pages from items table
+  //const totalPages = Math.ceil(totalRecords / records_per_page);
+  //  const [perPage, setPerPage] = useState(records_per_page);
+  //const [currentPage, setCurrentPage] = useState(1);
   const [perPage2, setPerPage2] = useState();
   const totalPages = Math.ceil(totalRecords / perPage2);
 
+  // const startIndex = (currentPage - 1) * perPage;
+  // const endIndex = startIndex + perPage;
+  // const currentData = pageData.slice(startIndex, endIndex);
+
   const handlePerPageChange = async (e) => {
-    //console.log(e.target.value);
+    console.log(e.target.value);
     setPerPage2(parseInt(e.target.value));
+    //setCurrentPage(1);
     await pageDataChange(parseInt(e.target.value));
   };
 
-  const pageDataChange = async (pp) => {
+  const pageDataChange = async (value) => {
     const perpageData = await getPageData(
       axios,
       MasterUrl.getPageData,
-      pp,
+      value,
       1,
-      "party"
+      "activity"
     );
     //console.log("perpage");
     //console.log(perPage);
     setPageData(perpageData);
   };
+
   return (
     <>
       <Grid verticalAlign="middle">
@@ -191,7 +203,7 @@ export default function Party2() {
               Master
             </BreadcrumbSection>
             <BreadcrumbDivider icon="right chevron" />
-            <BreadcrumbSection active>Party</BreadcrumbSection>
+            <BreadcrumbSection active>Activity</BreadcrumbSection>
           </Breadcrumb>
         </GridRow>
         <GridRow centered color="blue" style={{ fontWeight: "900" }}>
@@ -213,7 +225,6 @@ export default function Party2() {
               {/* <Select options={dropData} /> */}
             </Label>
             <Button onClick={handleExportData}>Export</Button>
-
             <Button color="teal" onClick={showCl}>
               Modify
             </Button>
@@ -229,7 +240,10 @@ export default function Party2() {
           <Table style={{ maxWidth: "1490px" }}>
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell className={showclass}>
+                <Table.HeaderCell
+                  className={showclass}
+                  //style={{ overflowX: "hidden" }}
+                >
                   <input type="checkbox" onChange={(event) => leadSet(event)} />
                 </Table.HeaderCell>
                 {header.map((h) => (
@@ -238,35 +252,27 @@ export default function Party2() {
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {pageData.map((contact) => (
+              {pageData.map((activity) => (
                 <Table.Row
-                  onClick={() => show_record(contact.id)}
-                  key={contact.id}
+                  onClick={() => show_record(activity.id)}
+                  key={activity.id}
                 >
                   <Table.Cell>
                     <Checkbox
                       className={showclass}
-                      checked={chkstat2[contact.id]}
-                      onChange={(event, data) => setTick(contact, event, data)}
-                      name={contact.id}
+                      checked={chkstat2[activity.id]}
+                      onChange={(event, data) => setTick(activity, event, data)}
+                      name={activity.id}
                     />
                   </Table.Cell>
-                  <Table.Cell>{contact.company_name}</Table.Cell>
-                  <Table.Cell>{contact.contact_person}</Table.Cell>
-                  <Table.Cell>{contact.address}</Table.Cell>
-                  <Table.Cell>{contact.city}</Table.Cell>
-                  <Table.Cell>{contact.state}</Table.Cell>
-                  <Table.Cell>{contact.email}</Table.Cell>
-                  <Table.Cell>{contact.role.toUpperCase()}</Table.Cell>
-
-                  <Table.Cell>{contact.mobile}</Table.Cell>
+                  <Table.Cell>{activity.activity_name}</Table.Cell>
+                  <Table.Cell>{activity.description}</Table.Cell>
                 </Table.Row>
               ))}
             </Table.Body>
           </Table>
         </GridRow>
       </Grid>
-
       <Pagination
         floated="right"
         defaultActivePage={1}

@@ -33,27 +33,23 @@ export default function MasterIndex() {
           </Card.Description>
         </Card>
 
-        <Card className="modulecard" href="#card-example-link-card">
+        <Card className="modulecard" as={Link} to="activity">
           <Card.Description textAlign="center" style={{ margin: "30px" }}>
-            <Card.Header as="h3">Elliot Baker</Card.Header>
-            <Card.Description>
-              Listing of all Units of Measurement.
-            </Card.Description>
+            <Card.Header as="h3">Activity</Card.Header>
+            <Card.Description>Listing of all Activities.</Card.Description>
           </Card.Description>
         </Card>
 
-        <Card className="modulecard" href="#card-example-link-card">
+        <Card className="modulecard" as={Link} to="process">
           <Card.Description textAlign="center" style={{ margin: "30px" }}>
-            <Card.Header as="h3">Elliot Baker</Card.Header>
-            <Card.Description>
-              Listing of all Units of Measurement.
-            </Card.Description>
+            <Card.Header as="h3">Process</Card.Header>
+            <Card.Description>Listing of all the Processes.</Card.Description>
           </Card.Description>
         </Card>
 
-        <Card className="modulecard" href="#card-example-link-card">
+        <Card className="modulecard" as={Link} to="location">
           <Card.Description textAlign="center" style={{ margin: "30px" }}>
-            <Card.Header as="h3">Elliot Baker</Card.Header>
+            <Card.Header as="h3">Location</Card.Header>
             <Card.Description>
               Listing of all Units of Measurement.
             </Card.Description>

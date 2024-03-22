@@ -138,18 +138,20 @@ export default function Item() {
 
   return (
     <>
-      <Breadcrumb>
-        <BreadcrumbSection as={Link} to="/">
-          Home
-        </BreadcrumbSection>
-        <BreadcrumbDivider icon="right chevron" />
-        <BreadcrumbSection as={Link} to="/master">
-          Master
-        </BreadcrumbSection>
-        <BreadcrumbDivider icon="right chevron" />
-        <BreadcrumbSection active>Item</BreadcrumbSection>
-      </Breadcrumb>
       <Grid verticalAlign="middle">
+        <GridRow style={{ marginLeft: "15px" }}>
+          <Breadcrumb>
+            <BreadcrumbSection as={Link} to="/">
+              Home
+            </BreadcrumbSection>
+            <BreadcrumbDivider icon="right chevron" />
+            <BreadcrumbSection as={Link} to="/master">
+              Master
+            </BreadcrumbSection>
+            <BreadcrumbDivider icon="right chevron" />
+            <BreadcrumbSection active>Item</BreadcrumbSection>
+          </Breadcrumb>
+        </GridRow>
         <GridRow centered color="blue" style={{ fontWeight: "900" }}>
           <GridColumn
             floated="right"

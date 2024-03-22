@@ -61,11 +61,21 @@ export default function ItemForm({ data }) {
   const [post, setPost] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(getPageData(axios, MasterUrl.getPageData, 10, 1, "items"))
-      .then((response) => {
-        setPost(response.config.url);
-      });
+    (async () => {
+      try {
+        const data = await getPageData(
+          axios,
+          MasterUrl.getPageData,
+          records_per_page,
+          1,
+          "items"
+        );
+        console.log(data);
+        setPost(data);
+      } catch (err) {
+        console.log("Error occured when fetching books");
+      }
+    })();
   }, []);
   console.log("inside post");
   console.log(post);
