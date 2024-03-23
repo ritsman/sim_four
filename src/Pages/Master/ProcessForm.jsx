@@ -21,6 +21,8 @@ import {
   CardHeader,
   CardDescription,
   Icon,
+  TableHeader,
+  TableHeaderCell,
 } from "semantic-ui-react";
 import {
   MasterUrl,
@@ -126,36 +128,42 @@ export default function ProcessForm({ data }) {
 
   const activity_length = data.activities.split("**").length;
   const data_activity = data.activities.split("**");
-  console.log(`data_activity`);
-  console.log(data_activity);
+  
+  const rows2=data_activity.map((act,ind)=>{
+    console.log(act,ind);
+    return {
+      id:ind,
+      val:act
+    };
+  
+  })
 
-  console.log(`activity_length: ${activity_length}`);
   const [row_id, setRow_id] = useState(activity_length); //1
   //console.log(row_id + "usestate");
-  const [rows, setRows] = useState([{ id: activity_length }]);
+  const [rows33, setRows] = useState(rows2);
 
   const handleAddRow = (e) => {
     console.log("add clicked");
-    setRow_id(row_id + 1);
-    console.log(`row_id:${row_id}`);
-    console.log("rows.length");
-    console.log(rows.length);
-    setRows([...rows, { id: rows.length }]);
-    console.log(rows);
+    
+   console.log([...rows33,{id:row_id}]);
+   
+    setRows([...rows33,{id:row_id}]);
+    setRow_id(row_id+1);
+   
     e.preventDefault();
   };
-
+  
   const handleDelRow = (e, ind) => {
     console.log("cross clicked");
     console.log(ind);
 
-    const updated_rows = [...rows];
-    console.log(`rows:${rows}`);
-    console.log(`rows.length:${rows.length}`);
-    console.log(`updated_rows: ${rows.length}`);
+    const updated_rows = [...rows33];
+    console.log(`rows:${rows33}`);
+    console.log(`rows.length:${rows33.length}`);
+    console.log(`updated_rows: ${rows33.length}`);
 
     updated_rows.splice(ind, 1);
-    console.log(rows);
+    console.log(rows33);
     console.log(updated_rows);
     setRows(updated_rows);
     e.preventDefault();
@@ -202,55 +210,37 @@ export default function ProcessForm({ data }) {
           )}
 
           <GridRow centered>
-            <Table
-              className="borderless-table"
-              basic="very"
-              collapsing
-              style={{ maxWidth: "1200px" }}
-            >
-              <TableBody>
-                <TableRow>
-                  <TableCell
-                    textAlign="center"
-                    verticalAlign="middle"
-                    style={{ fontWeight: "900" }}
-                  >
-                    Process Name
-                  </TableCell>
-                  <TableCell>
-                    <Input
-                      onFocus={() => setInputFocused(true)}
-                      onBlur={() => setInputFocused(false)}
-                      onChange={(e) => setSearch(e.target.value)}
-                      placeholder="Process Name*"
-                      name="process_name"
-                      className="form__input"
-                      defaultValue={data.process_name}
-                      error={errors?.process_name}
-                    />
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
+            <h3>Process:<Input
+            defaultValue={data.process_name}/></h3>
             <Table>
+              <TableHeader>
+                <TableHeaderCell><Button style={plus_button}>
+                      <Icon
+                        className="plus"
+                        name="plus"
+                        onClick={(e) => handleAddRow(e)}
+                      />
+                    </Button></TableHeaderCell>
+                <TableHeaderCell>Activity</TableHeaderCell>
+              </TableHeader>
               <TableBody>
-                {data_activity.map((activity) => (
-                  <TableRow>
-                    <TableCell style={icons_cell}>
+                {rows33.map((row22)=>
+                <TableRow key={row22.id}>
+                  <TableCell style={icons_cell}>
                                   <Button style={plus_button}>
                                     <Icon
-                                      style={{
-                                        paddingLeft: "40px",
-                                        paddingTop: "20px",
-                                      }}
-                                      className="close_btn"
+                                     
                                       name="close"
-                                      onClick={(e) => handleDelRow(e, index)}
+                                      onClick={(e,index) => handleDelRow(e, index)}
                                     />
                                   </Button>
-                                </TableCell><TableCell>{activity}</TableCell>
-                  </TableRow>
-                ))}
+                                </TableCell>
+                  <TableCell><Input defaultValue={row22.val}/></TableCell>
+                  <TableCell>{row22.id}</TableCell>
+                </TableRow>
+                
+                
+)}
               </TableBody>
             </Table>
           </GridRow>
