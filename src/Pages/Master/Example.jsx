@@ -1,24 +1,104 @@
-import React, { useState } from "react";
-import { Form } from "react-router-dom";
-// import "./Unitpara.css";
+import React, { useEffect, useState } from "react";
+import { Form, redirect, useActionData } from "react-router-dom";
+import { getPageData, updateRecord } from "../../Double/fun";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+import axios from "axios";
+import "./partyForm.css";
+
 import {
   TableRow,
-  TableHeaderCell,
-  TableHeader,
-  TableFooter,
   TableCell,
   TableBody,
-  MenuItem,
-  Icon,
-  Label,
-  Menu,
   Input,
   Table,
   Button,
-  IconGroup,
+  Grid,
+  GridRow,
+  GridColumn,
+  Card,
+  CardContent,
+  CardHeader,
+  CardDescription,
+  Icon,
+  TableHeader,
+  TableHeaderCell,
 } from "semantic-ui-react";
+import {
+  MasterUrl,
+  records_per_page,
+} from "../../Consts/Master/MasterUrl.const";
 
-export default function Example() {
+export async function action({ request, params }) {
+  const formData = await request.formData();
+  const updates = Object.fromEntries(formData);
+  console.log(`formdata:`);
+  console.log(updates);
+  //console.log(params);
+  const error = validation(updates);
+  if (Object.keys(error).length) {
+    console.log(error);
+    return error;
+  } else {
+    const res = await updateRecord(axios, params.processId, updates, "process");
+
+    console.log("inside upd2");
+    console.log(res);
+    if (res == "success") {
+      toast.success("Successfully Edited");
+      return redirect(`/master/process/${params.processId}`);
+    } else {
+      toast.error("Error");
+      return null;
+    }
+  }
+
+  //return null;
+}
+const validation = (formData) => {
+  const errors = {};
+
+  Object.keys(formData).forEach((key) => {
+    if (!formData[key]) {
+      errors[key] = `Please fill ${key}`;
+    }
+  });
+  console.log(errors);
+  return errors;
+};
+const dropData = [
+  { key: "supplier", value: "supplier", text: "supplier" },
+  { key: "vender", value: "vender", text: "venders" },
+  { key: "Buyer", value: "Buyer", text: "Buyer" },
+];
+export default function ProcessFormExample({ data }) {
+  const errors = useActionData();
+  console.log("arrya data");
+  console.log(data.activities.split("**"));
+
+  const [post, setPost] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await getPageData(
+          axios,
+          MasterUrl.getPageData,
+          records_per_page,
+          1,
+          "process"
+        );
+        console.log(data);
+        setPost(data);
+      } catch (err) {
+        console.log("Error occured when fetching books");
+      }
+    })();
+  }, []);
+
+  // console.log("inside post");
+  // console.log(post);
+
   const plus = {
     // background:'blue',
     color: "black !important",
@@ -45,16 +125,30 @@ export default function Example() {
   const input_width = {
     width: "100%",
   };
-  const [row_id, setRow_id] = useState(1);
 
-  const [rows, setRows] = useState([{ id: 0 }]);
+  const activity_length = data.activities.split("**").length;
+  const data_activity = data.activities.split("**");
+
+  const rows2 = data_activity.map((act, ind) => {
+    console.log(act, ind);
+    return {
+      id: ind,
+      val: act,
+    };
+  });
+
+  const [row_id, setRow_id] = useState(activity_length); //1
+  //console.log(row_id + "usestate");
+  const [rows33, setRows] = useState(rows2);
 
   const handleAddRow = (e) => {
     console.log("add clicked");
+
+    console.log([...rows33, { id: row_id }]);
+
+    setRows([...rows33, { id: row_id }]);
     setRow_id(row_id + 1);
-    console.log(`row_id:${row_id}`);
-    setRows([...rows, { id: rows.length }]);
-    console.log(rows);
+
     e.preventDefault();
   };
 
@@ -62,82 +156,97 @@ export default function Example() {
     console.log("cross clicked");
     console.log(ind);
 
-    const updated_rows = [...rows];
-    //console.log(`rows:${rows}`);
-    console.log(`rows.length:${rows.length}`);
-    console.log(`updated_rows: ${rows.length}`);
+    const updated_rows = [...rows33];
+    console.log(`rows:${rows33}`);
+    console.log(`rows.length:${rows33.length}`);
 
     updated_rows.splice(ind, 1);
-    console.log(rows);
+    console.log(rows33);
     console.log(updated_rows);
     setRows(updated_rows);
     e.preventDefault();
   };
 
+  const [search, setSearch] = useState("");
+  const [isInputFocused, setInputFocused] = useState(false);
   return (
     <>
-      <div className="center_box">
-        <Form method="post" className="">
-          <div className="table-responsive">
-            <h6 className="main_head">Edit Item</h6>
-
-            <Table
-              celled
-              striped
-              style={tableStyle}
-              className="table-responsive"
+      <Form method="post">
+        <Grid verticalAlign="middle">
+          <GridRow centered color="blue" style={{ fontWeight: "900" }}>
+            <GridColumn textAlign="center" width={12}>
+              {data.process_name}
+            </GridColumn>
+            <GridColumn
+              floated="right"
+              width={4}
+              textAlign="right"
+              verticalAlign="middle"
             >
+              <Button>Submit</Button>
+              <Button>Cancel</Button>
+            </GridColumn>
+          </GridRow>
+          {isInputFocused && (
+            <Grid.Column floated="right" width={3}>
+              <Card>
+                <CardContent>
+                  {post
+                    .filter((item) => {
+                      return search.toUpperCase() === ""
+                        ? item
+                        : item.process_name.includes(search);
+                    })
+                    .map((item) => (
+                      <CardDescription style={{ fontWeight: "bold" }}>
+                        {item.process_name}
+                      </CardDescription>
+                    ))}
+                </CardContent>
+              </Card>
+            </Grid.Column>
+          )}
+
+          <GridRow centered>
+            <h3>
+              Process:
+              <Input defaultValue={data.process_name} />
+            </h3>
+            <Table>
               <TableHeader>
-                <TableRow style={tableStyle}>
-                  <TableHeaderCell style={icons_cell}>
-                    <Button style={plus_button}>
-                      <Icon
-                        className="plus"
-                        name="plus"
-                        onClick={(e) => handleAddRow(e)}
-                      />
-                    </Button>
-                  </TableHeaderCell>
-                  <TableHeaderCell>Unit Name</TableHeaderCell>
-                  {/* <TableHeaderCell>Short Name</TableHeaderCell> */}
-                </TableRow>
+                <TableHeaderCell>
+                  <Button style={plus_button}>
+                    <Icon
+                      className="plus"
+                      name="plus"
+                      onClick={(e) => handleAddRow(e)}
+                    />
+                  </Button>
+                </TableHeaderCell>
+                <TableHeaderCell>Activity</TableHeaderCell>
               </TableHeader>
               <TableBody>
-                {rows.map((row, index) => {
-                  return (
-                    <TableRow key={`R${row.id}`}>
-                      <TableCell style={icons_cell}>
-                        <Button style={plus_button}>
-                          <Icon
-                            className="close_btn"
-                            name="close"
-                            onClick={(e) => handleDelRow(e, index)}
-                          />
-                        </Button>
-                      </TableCell>
-                      <TableCell>
-                        <Input
-                          placeholder="Unit Name*"
-                          name="unit_name"
-                          style={input_width}
-                          defaultValue={row.id}
+                {rows33.map((row22) => (
+                  <TableRow key={row22.id}>
+                    <TableCell style={icons_cell}>
+                      <Button style={plus_button}>
+                        <Icon
+                          name="close"
+                          onClick={(e, index) => handleDelRow(e, index)}
                         />
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
+                      </Button>
+                    </TableCell>
+                    <TableCell>
+                      <Input defaultValue={row22.val} />
+                    </TableCell>
+                    <TableCell>{row22.id}</TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
-
-            <div className="text-center">
-              <Button primary className="mt_10">
-                Submit
-              </Button>
-              <Button primary>Reset</Button>
-            </div>
-          </div>
-        </Form>
-      </div>
+          </GridRow>
+        </Grid>
+      </Form>
     </>
   );
 }

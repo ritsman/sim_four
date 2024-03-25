@@ -46,7 +46,10 @@ import ProcessEdit, {
 } from "./Pages/Master/ProcessEdit";
 import { action as locationEditAction } from "./Pages/Master/LocationForm";
 import { action as processEditAction } from "./Pages/Master/ProcessForm";
-import Example from "./Pages/Master/Example";
+import Group, { loader as groupLoader } from "./Pages/Master/Group";
+import GroupView, { loader as groupViewLoader } from "./Pages/Master/GroupView";
+import GroupEdit, { loader as groupEditLoader } from "./Pages/Master/GroupEdit";
+import { action as groupEditAction } from "./Pages/Master/GroupForm";
 
 const router = createBrowserRouter([
   {
@@ -168,6 +171,22 @@ const router = createBrowserRouter([
             loader: locationEditLoader,
             action: locationEditAction,
           },
+          {
+            path: "group",
+            element: <Group />,
+            loader: groupLoader,
+          },
+          {
+            path: "group/:groupId",
+            element: <GroupView />,
+            loader: groupViewLoader,
+          },
+          {
+            path: "group/:groupId/Edit",
+            element: <GroupEdit />,
+            loader: groupEditLoader,
+            action: groupEditAction,
+          },
         ],
       },
     ],
@@ -175,11 +194,6 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <LoginForm />,
-  },
-  {
-    path: "/example",
-    element: <Example />,
-    //loader: styleLoader,
   },
 ]);
 

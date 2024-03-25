@@ -262,8 +262,8 @@ export default function Partyformm({ data }) {
                     id="role"
                     defaultValue={data.role}
                   >
-                    <option value="supplier">Supplier</option>
                     <option value="buyer">Buyer</option>
+                    <option value="supplier">Supplier</option>
                     <option value="vender">Vender</option>
                   </select>
                 </TableCell>

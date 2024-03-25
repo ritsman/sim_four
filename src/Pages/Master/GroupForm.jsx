@@ -45,7 +45,7 @@ export async function action({ request, params }) {
     console.log(res);
     if (res == "success") {
       toast.success("Successfully Edited");
-      return redirect(`/master/process/${params.processId}`);
+      return redirect(`/master/group/${params.groupId}`);
     } else {
       toast.error("Error");
       return null;
@@ -62,15 +62,22 @@ const validation = (formData) => {
       errors[key] = `Please fill ${key}`;
     }
   });
-  //console.log(errors);
+  console.log(errors);
   return errors;
 };
 
-export default function ProcessForm({ data }) {
+const dropData2 = [
+  { key: "Process", value: "Process", text: "Process" },
+  { key: "Activities", value: "Activities", text: "Activities" },
+  { key: "Item", value: "Item", text: "Items" },
+];
+
+export default function GroupForm({ data }) {
   const errors = useActionData();
 
   const [post, setPost] = useState([]);
 
+  //to get existing group name list
   useEffect(() => {
     (async () => {
       try {
@@ -79,7 +86,7 @@ export default function ProcessForm({ data }) {
           MasterUrl.getPageData,
           records_per_page,
           1,
-          "process"
+          "group"
         );
         console.log(data);
         setPost(data);
@@ -89,32 +96,75 @@ export default function ProcessForm({ data }) {
     })();
   }, []);
 
-  const [actData, setActData] = useState([]);
+  const [type, setType] = useState(data.group_type);
+
+  //to get group type
+  const handleChange = (e) => {
+    setType(e.target.value);
+  };
+  console.log(`type: ${type}`);
+
+  const [groupData, setGroupData] = useState([]);
 
   useEffect(() => {
-    (async () => {
-      try {
-        const data = await getPageData(
-          axios,
-          MasterUrl.getPageData,
-          records_per_page,
-          1,
-          "activity"
-        );
-        console.log(data);
-        setActData(data);
-      } catch (err) {
-        console.log("Error occured when fetching books");
-      }
-    })();
+    if (type == "Item") {
+      (async () => {
+        try {
+          const data = await getPageData(
+            axios,
+            MasterUrl.getPageData,
+            records_per_page,
+            1,
+            "items"
+          );
+          console.log(data);
+          setGroupData(data);
+        } catch (err) {
+          console.log("Error occured when fetching items");
+        }
+      })();
+    } else if (type === "Process") {
+      (async () => {
+        try {
+          const data = await getPageData(
+            axios,
+            MasterUrl.getPageData,
+            records_per_page,
+            1,
+            "process"
+          );
+          console.log(data);
+          setGroupData(data);
+        } catch (err) {
+          console.log("Error occured when fetching processes");
+        }
+      })();
+    } else {
+      (async () => {
+        try {
+          const data = await getPageData(
+            axios,
+            MasterUrl.getPageData,
+            records_per_page,
+            1,
+            "activity"
+          );
+          console.log(data);
+          setGroupData(data);
+        } catch (err) {
+          console.log("Error occured when fetching activity");
+        }
+      })();
+    }
   }, []);
 
-  let dropData = actData.map((data) => data.activity_name);
-  dropData = dropData.map((str, index) => ({
-    key: index + 1,
-    value: str,
-    text: str,
-  }));
+  //  let dropData = groupData.map((data) => data.activity_name);
+  //  dropData = dropData.map((str, index) => ({
+  //    key: index + 1,
+  //    value: str,
+  //    text: str,
+  //  }));
+  //  console.log(dropData);
 
   const plus = {
     // background:'blue',
@@ -143,12 +193,12 @@ export default function ProcessForm({ data }) {
     width: "100%",
   };
 
-  const activity_length = data.activities.split("**").length;
-  const data_activity = data.activities.split("**");
+  const group_items_length = data.group_tems.split("**").length;
+  const group_items = data.group_tems.split("**");
 
-  // console.log(`activity_length: ${activity_length}`);
+  // console.log(`group_items_length: ${group_items_length}`);
 
-  const rows2 = data_activity.map((act, ind) => {
+  const rows2 = group_items.map((act, ind) => {
     //console.log(act, ind);
     return {
       id: ind,
@@ -156,7 +206,7 @@ export default function ProcessForm({ data }) {
     };
   });
 
-  const [row_id, setRow_id] = useState(activity_length); //1
+  const [row_id, setRow_id] = useState(group_items_length); //1
   //console.log(row_id + "usestate");
   const [rows, setRows] = useState(rows2);
 
@@ -201,7 +251,7 @@ export default function ProcessForm({ data }) {
         <Grid verticalAlign="middle">
           <GridRow centered color="blue" style={{ fontWeight: "900" }}>
             <GridColumn textAlign="center" width={12}>
-              {data.process_name}
+              {data.activity_name}
             </GridColumn>
             <GridColumn
               floated="right"
@@ -221,11 +271,11 @@ export default function ProcessForm({ data }) {
                     .filter((item) => {
                       return search.toUpperCase() === ""
                         ? item
-                        : item.process_name.includes(search);
+                        : item.group_name.includes(search);
                     })
                     .map((item) => (
                       <CardDescription style={{ fontWeight: "bold" }}>
-                        {item.process_name}
+                        {item.group_name}
                       </CardDescription>
                     ))}
                 </CardContent>
@@ -247,19 +297,54 @@ export default function ProcessForm({ data }) {
                     verticalAlign="middle"
                     style={{ fontWeight: "900" }}
                   >
-                    Process Name
+                    Group Name
                   </TableCell>
                   <TableCell>
                     <Input
                       onFocus={() => setInputFocused(true)}
                       onBlur={() => setInputFocused(false)}
                       onChange={(e) => setSearch(e.target.value)}
-                      placeholder="Process Name*"
-                      name="process_name"
+                      placeholder="Group Name*"
+                      name="group_name"
                       className="form__input"
-                      defaultValue={data.process_name}
-                      error={errors?.process_name}
+                      defaultValue={data.group_name}
+                      error={errors?.group_name}
                     />
+                  </TableCell>
+                  <TableCell
+                    textAlign="center"
+                    verticalAlign="middle"
+                    style={{ fontWeight: "900" }}
+                  >
+                    Group Type
+                  </TableCell>
+                  <TableCell>
+                    {/* <Select
+                      value={type}
+                      onChange={(e) => handleChange(e)}
+                      options={dropData2}
+                      placeholder="Group Type*"
+                      name="group_type"
+                      className="form__input"
+                      defaultValue={data.group_type}
+                      error={errors?.group_type}
+                    /> */}
+
+                    <select
+                      name="group_type"
+                      id="group_type"
+                      value={type}
+                      defaultValue={data.group_type}
+                      onChange={(e) => handleChange(e)}
+                      options={dropData2}
+                      placeholder="Group Type*"
+                      error={errors?.group_type}
+                      style={{ padding: "10px 55px", border: "none" }}
+                    >
+                      <option value="Process">Process</option>
+                      <option value="Item">Items</option>
+                      <option value="Activities">Activities</option>
+                    </select>
                   </TableCell>
                 </TableRow>
                 <TableRow>
@@ -275,7 +360,7 @@ export default function ProcessForm({ data }) {
                         onClick={(e) => handleAddRow(e)}
                       />
                     </Button>
-                    Activities
+                    Group Items
                   </TableCell>
                   <TableCell>
                     {rows.map((row) => {
@@ -286,7 +371,7 @@ export default function ProcessForm({ data }) {
                             <Button style={plus_button}>
                               <Icon
                                 style={{
-                                  paddingLeft: "30px",
+                                  paddingLeft: "40px",
                                   paddingTop: "20px",
                                 }}
                                 className="close_btn"
@@ -296,23 +381,18 @@ export default function ProcessForm({ data }) {
                             </Button>
                           </TableCell>
                           <TableCell>
-                            <Select
-                              name="activities"
-                              options={dropData}
-                              defaultValue={row.val}
-                            />
-                            {/* <select
-                              name="activities"
+                            <Input defaultValue={row.val} />
+                            <select
+                              name="group_tems"
                               defaultValue={row.val}
                               style={{ padding: "10px 55px", border: "none" }}
                             >
-                              
-                              {actData.map((data) => (
+                              {groupData.map((data) => (
                                 <option value={data.activity_name}>
                                   {data.activity_name}
                                 </option>
                               ))}
-                            </select> */}
+                            </select>
                           </TableCell>
                         </TableRow>
                       );

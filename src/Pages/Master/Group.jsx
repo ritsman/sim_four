@@ -22,20 +22,10 @@ import {
 import * as XLSX from "xlsx/xlsx.mjs";
 import { useEffect } from "react";
 //get * from units table
-const header = [
-  " ",
-  "Company Name",
-  "Contact Person",
-  "Address",
-  "City",
-  "State",
-  "email",
-  "Role",
-  "Mobile",
-];
+const header = [" ", "Group Name", "Group Type", "Group Items"];
 
 //get total no of pages from items table
-const totalRecords = await getPageInfo(axios, MasterUrl.getPageInfo, "party");
+const totalRecords = await getPageInfo(axios, MasterUrl.getPageInfo, "group");
 const totalPages = Math.ceil(totalRecords / records_per_page);
 
 // loader function for Unit
@@ -45,17 +35,17 @@ export async function loader() {
     MasterUrl.getPageData,
     records_per_page,
     1,
-    "party"
+    "group"
   );
   //console.log(data);
   return data;
 }
 
 // main function====================================
-export default function Party2() {
+export default function Group() {
   const data = useLoaderData();
   const [pageData, setPageData] = useState(data);
-  console.log(`partyPageData:`);
+  console.log(`groupPageData:`);
   console.log(pageData);
 
   const [showclass, setShowClass] = useState("noshow");
@@ -74,7 +64,7 @@ export default function Party2() {
   const navigate = useNavigate();
 
   const addNew = async () => {
-    const id2 = await putNewId(axios, MasterUrl.putNewId, "party");
+    const id2 = await putNewId(axios, MasterUrl.putNewId, "group");
     console.log(`id2:${id2}`);
 
     return navigate(`${id2}/Edit`);
@@ -126,7 +116,7 @@ export default function Party2() {
       MasterUrl.getPageData,
       records_per_page,
       data.activePage,
-      "party"
+      "group"
     );
     setPageData(newpageData);
   };
@@ -152,7 +142,7 @@ export default function Party2() {
     console.log(pageData);
     let wb = XLSX.utils.book_new(),
       ws = XLSX.utils.json_to_sheet(pageData);
-    XLSX.utils.book_append_sheet(wb, ws, "UnitDataSheet");
+    XLSX.utils.book_append_sheet(wb, ws, "GroupDataSheet");
 
     XLSX.writeFile(wb, "MyExcel.xlsx");
   };
@@ -172,7 +162,7 @@ export default function Party2() {
       MasterUrl.getPageData,
       pp,
       1,
-      "party"
+      "group"
     );
     //console.log("perpage");
     //console.log(perPage);
@@ -191,7 +181,7 @@ export default function Party2() {
               Master
             </BreadcrumbSection>
             <BreadcrumbDivider icon="right chevron" />
-            <BreadcrumbSection active>Party</BreadcrumbSection>
+            <BreadcrumbSection active>Group</BreadcrumbSection>
           </Breadcrumb>
         </GridRow>
         <GridRow centered color="blue" style={{ fontWeight: "900" }}>
@@ -251,15 +241,11 @@ export default function Party2() {
                       name={contact.id}
                     />
                   </Table.Cell>
-                  <Table.Cell>{contact.company_name}</Table.Cell>
-                  <Table.Cell>{contact.contact_person}</Table.Cell>
-                  <Table.Cell>{contact.address}</Table.Cell>
-                  <Table.Cell>{contact.city}</Table.Cell>
-                  <Table.Cell>{contact.state}</Table.Cell>
-                  <Table.Cell>{contact.email}</Table.Cell>
-                  <Table.Cell>{contact.role.toUpperCase()}</Table.Cell>
-
-                  <Table.Cell>{contact.mobile}</Table.Cell>
+                  <Table.Cell>{contact.group_name}</Table.Cell>
+                  <Table.Cell>{contact.group_type}</Table.Cell>
+                  <Table.Cell>
+                    {contact.group_tems.split("**").join(", ")}
+                  </Table.Cell>
                 </Table.Row>
               ))}
             </Table.Body>

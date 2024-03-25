@@ -50,15 +50,13 @@ export default function MasterIndex() {
         <Card className="modulecard" as={Link} to="location">
           <Card.Description textAlign="center" style={{ margin: "30px" }}>
             <Card.Header as="h3">Location</Card.Header>
-            <Card.Description>
-              Listing of all Units of Measurement.
-            </Card.Description>
+            <Card.Description>Listing of all Locations.</Card.Description>
           </Card.Description>
         </Card>
 
-        <Card className="modulecard" href="#card-example-link-card">
+        <Card className="modulecard" as={Link} to="group">
           <Card.Description textAlign="center" style={{ margin: "30px" }}>
-            <Card.Header as="h3">Elliot Baker</Card.Header>
+            <Card.Header as="h3">Group</Card.Header>
             <Card.Description>
               Listing of all Units of Measurement.
             </Card.Description>
