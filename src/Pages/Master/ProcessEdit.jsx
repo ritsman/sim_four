@@ -4,7 +4,7 @@ import axios from "axios";
 import ProcessForm from "./ProcessForm";
 import { getIdEntry } from "../../Double/fun";
 import { MasterUrl } from "../../Consts/Master/MasterUrl.const";
-import Example from "./Example";
+import Processformm from "./Processformm";
 
 export async function loader({ params }) {
   //console.log(params);
@@ -24,8 +24,8 @@ export default function ProcessEdit() {
   const data = useLoaderData();
   return (
     <div>
-      {/* <Example data={data} /> */}
-      <ProcessForm data={data} />
+      <Processformm data={data} />
+      {/* <ProcessForm data={data} /> */}
     </div>
   );
 }

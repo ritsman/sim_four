@@ -81,7 +81,7 @@ export default function SidebarCom({ visible, change, sidemenu2 }) {
             </Menu.Item>
           ))}
         </Sidebar>
-        <Sidebar.Pusher style={{ backgroundColor: "#F0F8FF" }}>
+        <Sidebar.Pusher>
           <Segment basic>
             {/* <Header as="h4">Data</Header> */}
             <Outlet />

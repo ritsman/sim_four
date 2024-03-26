@@ -66,18 +66,13 @@ const validation = (formData) => {
   console.log(errors);
   return errors;
 };
-const dropData = [
-  { key: "supplier", value: "supplier", text: "supplier" },
-  { key: "vender", value: "vender", text: "venders" },
-  { key: "Buyer", value: "Buyer", text: "Buyer" },
-];
-export default function ProcessFormExample({ data }) {
+
+export default function Processformm({ data }) {
   const errors = useActionData();
-  console.log("arrya data");
-  console.log(data.activities.split("**"));
 
   const [post, setPost] = useState([]);
-
+  const [search, setSearch] = useState("");
+  const [isInputFocused, setInputFocused] = useState(false);
   useEffect(() => {
     (async () => {
       try {
@@ -98,6 +93,30 @@ export default function ProcessFormExample({ data }) {
 
   // console.log("inside post");
   // console.log(post);
+
+  const [activity, setActivity] = useState([]);
+  const [isActivityInputFocused, setActivityInputFocused] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await getPageData(
+          axios,
+          MasterUrl.getPageData,
+          records_per_page,
+          1,
+          "activity"
+        );
+        console.log(data);
+        setActivity(data);
+      } catch (err) {
+        console.log("Error occured when fetching books");
+      }
+    })();
+  }, []);
+
+  //console.log("inside activity");
+  //console.log(activity);
 
   const plus = {
     // background:'blue',
@@ -130,7 +149,7 @@ export default function ProcessFormExample({ data }) {
   const data_activity = data.activities.split("**");
 
   const rows2 = data_activity.map((act, ind) => {
-    console.log(act, ind);
+    // console.log(act, ind);
     return {
       id: ind,
       val: act,
@@ -167,8 +186,12 @@ export default function ProcessFormExample({ data }) {
     e.preventDefault();
   };
 
-  const [search, setSearch] = useState("");
-  const [isInputFocused, setInputFocused] = useState(false);
+  const removeItem = (ind) => {
+    const updatedItems = rows.filter((item) => item.id !== ind);
+    console.log(updatedItems);
+    setRows(updatedItems);
+  };
+
   return (
     <>
       <Form method="post">
@@ -210,8 +233,37 @@ export default function ProcessFormExample({ data }) {
           <GridRow centered>
             <h3>
               Process:
-              <Input defaultValue={data.process_name} />
+              <Input
+                defaultValue={data.process_name}
+                onFocus={() => setInputFocused(true)}
+                onBlur={() => setInputFocused(false)}
+                onChange={(e) => setSearch(e.target.value)}
+                className="form__input"
+                name="process_name"
+                placeholder="Process Name*"
+                error={errors?.process_name}
+              />
             </h3>
+            {isActivityInputFocused && (
+              <Grid.Column floated="right" width={3}>
+                <Card>
+                  <CardContent>
+                    {activity
+                      .filter((item) => {
+                        return search.toUpperCase() === ""
+                          ? item
+                          : item.activity_name.includes(search);
+                      })
+                      .map((item) => (
+                        <CardDescription style={{ fontWeight: "bold" }}>
+                          {item.activity_name}
+                        </CardDescription>
+                      ))}
+                  </CardContent>
+                </Card>
+              </Grid.Column>
+            )}
+
             <Table>
               <TableHeader>
                 <TableHeaderCell>
@@ -225,21 +277,27 @@ export default function ProcessFormExample({ data }) {
                 </TableHeaderCell>
                 <TableHeaderCell>Activity</TableHeaderCell>
               </TableHeader>
+
               <TableBody>
                 {rows33.map((row22) => (
                   <TableRow key={row22.id}>
                     <TableCell style={icons_cell}>
                       <Button style={plus_button}>
-                        <Icon
-                          name="close"
-                          onClick={(e, index) => handleDelRow(e, index)}
-                        />
+                        <Icon name="close" onClick={() => removeItem(row.id)} />
                       </Button>
                     </TableCell>
                     <TableCell>
-                      <Input defaultValue={row22.val} />
+                      <Input
+                        defaultValue={row22.val}
+                        onFocus={() => setActivityInputFocused(true)}
+                        onBlur={() => setActivityInputFocused(false)}
+                        onChange={(e) => setSearch(e.target.value)}
+                        className="form__input"
+                        name="activities"
+                        placeholder="Activities*"
+                        error={errors?.activities}
+                      />
                     </TableCell>
-                    <TableCell>{row22.id}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

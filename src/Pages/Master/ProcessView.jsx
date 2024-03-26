@@ -88,9 +88,9 @@ const ProcessView = () => {
                 </TableCell>
                 <TableCell>{process.process_name}</TableCell>
                 <TableCell style={{ fontWeight: "900" }}>Activities</TableCell>
-                <TableCell>
-                  {process.activities.split("**").join(", ")}
-                </TableCell>
+                {process.activities.split("**").map((act) => (
+                  <TableRow>{act}</TableRow>
+                ))}
               </TableRow>
             </TableBody>
           </Table>

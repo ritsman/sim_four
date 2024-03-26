@@ -130,6 +130,10 @@ export default function PartyView() {
                 <TableCell style={{ fontWeight: "900" }}>Created By</TableCell>
                 <TableCell>{contact.user}</TableCell>
               </TableRow>
+              <TableRow>
+                <TableCell style={{ fontWeight: "900" }}>Role</TableCell>
+                <TableCell>{contact.role}</TableCell>
+              </TableRow>
             </TableBody>
           </Table>
         </GridRow>

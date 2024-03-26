@@ -22,6 +22,8 @@ import {
   CardDescription,
   Icon,
   Select,
+  FormField,
+  FormSelect,
 } from "semantic-ui-react";
 import {
   MasterUrl,
@@ -298,23 +300,24 @@ export default function ProcessForm({ data }) {
                             </Button>
                           </TableCell>
                           <TableCell>
-                            {/* <Select
-                              placeholder="Activities"
-                              name="activities"
-                              options={dropData}
-                              defaultValue={row.val}
-                            /> */}
+                            {/* <FormField>
+                              <FormSelect
+                                placeholder="Activities"
+                                name="activities"
+                                options={dropData}
+                                defaultValue={row.val}
+                              />
+                            </FormField> */}
                             <select
                               placeholder="Select Activities"
                               name="activities"
-                              defaultValue={row.val}
                               style={{ padding: "10px 55px", border: "none" }}
                             >
-                              <option value="" selected disabled hidden>
-                                Choose here
-                              </option>
                               {actData.map((data) => (
-                                <option value={data.activity_name}>
+                                <option
+                                  selected={data.activity_name === row.val}
+                                  value={data.activity_name}
+                                >
                                   {data.activity_name}
                                 </option>
                               ))}
