@@ -251,7 +251,7 @@ export default function GroupForm({ data }) {
         <Grid verticalAlign="middle">
           <GridRow centered color="blue" style={{ fontWeight: "900" }}>
             <GridColumn textAlign="center" width={12}>
-              {data.activity_name}
+              {data.group_name}
             </GridColumn>
             <GridColumn
               floated="right"

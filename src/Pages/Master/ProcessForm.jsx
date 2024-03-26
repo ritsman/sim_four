@@ -108,6 +108,8 @@ export default function ProcessForm({ data }) {
       }
     })();
   }, []);
+  console.log("actData");
+  console.log(actData);
 
   let dropData = actData.map((data) => data.activity_name);
   dropData = dropData.map((str, index) => ({
@@ -296,23 +298,27 @@ export default function ProcessForm({ data }) {
                             </Button>
                           </TableCell>
                           <TableCell>
-                            <Select
+                            {/* <Select
+                              placeholder="Activities"
                               name="activities"
                               options={dropData}
                               defaultValue={row.val}
-                            />
-                            {/* <select
+                            /> */}
+                            <select
+                              placeholder="Select Activities"
                               name="activities"
                               defaultValue={row.val}
                               style={{ padding: "10px 55px", border: "none" }}
                             >
-                              
+                              <option value="" selected disabled hidden>
+                                Choose here
+                              </option>
                               {actData.map((data) => (
                                 <option value={data.activity_name}>
                                   {data.activity_name}
                                 </option>
                               ))}
-                            </select> */}
+                            </select>
                           </TableCell>
                         </TableRow>
                       );

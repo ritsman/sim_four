@@ -20,7 +20,6 @@ import {
   CardContent,
   CardHeader,
   CardDescription,
-  TextArea,
 } from "semantic-ui-react";
 import {
   MasterUrl,
@@ -38,18 +37,13 @@ export async function action({ request, params }) {
     console.log(error);
     return error;
   } else {
-    const res = await updateRecord(
-      axios,
-      params.locationId,
-      updates,
-      "location"
-    );
+    const res = await updateRecord(axios, params.sizeId, updates, "size");
 
-    console.log("inside upd2");
-    console.log(res);
+    //console.log("inside upd2");
+    // console.log(res);
     if (res == "success") {
       toast.success("Successfully Edited");
-      return redirect(`/master/location/${params.locationId}`);
+      return redirect(`/master/unit/${params.processId}`);
     } else {
       toast.error("Error");
       return null;
@@ -70,7 +64,7 @@ const validation = (formData) => {
   return errors;
 };
 
-export default function LocationForm({ data }) {
+export default function UnitForm({ data }) {
   const errors = useActionData();
 
   const [post, setPost] = useState([]);
@@ -83,12 +77,12 @@ export default function LocationForm({ data }) {
           MasterUrl.getPageData,
           records_per_page,
           1,
-          "location"
+          "size"
         );
         console.log(data);
         setPost(data);
       } catch (err) {
-        console.log("Error occured when fetching books");
+        console.log(err);
       }
     })();
   }, []);
@@ -98,13 +92,43 @@ export default function LocationForm({ data }) {
 
   const [search, setSearch] = useState("");
   const [isInputFocused, setInputFocused] = useState(false);
+
+  const defaultsizes = data.sizes.split("**");
+
+  const rows2 = defaultsizes.map((act, ind) => {
+    //console.log(act, ind);
+    return {
+      id: ind,
+      val: act,
+    };
+  });
+  const [rows, setRows] = useState(rows2);
+
+  const [numberOfSizes, setNumberOfSizes] = useState();
+
+  const [sizes, setSizes] = useState([]);
+
+  const handleNumberOfSizesChange = (e) => {
+    const { value } = e.target;
+    setNumberOfSizes(value);
+    const newSizes = Array.from({ length: value });
+    setSizes(newSizes);
+  };
+
+  const handleSizeInputChange = (index, e) => {
+    const { value } = e.target;
+    const newSizes = [...sizes];
+    newSizes[index] = value;
+    setSizes(newSizes);
+  };
+
   return (
     <>
       <Form method="post">
         <Grid verticalAlign="middle">
           <GridRow centered color="blue" style={{ fontWeight: "900" }}>
             <GridColumn textAlign="center" width={12}>
-              {data.location_name}
+              {data.size_name}
             </GridColumn>
             <GridColumn
               floated="right"
@@ -124,11 +148,11 @@ export default function LocationForm({ data }) {
                     .filter((item) => {
                       return search.toUpperCase() === ""
                         ? item
-                        : item.location_name.includes(search);
+                        : item.size_name.includes(search);
                     })
                     .map((item) => (
                       <CardDescription style={{ fontWeight: "bold" }}>
-                        {item.location_name}
+                        {item.size_name}
                       </CardDescription>
                     ))}
                 </CardContent>
@@ -150,18 +174,18 @@ export default function LocationForm({ data }) {
                     verticalAlign="middle"
                     style={{ fontWeight: "900" }}
                   >
-                    Location Name
+                    Size Name
                   </TableCell>
                   <TableCell>
                     <Input
                       onFocus={() => setInputFocused(true)}
                       onBlur={() => setInputFocused(false)}
                       onChange={(e) => setSearch(e.target.value)}
-                      placeholder="Location Name*"
-                      name="location_name"
+                      placeholder="Size Name*"
+                      name="size_name"
                       className="form__input"
-                      defaultValue={data.location_name}
-                      error={errors?.location_name}
+                      defaultValue={data.size_name}
+                      error={errors?.size_name}
                     />
                   </TableCell>
                   <TableCell
@@ -169,21 +193,61 @@ export default function LocationForm({ data }) {
                     verticalAlign="middle"
                     style={{ fontWeight: "900" }}
                   >
-                    Description
+                    Size Numbers
                   </TableCell>
                   <TableCell>
-                    <TextArea
-                      style={{
-                        border: "none",
-                        textAlign: "center",
-                        outline: "none",
-                      }}
-                      name="description"
-                      placeholder="Description*"
-                      defaultValue={data.description}
-                      error={errors?.description}
+                    <Input
+                      type="number"
+                      name="size_nos"
+                      placeholder="Enter number of sizes*"
+                      defaultValue={data.size_nos}
+                      error={errors?.size_nos}
+                      onChange={handleNumberOfSizesChange}
                     />
                   </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell
+                    textAlign="center"
+                    verticalAlign="middle"
+                    style={{ fontWeight: "900" }}
+                  >
+                    Sizes
+                  </TableCell>
+                  <TableCell>
+                    {rows.map((row) => {
+                      // console.log(row);
+                      return (
+                        <TableCell>
+                          <Input
+                            name="sizes"
+                            placeholder="Sizes"
+                            defaultValue={row.val}
+                          />
+                        </TableCell>
+                      );
+                    })}
+                  </TableCell>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "start",
+                      width: "100%",
+                    }}
+                  >
+                    {sizes.map((size, index) => (
+                      <div key={index} style={{ marginRight: "5px" }}>
+                        <Input
+                          placeholder={`Size ${index + 1}`}
+                          name={`size_${index + 1}`}
+                          value={size}
+                          onChange={(e) => handleSizeInputChange(index, e)}
+                          style={{ width: "100px" }}
+                        />
+                      </div>
+                    ))}
+                  </div>
                 </TableRow>
               </TableBody>
             </Table>

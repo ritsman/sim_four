@@ -63,9 +63,9 @@ export default function MasterIndex() {
           </Card.Description>
         </Card>
 
-        <Card className="modulecard" href="#card-example-link-card">
+        <Card className="modulecard" as={Link} to="size">
           <Card.Description textAlign="center" style={{ margin: "30px" }}>
-            <Card.Header as="h3">Elliot Baker</Card.Header>
+            <Card.Header as="h3">Size</Card.Header>
             <Card.Description>
               Listing of all Units of Measurement.
             </Card.Description>

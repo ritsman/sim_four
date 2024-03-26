@@ -50,6 +50,11 @@ import Group, { loader as groupLoader } from "./Pages/Master/Group";
 import GroupView, { loader as groupViewLoader } from "./Pages/Master/GroupView";
 import GroupEdit, { loader as groupEditLoader } from "./Pages/Master/GroupEdit";
 import { action as groupEditAction } from "./Pages/Master/GroupForm";
+import Size, { loader as sizeLoader } from "./Pages/Master/Size";
+import SizeView, { loader as sizeViewLoader } from "./Pages/Master/SizeView";
+import SizeEdit, { loader as sizeEditLoader } from "./Pages/Master/SizeEdit";
+import { action as sizeEditAction } from "./Pages/Master/SizeForm";
+import SizeForm1 from "./Allforms/master/size/Sizeform1";
 
 const router = createBrowserRouter([
   {
@@ -187,6 +192,22 @@ const router = createBrowserRouter([
             loader: groupEditLoader,
             action: groupEditAction,
           },
+          {
+            path: "size",
+            element: <Size />,
+            loader: sizeLoader,
+          },
+          {
+            path: "size/:sizeId",
+            element: <SizeView />,
+            loader: sizeViewLoader,
+          },
+          {
+            path: "size/:sizeId/Edit",
+            element: <SizeEdit />,
+            loader: sizeEditLoader,
+            action: sizeEditAction,
+          },
         ],
       },
     ],
@@ -194,6 +215,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <LoginForm />,
+  },
+  {
+    path: "/sizeform1",
+    element: <SizeForm1 />,
   },
 ]);
 

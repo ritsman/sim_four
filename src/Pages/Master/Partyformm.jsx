@@ -84,7 +84,7 @@ export default function Partyformm({ data }) {
         console.log(data);
         setPost(data);
       } catch (err) {
-        console.log("Error occured when fetching books");
+        console.log("Error occured when fetching party");
       }
     })();
   }, []);
