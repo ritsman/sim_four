@@ -45,7 +45,7 @@ import ProcessEdit, {
   loader as processEditLoader,
 } from "./Pages/Master/ProcessEdit";
 import { action as locationEditAction } from "./Pages/Master/LocationForm";
-import { action as processEditAction } from "./Pages/Master/ProcessForm";
+import { action as processEditAction } from "./Pages/Master/Processformm";
 import Group, { loader as groupLoader } from "./Pages/Master/Group";
 import GroupView, { loader as groupViewLoader } from "./Pages/Master/GroupView";
 import GroupEdit, { loader as groupEditLoader } from "./Pages/Master/GroupEdit";
