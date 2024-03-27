@@ -21,7 +21,7 @@ const General = ({ formData, setFormData }) => {
   console.log(pageData);
   return (
     <div>
-      <Form>
+      <Form method="post" onSubmit={submitForm}>
         <Label>Name:</Label>
         <Input
           type="text"
