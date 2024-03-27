@@ -31,10 +31,28 @@ import {
 
 export async function action({ request, params }) {
   const formData = await request.formData();
-  const updates = Object.fromEntries(formData);
-  console.log(`formdata:`);
+  const updates2 = Object.fromEntries(formData);
+  console.log(`formdata process:`);
+  console.log(updates2);
+  console.log(typeof updates2);
+  const a = Object.keys(updates2).filter(
+    (key) => key.substring(0, 4) == "acti"
+  );
+  let act = "";
+  console.log(
+    a.map((k) => {
+      console.log(updates2[k]);
+      act += `${updates2[k]}**`;
+    })
+  );
+  console.log(act.slice(0, -2));
+  const updates = {
+    process_name: updates2["process_name"],
+    activities: act,
+  };
+  console.log(`updates...`);
   console.log(updates);
-  //console.log(params);
+  console.log(params);
   const error = validation(updates);
   if (Object.keys(error).length) {
     console.log(error);
@@ -293,7 +311,7 @@ export default function Processformm({ data }) {
                         onBlur={() => setActivityInputFocused(false)}
                         onChange={(e) => setSearch(e.target.value)}
                         className="form__input"
-                        name="activities"
+                        name={`activities${row22.id}`}
                         placeholder="Activities*"
                         error={errors?.activities}
                       />

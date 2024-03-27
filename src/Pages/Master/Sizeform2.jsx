@@ -43,7 +43,7 @@ export async function action({ request, params }) {
     // console.log(res);
     if (res == "success") {
       toast.success("Successfully Edited");
-      return redirect(`/master/size/${params.sizeId}`);
+      return redirect(`/master/unit/${params.processId}`);
     } else {
       toast.error("Error");
       return null;
@@ -92,18 +92,19 @@ export default function SizeForm({ data }) {
 
   const defaultsizes = data.sizes.split("**");
 
-  const rows2 = defaultsizes.map((size, ind) => {
-    //console.log(size, ind);
+  const rows2 = defaultsizes.map((act, ind) => {
+    //console.log(act, ind);
     return {
       id: ind,
-      val: size,
+      val: act,
     };
   });
+  const [rows, setRows] = useState(rows2);
 
   const [numberOfSizes, setNumberOfSizes] = useState(data.size_nos);
 
   const [sizes, setSizes] = useState(
-    Array.from({ length: data.size_nos }, (_, index) => rows2[index].val)
+    Array.from({ length: data.size_nos }, () => "")
   );
 
   const handleNumberOfSizesChange = (e) => {
@@ -112,7 +113,7 @@ export default function SizeForm({ data }) {
     const newSizes = Array.from({ length: value });
     setSizes(newSizes);
   };
-
+  console.log(sizes);
   const handleSizeInputChange = (index, e) => {
     const { value } = e.target;
     const newSizes = [...sizes];
@@ -205,9 +206,28 @@ export default function SizeForm({ data }) {
                   </TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
+                  {/* <TableCell
+                    textAlign="center"
+                    verticalAlign="middle"
+                    style={{ fontWeight: "900" }}
+                  >
+                    Sizes
+                  </TableCell>
+                  <TableCell>
+                    {rows.map((row) => {
+                      // console.log(row);
+                      return (
+                        <TableCell>
+                          <Input
+                            name="sizes"
+                            placeholder="Sizes"
+                            defaultValue={row.val}
+                          />
+                        </TableCell>
+                      );
+                    })}
+                  </TableCell> */}
+
                   <div
                     style={{
                       display: "flex",
@@ -218,7 +238,6 @@ export default function SizeForm({ data }) {
                     {sizes.map((size, index) => (
                       <div key={index} style={{ marginRight: "5px" }}>
                         <Input
-                          // defaultValue={}
                           placeholder={`Size ${index + 1}`}
                           name={`size_${index + 1}`}
                           value={size}

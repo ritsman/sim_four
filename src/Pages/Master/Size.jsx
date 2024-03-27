@@ -29,7 +29,7 @@ import {
 import * as XLSX from "xlsx/xlsx.mjs";
 
 //get * from units table
-const header = [" ", "Size Name", "Size Numbers", "Sizes"];
+const header = [" ", "Size Name", "Number of sizes", "Sizes"];
 const records_per_page = 10;
 
 // loader function for Unit

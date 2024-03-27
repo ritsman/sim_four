@@ -22,6 +22,8 @@ import {
   CardDescription,
   Icon,
   Select,
+  TableHeader,
+  TableHeaderCell,
 } from "semantic-ui-react";
 import {
   MasterUrl,
@@ -33,13 +35,32 @@ export async function action({ request, params }) {
   const updates = Object.fromEntries(formData);
   console.log(`formdata:`);
   console.log(updates);
+  const a = Object.keys(updates).filter(
+    (key) => key.substring(0, 8) == "group_it"
+  );
+  let act = "";
+  console.log(
+    a.map((k) => {
+      console.log(updates[k]);
+      act += `${updates[k]}**`;
+    })
+  );
+  console.log(act.slice(0, -2));
+  const updates2 = {
+    group_name: updates["group_name"],
+    group_type: updates["group_type"],
+    group_tems: act,
+  };
+  console.log(`updates...`);
+  console.log(updates2);
+  console.log(params);
   //console.log(params);
   const error = validation(updates);
   if (Object.keys(error).length) {
     console.log(error);
     return error;
   } else {
-    const res = await updateRecord(axios, params.processId, updates, "process");
+    const res = await updateRecord(axios, params.groupId, updates2, "group");
 
     console.log("inside upd2");
     console.log(res);
@@ -66,12 +87,6 @@ const validation = (formData) => {
   return errors;
 };
 
-const dropData2 = [
-  { key: "Process", value: "Process", text: "Process" },
-  { key: "Activities", value: "Activities", text: "Activities" },
-  { key: "Item", value: "Item", text: "Items" },
-];
-
 export default function GroupForm({ data }) {
   const errors = useActionData();
 
@@ -96,67 +111,61 @@ export default function GroupForm({ data }) {
     })();
   }, []);
 
-  const [type, setType] = useState(data.group_type);
-
   //to get group type
-  const handleChange = (e) => {
-    setType(e.target.value);
-  };
-  console.log(`type: ${type}`);
 
   const [groupData, setGroupData] = useState([]);
 
-  useEffect(() => {
-    if (type == "Item") {
-      (async () => {
-        try {
-          const data = await getPageData(
-            axios,
-            MasterUrl.getPageData,
-            records_per_page,
-            1,
-            "items"
-          );
-          console.log(data);
-          setGroupData(data);
-        } catch (err) {
-          console.log("Error occured when fetching items");
-        }
-      })();
-    } else if (type === "Process") {
-      (async () => {
-        try {
-          const data = await getPageData(
-            axios,
-            MasterUrl.getPageData,
-            records_per_page,
-            1,
-            "process"
-          );
-          console.log(data);
-          setGroupData(data);
-        } catch (err) {
-          console.log("Error occured when fetching processes");
-        }
-      })();
-    } else {
-      (async () => {
-        try {
-          const data = await getPageData(
-            axios,
-            MasterUrl.getPageData,
-            records_per_page,
-            1,
-            "activity"
-          );
-          console.log(data);
-          setGroupData(data);
-        } catch (err) {
-          console.log("Error occured when fetching activity");
-        }
-      })();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (type == "Item") {
+  //     (async () => {
+  //       try {
+  //         const data = await getPageData(
+  //           axios,
+  //           MasterUrl.getPageData,
+  //           records_per_page,
+  //           1,
+  //           "items"
+  //         );
+  //         console.log(data);
+  //         setGroupData(data);
+  //       } catch (err) {
+  //         console.log("Error occured when fetching items");
+  //       }
+  //     })();
+  //   } else if (type === "Process") {
+  //     (async () => {
+  //       try {
+  //         const data = await getPageData(
+  //           axios,
+  //           MasterUrl.getPageData,
+  //           records_per_page,
+  //           1,
+  //           "process"
+  //         );
+  //         console.log(data);
+  //         setGroupData(data);
+  //       } catch (err) {
+  //         console.log("Error occured when fetching processes");
+  //       }
+  //     })();
+  //   } else {
+  //     (async () => {
+  //       try {
+  //         const data = await getPageData(
+  //           axios,
+  //           MasterUrl.getPageData,
+  //           records_per_page,
+  //           1,
+  //           "activity"
+  //         );
+  //         console.log(data);
+  //         setGroupData(data);
+  //       } catch (err) {
+  //         console.log("Error occured when fetching activity");
+  //       }
+  //     })();
+  //   }
+  // }, []);
 
   //  let dropData = groupData.map((data) => data.activity_name);
   //  dropData = dropData.map((str, index) => ({
@@ -218,22 +227,6 @@ export default function GroupForm({ data }) {
     setRows([...rows, { id: row_id }]);
     setRow_id(row_id + 1);
     console.log(rows);
-    e.preventDefault();
-  };
-
-  const handleDelRow = (e, ind) => {
-    console.log("cross clicked");
-    console.log(`index:${ind}`);
-
-    const updated_rows = [...rows];
-    //console.log(`rows:${rows}`);
-    //console.log(`updated_rows: ${updated_rows}`);
-    updated_rows.splice(ind, 1);
-    console.log(rows);
-    console.log(updated_rows);
-    setRows(updated_rows);
-    console.log(`updated_rows: ${updated_rows}`);
-
     e.preventDefault();
   };
 
@@ -319,49 +312,27 @@ export default function GroupForm({ data }) {
                     Group Type
                   </TableCell>
                   <TableCell>
-                    {/* <Select
-                      value={type}
-                      onChange={(e) => handleChange(e)}
-                      options={dropData2}
-                      placeholder="Group Type*"
+                    <Input
+                      disabled
                       name="group_type"
-                      className="form__input"
                       defaultValue={data.group_type}
                       error={errors?.group_type}
-                    /> */}
-
-                    <select
-                      name="group_type"
-                      id="group_type"
-                      value={type}
-                      defaultValue={data.group_type}
-                      onChange={(e) => handleChange(e)}
-                      options={dropData2}
-                      placeholder="Group Type*"
-                      error={errors?.group_type}
-                      style={{ padding: "10px 55px", border: "none" }}
-                    >
-                      <option value="Process">Process</option>
-                      <option value="Item">Items</option>
-                      <option value="Activities">Activities</option>
-                    </select>
+                    />
                   </TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell
-                    textAlign="center"
-                    verticalAlign="middle"
-                    style={{ fontWeight: "900" }}
-                  >
-                    <Button style={plus_button}>
-                      <Icon
-                        className="plus"
-                        name="plus"
-                        onClick={(e) => handleAddRow(e)}
-                      />
-                    </Button>
-                    Group Items
-                  </TableCell>
+                  <TableHeader>
+                    <TableHeaderCell>
+                      <Button style={plus_button}>
+                        <Icon
+                          className="plus"
+                          name="plus"
+                          onClick={(e) => handleAddRow(e)}
+                        />
+                      </Button>
+                    </TableHeaderCell>
+                    <TableHeaderCell>Group Items</TableHeaderCell>
+                  </TableHeader>
                   <TableCell>
                     {rows.map((row) => {
                       // console.log(row);
@@ -381,18 +352,16 @@ export default function GroupForm({ data }) {
                             </Button>
                           </TableCell>
                           <TableCell>
-                            <Input defaultValue={row.val} />
-                            <select
-                              name="group_tems"
+                            <Input
                               defaultValue={row.val}
-                              style={{ padding: "10px 55px", border: "none" }}
-                            >
-                              {groupData.map((data) => (
-                                <option value={data.activity_name}>
-                                  {data.activity_name}
-                                </option>
-                              ))}
-                            </select>
+                              // onFocus={() => setActivityInputFocused(true)}
+                              // onBlur={() => setActivityInputFocused(false)}
+                              // onChange={(e) => setSearch(e.target.value)}
+                              className="form__input"
+                              name={`group_items${row.id}`}
+                              placeholder="Group Item*"
+                              error={errors?.group_tems}
+                            />
                           </TableCell>
                         </TableRow>
                       );

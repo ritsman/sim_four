@@ -36,7 +36,7 @@ const header = [
 const totalRecords = await getPageInfo(
   axios,
   MasterUrl.getPageInfo,
-  "activity"
+  "stylegeneral"
 );
 const totalPages = Math.ceil(totalRecords / records_per_page);
 
@@ -47,7 +47,7 @@ export async function loader() {
     MasterUrl.getPageData,
     records_per_page,
     1,
-    "activity"
+    "stylegeneral"
   );
   console.log(data);
   return data;

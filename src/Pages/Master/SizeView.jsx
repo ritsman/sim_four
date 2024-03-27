@@ -86,7 +86,7 @@ const SizeView = () => {
                 <TableCell style={{ fontWeight: "900" }}>Size Name</TableCell>
                 <TableCell>{size.size_name}</TableCell>
                 <TableCell style={{ fontWeight: "900" }}>
-                  Size Numbers
+                  Number of Sizes
                 </TableCell>
                 <TableCell>{size.size_nos}</TableCell>
               </TableRow>

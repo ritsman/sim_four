@@ -24,6 +24,8 @@ import {
   Select,
   FormField,
   FormSelect,
+  TableHeader,
+  TableHeaderCell,
 } from "semantic-ui-react";
 import {
   MasterUrl,
@@ -266,12 +268,8 @@ export default function ProcessForm({ data }) {
                     />
                   </TableCell>
                 </TableRow>
-                <TableRow>
-                  <TableCell
-                    textAlign="center"
-                    verticalAlign="middle"
-                    style={{ fontWeight: "900" }}
-                  >
+                <TableHeader>
+                  <TableHeaderCell>
                     <Button style={plus_button}>
                       <Icon
                         className="plus"
@@ -279,8 +277,10 @@ export default function ProcessForm({ data }) {
                         onClick={(e) => handleAddRow(e)}
                       />
                     </Button>
-                    Activities
-                  </TableCell>
+                  </TableHeaderCell>
+                  <TableHeaderCell>Activity</TableHeaderCell>
+                </TableHeader>
+                <TableRow>
                   <TableCell>
                     {rows.map((row) => {
                       // console.log(row);

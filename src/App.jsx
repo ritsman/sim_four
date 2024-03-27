@@ -18,10 +18,7 @@ import ItemEdit, { loader as itemEditLoader } from "./Pages/Master/ItemEdit";
 import UnitEdit, { loader as unitEditLoader } from "./Pages/Master/UnitEdit";
 import { action as unitEditAction } from "./Pages/Master/UnitForm";
 import { action as itemEditAction } from "./Pages/Master/ItemForm";
-import MyForm from "./Pages/Master/MyForm";
 import NavigationPane from "./Components/NavigationPane";
-import Style, { loader as styleLoader } from "./Pages/Master/Style";
-import Sizeform1 from "./Allforms/master/size/Sizeform1";
 import Activity, { loader as activityLoader } from "./Pages/Master/Activity";
 import ActivityView, {
   loader as activityViewLoader,
@@ -45,7 +42,7 @@ import ProcessEdit, {
   loader as processEditLoader,
 } from "./Pages/Master/ProcessEdit";
 import { action as locationEditAction } from "./Pages/Master/LocationForm";
-import { action as processEditAction } from "./Pages/Master/ProcessForm";
+import { action as processEditAction } from "./Pages/Master/Processformm";
 import Group, { loader as groupLoader } from "./Pages/Master/Group";
 import GroupView, { loader as groupViewLoader } from "./Pages/Master/GroupView";
 import GroupEdit, { loader as groupEditLoader } from "./Pages/Master/GroupEdit";
@@ -55,6 +52,8 @@ import SizeView, { loader as sizeViewLoader } from "./Pages/Master/SizeView";
 import SizeEdit, { loader as sizeEditLoader } from "./Pages/Master/SizeEdit";
 import { action as sizeEditAction } from "./Pages/Master/SizeForm";
 import SizeForm1 from "./Allforms/master/size/Sizeform1";
+import Product, { panes } from "./Pages/Master/products/Product";
+import Stylegeneralform from "./Allforms/master/styleform/Stylegeneralform";
 
 const router = createBrowserRouter([
   {
@@ -208,6 +207,16 @@ const router = createBrowserRouter([
             loader: sizeEditLoader,
             action: sizeEditAction,
           },
+          {
+            path: "product",
+            element: <Product />,
+            // children: [
+            //   {
+            //     path: "general",
+            //     element: <Tab.Pane>{panes[0].render()}</Tab.Pane>,
+            //   },
+            // ],
+          },
         ],
       },
     ],
@@ -217,8 +226,8 @@ const router = createBrowserRouter([
     element: <LoginForm />,
   },
   {
-    path: "/sizeform1",
-    element: <SizeForm1 />,
+    path: "/styleform",
+    element: <Stylegeneralform />,
   },
 ]);
 
