@@ -205,7 +205,7 @@ export default function Processformm({ data }) {
   };
 
   const removeItem = (ind) => {
-    const updatedItems = rows.filter((item) => item.id !== ind);
+    const updatedItems = rows33.filter((item) => item.id !== ind);
     console.log(updatedItems);
     setRows(updatedItems);
   };
@@ -301,7 +301,10 @@ export default function Processformm({ data }) {
                   <TableRow key={row22.id}>
                     <TableCell style={icons_cell}>
                       <Button style={plus_button}>
-                        <Icon name="close" onClick={() => removeItem(row.id)} />
+                        <Icon
+                          name="close"
+                          onClick={() => removeItem(row22.id)}
+                        />
                       </Button>
                     </TableCell>
                     <TableCell>

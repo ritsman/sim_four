@@ -52,7 +52,7 @@ import SizeView, { loader as sizeViewLoader } from "./Pages/Master/SizeView";
 import SizeEdit, { loader as sizeEditLoader } from "./Pages/Master/SizeEdit";
 import { action as sizeEditAction } from "./Pages/Master/SizeForm";
 import SizeForm1 from "./Allforms/master/size/Sizeform1";
-import Product, { panes } from "./Pages/Master/products/Product";
+import Product from "./Pages/Master/products/Product";
 import Stylegeneralform from "./Allforms/master/styleform/Stylegeneralform";
 
 const router = createBrowserRouter([
