@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import {
   TabPane,
   Tab,
@@ -85,7 +85,9 @@ const Product = () => {
           </Breadcrumb>
         </GridRow>
       </Grid>
-      <Tab menu={{ secondary: true }} panes={panes} />;
+      <Tab menu={{ secondary: true }} panes={panes}>
+        {/* <Outlet /> */}
+      </Tab>
     </>
   );
 };

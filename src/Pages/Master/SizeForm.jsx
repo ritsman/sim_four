@@ -204,34 +204,26 @@ export default function SizeForm({ data }) {
                     />
                   </TableCell>
                 </TableRow>
-                <TableRow>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "start",
-                      width: "100%",
-                    }}
-                  >
-                    {sizes.map((size, index) => (
-                      <div key={index} style={{ marginRight: "5px" }}>
-                        <Input
-                          // defaultValue={}
-                          placeholder={`Size ${index + 1}`}
-                          name={`size_${index + 1}`}
-                          value={size}
-                          onChange={(e) => handleSizeInputChange(index, e)}
-                          style={{ width: "100px" }}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </TableRow>
               </TableBody>
             </Table>
           </GridRow>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              width: "100%",
+            }}
+          >
+            {sizes.map((size, index) => (
+              <Input
+                placeholder={`Size ${index + 1}`}
+                name={`size_${index + 1}`}
+                value={size}
+                onChange={(e) => handleSizeInputChange(index, e)}
+                style={{ width: "100px" }}
+              />
+            ))}
+          </div>
         </Grid>
       </Form>
     </>

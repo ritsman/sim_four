@@ -51,9 +51,14 @@ import Size, { loader as sizeLoader } from "./Pages/Master/Size";
 import SizeView, { loader as sizeViewLoader } from "./Pages/Master/SizeView";
 import SizeEdit, { loader as sizeEditLoader } from "./Pages/Master/SizeEdit";
 import { action as sizeEditAction } from "./Pages/Master/SizeForm";
-import SizeForm1 from "./Allforms/master/size/Sizeform1";
 import Product from "./Pages/Master/products/Product";
 import Stylegeneralform from "./Allforms/master/styleform/Stylegeneralform";
+import OperationView from "./Pages/Master/products/OperationView";
+import GeneralView from "./Pages/Master/products/GeneralView";
+import GeneralEdit from "./Pages/Master/products/GeneralEdit";
+import OperationEdit from "./Pages/Master/products/OperationEdit";
+import SpecificationView from "./Pages/Master/products/SpecificationView";
+import SpecificationEdit from "./Pages/Master/products/SpecificationEdit";
 
 const router = createBrowserRouter([
   {
@@ -210,12 +215,36 @@ const router = createBrowserRouter([
           {
             path: "product",
             element: <Product />,
-            // children: [
-            //   {
-            //     path: "general",
-            //     element: <Tab.Pane>{panes[0].render()}</Tab.Pane>,
-            //   },
-            // ],
+            children: [
+              // {
+              //   path: "general/:generalId",
+              //   element: <GeneralView />,
+              // },
+            ],
+          },
+          {
+            path: "product/general/:generalId",
+            element: <GeneralView />,
+          },
+          {
+            path: "product/general/:generalId/Edit",
+            element: <GeneralEdit />,
+          },
+          {
+            path: "product/operations/:opId",
+            element: <OperationView />,
+          },
+          {
+            path: "product/operations/:opId/Edit",
+            element: <OperationEdit />,
+          },
+          {
+            path: "product/specification/:specId",
+            element: <SpecificationView />,
+          },
+          {
+            path: "product/specification/:specId/Edit",
+            element: <SpecificationEdit />,
           },
         ],
       },
@@ -224,10 +253,6 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <LoginForm />,
-  },
-  {
-    path: "/styleform",
-    element: <Stylegeneralform />,
   },
 ]);
 
